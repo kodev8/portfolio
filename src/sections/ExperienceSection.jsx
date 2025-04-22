@@ -142,20 +142,18 @@ const ExperienceSection = () => {
     <section
       id="experience"
       ref={sectionRef}
-      className="flex-center mt-0 section-padding xl:px-0"
+      className="flex-center content-section section-padding xl:px-0 pb-26"
     >
-      <div className="container mx-auto px-4">
+      <div className=" mx-auto px-4">
         {/* Sticky title header */}
         <TitleHeader
           ref={titleContainerRef}
-          title={titles[activeTab].title}
+          // title={titles[activeTab].title}
           sub={titles[activeTab].sub}
         >
           <div className="flex justify-center items-center mb-4">
-            {/* Pill container with contrasting background */}
             <div className="bg-gray-800 p-1 text-xs rounded-full shadow-lg">
               <div ref={tabsRef} className="flex relative p-1">
-                {/* Animated highlight - z-index fixed */}
                 <div
                   ref={highlightRef}
                   id="experience"
@@ -163,7 +161,6 @@ const ExperienceSection = () => {
                   style={{ height: "100%" }}
                 />
 
-                {/* Tab buttons - increased z-index */}
                 {Object.keys(titles).map((tab) => (
                   <button
                     key={tab}
@@ -191,19 +188,19 @@ const ExperienceSection = () => {
         >
           {activeTab === "work" && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Experience cards={expWorkCards} />
+              <Experience cards={expWorkCards} type="work" />
             </div>
           )}
 
           {activeTab === "education" && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Experience cards={expEducationCards} />
+              <Experience cards={expEducationCards} type="education" />
             </div>
           )}
 
           {activeTab === "certifications" && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Experience cards={expCertifications} />
+              <Experience cards={expCertifications} type="certifications" />
             </div>
           )}
         </div>

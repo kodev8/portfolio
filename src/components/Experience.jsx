@@ -7,7 +7,7 @@ import GlowCard from "../components/GlowCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Experience = ({ cards}) => {
+const Experience = ({ cards, type }) => {
   useGSAP(() => {
     // Loop through each timeline card and animate them in
     // as the user scrolls to each card
@@ -30,36 +30,51 @@ const Experience = ({ cards}) => {
           // The card is the trigger element
           trigger: card,
           // Trigger the animation when the card is 80% down the screen
-          start: "top 70%",
+          start: "top 80%",
         },
       });
     });
-
-    // Animate the timeline height as the user scrolls
-    // from the top of the timeline to 70% down the screen
-    // The timeline height should scale down from 1 to 0
-    // as the user scrolls up the screen
-    gsap.to(".timeline", {
-      // Set the origin of the animation to the bottom of the timeline
-      transformOrigin: "bottom bottom",
-      // Animate the timeline height over 1 second
-      ease: "power1.inOut",
-      // Trigger the animation when the timeline is at the top of the screen
-      // and end it when the timeline is at 70% down the screen
-      scrollTrigger: {
-        trigger: ".timeline",
-        start: "top center",
-        end: "70% center",
-        // Update the animation as the user scrolls
-        onUpdate: (self) => {
-          // Scale the timeline height as the user scrolls
-          // from 1 to 0 as the user scrolls up the screen
-          gsap.to(".timeline", {
-            scaleY: 1 - self.progress,
+    ScrollTrigger.matchMedia({
+      // Desktop
+      "(min-width: 768px)": function () {
+        gsap.utils.toArray(".timeline").forEach((timeline) => {
+          ScrollTrigger.create({
+            trigger: timeline,
+            start: "top 80% center",
+            end: "60% center",
+            onUpdate: (self) => {
+              gsap.set(timeline, {
+                scaleY: 1 - self.progress,
+                transformOrigin: "bottom bottom",
+              });
+            },
           });
-        },
+        });
+      },
+    
+      // Mobile (optional fallback behavior or different animation)
+      "(max-width: 767px)": function () {
+        gsap.utils.toArray(".timeline").forEach((timeline) => {
+          ScrollTrigger.create({
+            trigger: timeline,
+            start: "top 90%", // maybe more generous trigger for mobile
+            end: "70% center",
+            onUpdate: (self) => {
+              gsap.set(timeline, {
+                scaleY: 1 - self.progress,
+                transformOrigin: "bottom bottom",
+              });
+            },
+          });
+        });
+      },
+    
+      // All screens (optional if needed)
+      "all": function () {
+        // Reset or common behaviors
       },
     });
+    
 
     // Loop through each expText element and animate them in
     // as the user scrolls to each text element
@@ -88,58 +103,77 @@ const Experience = ({ cards}) => {
     }, "<"); // position parameter - insert at the start of the animation
   }, []);
 
+  // const colors = ["bg-red-500/50", "bg-blue-500/50", "bg-green-500/50", "bg-yellow-500/50"];
   return (
-    <section className="portfolio-section mt-12">
-       
-      <div className="w-full h-full md:px-20 px-5">
-    {/* <TitleHeader
+    <section className="mt-10 xl:mt-38">
+      <div className="h-full w-full px-5 md:px-20">
+        {/* <TitleHeader
           title={title}
           sub={subtitle}
         /> */}
-       
-        <div className="mt-16 relative">
-          
-          <div className="relative z-50 xl:space-y-32 space-y-10">
-            {cards.map((card) => (
-              <div key={card.title} className="exp-card-wrapper">
-                <div className="xl:w-2/6">
-                  <GlowCard card={card}>
-                    <div className="w-32 lg:w-full">
-                      <img src={card.imgPath} alt="exp-img"/>
-                    </div>
+
+        <div className="relative">
+          <div className="relative z-50 space-y-10 xl:space-y-32">
+            {cards.map((card, index) => (
+              <div key={card.title} className="grid grid-cols-12 gap-10">
+                <div className="hidden xl:block xl:col-span-1"></div>
+                <div className="order-3 col-span-full flex w-full flex-col items-end   xl:order-1 xl:col-span-4 xl:translate-x-10">
+                  <GlowCard
+                    card={card}
+                    className="w-full max-h-32 xl:max-h-36 flex-center"
+                  >
+                    <img
+                      src={card.imgPath}
+                      alt="exp-img"
+                      className="h-full object-cover"
+                      style={{ transform: `scale(${card.imgScale ?? 1})` }}
+                    />
                   </GlowCard>
                 </div>
-                <div className="xl:w-4/6">
+
+                <div className="relative order-1 xl:order-2 col-span-2 flex justify-end xl:col-span-1">
+                  <div className="timeline-wrapper mt-4 mx-auto">
+                    <div className={`timeline bg-black`} />
+                    <div className={`gradient-line h-[180%] lg:h-[220%] bg-gradient-to-b ${card.gradient}`} />
+                  </div>
+                  <div className="timeline-logo translate-x-5 md:translate-x-10">
+                    <img src={card.logoPath} alt="logo" className="w-full h-full object-contain" />
+                  </div>
+                </div>
+
+                <div className="col-span-10 order-2 xl:col-span-5 xl-order-3 ml-4">
                   <div className="flex items-start">
-                    <div className="timeline-wrapper">
-                      <div className="timeline" />
-                      <div className="gradient-line w-1 h-full" />
-                    </div>
-                    <div className="expText flex xl:gap-20 md:gap-10 gap-5 relative z-20">
-                      <div className="timeline-logo">
-                        <img src={card.logoPath} alt="logo" />
-                      </div>
-                      <div>
-                        <h1 className="font-semibold text-xl">{card.title}</h1>
-                        <p className="my-5 text-white-50">
+                    <div className="expText relative z-20 flex gap-5 md:gap-10 xl:gap-20">
+                      <div className="text-wrap">
+                        <h1 className="text-xl font-semibold">{card.title}</h1>
+                        <p className="text-white-50 my-5">
                           🗓️&nbsp;{card.date}
                         </p>
-                        <p className="text-[#839CB5] italic">
-                          Details
-                        </p>
-                        <ul className="list-disc ms-5 mt-5 flex flex-col gap-5 text-white-50">
-                          {card.details.map(
-                            (detail, index) => (
-                              <li key={index} className="text">
-                                {detail}
-                              </li>
-                            )
-                          )}
+                        {
+                          card.location && (
+                            <p className="text-white-50 my-5">
+                              📍&nbsp;{card.location}
+                            </p>
+                          )
+                        }
+  
+                        <p className="italic text-[#839CB5]">Details</p>
+                        <ul className="text-white-50 ms-5 mt-5 flex list-disc flex-col gap-5">
+                          {card.details.map((detail, index) => (
+                            <li key={index} className="text">
+                              {detail}
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                {/* <div>
+                <div className="xl:w-4/6">
+               
+                </div> */}
               </div>
             ))}
           </div>

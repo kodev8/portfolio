@@ -7,12 +7,17 @@ Source: https://sketchfab.com/3d-models/rubiks-cube-4cc7c1bf585f4b929ddd32f6cab3
 Title: RUBIK'S CUBE
 */
 
-import React from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
+import React, { useRef, useEffect } from 'react'
+import { useFrame, useGraph } from '@react-three/fiber'
+import { SkeletonUtils } from 'three-stdlib'
+import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing"
+import { BlendFunction } from "postprocessing"
+import * as THREE from 'three'
 
-export function Cube(props) {
+export function Rubik(props) {
   const group = React.useRef()
-  const { nodes, materials, animations } = useGLTF('/models/cube.glb')
+  const { nodes, materials, animations } = useGLTF('/models/hero/rubik.glb')
   const { actions } = useAnimations(animations, group)
   return (
     <group ref={group} {...props} dispose={null}>
@@ -270,4 +275,4 @@ export function Cube(props) {
   )
 }
 
-useGLTF.preload('/models/cube.glb')
+useGLTF.preload('/models/hero/rubik.glb')

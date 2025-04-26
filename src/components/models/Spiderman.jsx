@@ -13,7 +13,7 @@ import { useGLTF } from '@react-three/drei'
 import { SkeletonUtils } from 'three-stdlib'
 
 export function Spiderman(props) {
-  const { scene } = useGLTF('/models/spiderman.glb')
+  const { scene } = useGLTF('/models/hero/spiderman.glb')
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes, materials } = useGraph(clone)
   return (
@@ -26,4 +26,4 @@ export function Spiderman(props) {
   )
 }
 
-useGLTF.preload('/models/spiderman.glb')
+useGLTF.preload('/models/hero/spiderman.glb')

@@ -11,7 +11,7 @@ import React from 'react'
 import { useGLTF } from '@react-three/drei'
 
 export function Cleats(props) {
-  const { nodes, materials } = useGLTF('/models/cleats.glb')
+  const { nodes, materials } = useGLTF('/models/hero/cleats.glb')
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Object_2.geometry} material={materials.Material} rotation={[-1.169, 0.282, 0.224]} scale={0.425} />
@@ -19,4 +19,4 @@ export function Cleats(props) {
   )
 }
 
-useGLTF.preload('/models/cleats.glb')
+useGLTF.preload('/models/hero/cleats.glb')

@@ -156,7 +156,7 @@ export default function WriterIntro() {
   return (
     <div
       className={cn(
-        "absolute top-0 left-0 w-screen h-screen z-[1000000] transition-all duration-300",
+        "absolute top-0 left-0 w-screen h-screen !z-[100] transition-all duration-300",
         {
           "h-0 w-0": animationComplete,
         }
@@ -170,7 +170,7 @@ export default function WriterIntro() {
           }
         }}
         className={
-          "logo-container  fixed cursor-pointer font-mono font-bold text-7xl text-white tracking-wider z-[10000]"
+          "logo-container fixed cursor-pointer font-mono font-bold text-7xl text-white tracking-wider !z-[100]"
         }
         initial={{
           left: window.innerWidth / 2,

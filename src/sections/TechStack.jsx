@@ -10,7 +10,6 @@ import TechIcon from "../components/TechIcon";
 import GlowCard from "../components/GlowCard";
 import { techStackGroups } from "../constants";
 import { useMedia } from "../context/MediaContext";
-import { div } from "motion/react-client";
 
 const Boundaries = memo(() => {
   const { viewport } = useThree();
@@ -88,26 +87,32 @@ const TechCanvas = memo(({ group, resetTrigger }) => {
 });
 
 const IconGrid = memo(({ icons, resetTrigger, sizedData }) => {
-  const { isMobile } = useMedia();
-  let columns, rows;
+  const { isMobile, isTablet, isLaptop } = useMedia();
   const { viewport } = sizedData;
 
-  if (isMobile) {
-    columns = 2;
-    rows = Math.ceil(icons.length / columns);
+  // greedy algorithm to get the best fit for the icons
+  const getBestFit = (icons) => {
+    let bestFit = { columns: 1, rows: 1 };
+    let bestScore = Infinity;
 
-    if (rows > 4 && icons.length > 4) {
-      columns = 3;
-      rows = Math.ceil(icons.length / columns);
+    for (let columns = 2; columns <= 5; columns++) {
+      const rows = Math.ceil(icons.length / columns);
+      const itemWidth = viewport.width / columns;
+      const itemHeight = viewport.height / rows;
+      const aspectRatio = itemWidth / itemHeight;
+      const idealAspectRatio = 1;
+      const score = Math.abs(aspectRatio - idealAspectRatio);
+      if (score < bestScore) {
+        bestFit = { columns, rows, itemWidth, itemHeight };
+        bestScore = score;
+      }
     }
-  } else {
-    columns = Math.min(5, icons.length);
-    rows = Math.ceil(icons.length / columns);
+    return bestFit;
   }
 
-  const baseSpacing = isMobile ? 1.2 : 3;
-  const spacingX = baseSpacing * (viewport.width / (isMobile ? 3 : 20));
-  const spacingY = baseSpacing * (viewport.height / (isMobile ? 6 : 15));
+  const { columns, rows, itemWidth, itemHeight } = getBestFit(icons);
+  const spacingX = itemWidth;
+  const spacingY = itemHeight;
 
   const offsetX = ((columns - 1) * spacingX) / 2;
   const offsetY = ((rows - 1) * spacingY) / 2;
@@ -219,7 +224,7 @@ const TechStack = () => {
       className="flex-center section-padding snap-item"
     >
       <div className="w-full h-full md:px-10 px-5">
-        <TitleHeader title="Tech Stack" sub="🤝 What I Bring to the Table" />
+        <TitleHeader title="Tech Stack" sub="My everyday tools🔨" />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8 mx-8 md:mx-16 lg:mx-24">
           {/* reset */}
@@ -264,7 +269,7 @@ const TechStack = () => {
                   : ""
               }`}
             >
-              <GlowCard card={group} className="group w-full h-[40vh]">
+              <GlowCard card={group} className="group w-full h-[40vh] landscape:min-h-[450px]">
                 <h3 className="text-white-50 font-semibold text-xl group-hover:text-purple-500 transition-all duration-300">
                   {group.name}
                 </h3>

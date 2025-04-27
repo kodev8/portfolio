@@ -9,8 +9,10 @@ Title: Isometric bedroom
 
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
+import { useMedia } from '../../context/MediaContext';
 
 export const Bedroom = (props) => {
+  const { isMobile } = useMedia();
   const { nodes, materials } = useGLTF("/models/hero/bedroom.glb");
   return (
     <group {...props} dispose={null}>
@@ -58,7 +60,7 @@ export const Bedroom = (props) => {
           </group>
 
           {/* chair */}
-          <group position={[15.239, 44.04, 0.304]} rotation={[-Math.PI / 2, 0, 1.837]} scale={[15.465, 15.406, 16.071]}>
+          <group position={[30.239, 44.04, 25.304]} rotation={[-Math.PI / 2, 0, 1.837]} scale={[15.465, 15.406, 16.071]}>
             <mesh geometry={nodes.Cube052_Material005_0.geometry} material={materials['Material.005']} />
             <mesh geometry={nodes.Cube052_Material021_0.geometry} material={materials['Material.021']} />
             <mesh geometry={nodes.Circle003_Material005_0.geometry} material={materials['Material.005']} position={[0, 0.725, -2.187]} rotation={[-Math.PI / 2, 0, 0]} scale={[6.811, 6.554, 6.836]} />

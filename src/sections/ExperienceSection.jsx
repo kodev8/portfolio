@@ -142,7 +142,7 @@ const ExperienceSection = () => {
     <section
       id="experience"
       ref={sectionRef}
-      className="flex-center content-section section-padding xl:px-0 pb-26"
+      className="flex-center content-section section-padding !mt-0 md:!mt-20 xl:px-0 xl:pb-26 w-screen"
     >
       <div className=" mx-auto px-4">
         {/* Sticky title header */}
@@ -157,7 +157,7 @@ const ExperienceSection = () => {
                 <div
                   ref={highlightRef}
                   id="experience"
-                  className="absolute bg-[#000000] rounded-full z-0"
+                  className="absolute bg-[#000000] rounded-full z-1"
                   style={{ height: "100%" }}
                 />
 
@@ -187,21 +187,15 @@ const ExperienceSection = () => {
           className="experience-content overflow-hidden mt-4"
         >
           {activeTab === "work" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Experience cards={expWorkCards} type="work" />
-            </div>
           )}
 
           {activeTab === "education" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Experience cards={expEducationCards} type="education" />
-            </div>
           )}
 
           {activeTab === "certifications" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Experience cards={expCertifications} type="certifications" />
-            </div>
           )}
         </div>
       </div>

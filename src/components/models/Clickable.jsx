@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { DoubleSide, Color } from "three";
 import { useThree } from "@react-three/fiber";
@@ -6,8 +6,12 @@ import { useHero } from "../../context/HeroContext";
 import gsap from "gsap";
 import * as THREE from "three";
 import { aboutMe } from "../../constants";
-import { resetScene } from "../../utils/scene";
+import {
+  resetScene,
+  // resolveZoom
+} from "../../utils/scene";
 import FloatingInfoPanel from "../animations/FloatingInfoPanel";
+import { useMedia } from "../../context/MediaContext";
 
 const Clickable = ({
   children,
@@ -26,6 +30,7 @@ const Clickable = ({
   speechDirection = "down",
   ...props
 }) => {
+  const { isMobile } = useMedia();
   const itemRef = useRef();
   const { camera, controls } = useThree();
   const { isInteracting, setIsInteracting, isAnimating, setIsAnimating } =
@@ -34,11 +39,12 @@ const Clickable = ({
   const [showInfoPanel, setShowInfoPanel] = useState(false);
   const isScreen = name === "leftScreen" || name === "rightScreen";
 
+  // const { maxDistance, minDistance } = useMemo(() =>resolveZoom({isInteracting, isMobile, isScreen}), [isInteracting, isMobile, isScreen]);
   const focusOnItem = () => {
     // If already interacting, do nothing
     if (isAnimating) return;
-
-    console.log("focusOnItem", name, isScreen);
+    // console.log("Testing isInteracting", isInteracting, "isMobile", isMobile, "isScreen", isScreen);
+    // console.log("focusOnItem", name, isScreen);
     setIsInteracting(true);
     setIsAnimating(true);
     controls.enabled = false;
@@ -72,10 +78,113 @@ const Clickable = ({
 
     const currentTarget = controls.target.clone();
 
+    // if (isScreen) {
+    //   console.log("Screen is true");
+    //   controls.minDistance = minDistance;
+    //   controls.maxDistance = maxDistance;
+    //   controls.enablePan = false;
+    //   controls.enableZoom = true;
+    // } else {
+    //   controls.minDistance = minDistance;
+    //   controls.maxDistance = maxDistance;
+    //   controls.enablePan = false;
+    //   controls.enableZoom = false;
+    // }
+
+  //   const tl = gsap.timeline({
+  //     defaults: { ease: "power2.out" },
+  //   });
+
+  //   tl.to(
+  //     [
+  //       ".navbar",
+  //       ".hero-text",
+  //       "header p",
+  //       "#button",
+  //       "#hero-bg",
+  //       ".hero-layout-header",
+  //     ],
+  //     {
+  //       opacity: 0,
+  //       zIndex: -1,
+  //       duration: 0.3,
+  //       stagger: 0.05,
+  //     }
+  //   );
+
+  //   console.log("cameraTargetPosition", cameraTargetPosition);
+
+  //   tl.to(
+  //     ".hero-3d-layout",
+  //     {
+  //       duration: 0.3,
+  //       onComplete: () => {
+  //         // Tween camera position
+  //         gsap.to(camera.position, {
+  //           x: cameraTargetPosition.x,
+  //           y: cameraTargetPosition.y,
+  //           z: cameraTargetPosition.z,
+  //           duration: isScreen ? 1.2 : 1,
+  //           ease: "sine.out",
+  //           onUpdate: () => {
+  //             if (!isScreen) {
+  //               camera.lookAt(itemPosition);
+  //             } else {
+  //               gsap.to(camera.rotation, {
+  //                 y: dummy.rotation.y,
+  //                 duration: 0.5,
+  //                 ease: "sine.out",
+  //               });
+  //             }
+  //           },
+  //         });
+
+  //         if (isScreen) {
+  //           gsap.to(camera.quaternion, {});
+  //         }
+
+  //         // Tween orbit target
+  //         gsap.to(currentTarget, {
+  //           x: itemPosition.x,
+  //           y: itemPosition.y,
+  //           z: itemPosition.z,
+  //           duration: isScreen ? 1.2 : 1,
+  //           ease: "sine.out",
+  //           onUpdate: () => {
+  //             controls.target.copy(currentTarget);
+  //             // if (!isScreen) {
+  //               controls.update();
+  //             // }
+  //           },
+  //           onComplete: () => {
+  //             if (isScreen) {
+  //               controls.minDistance = 0;
+  //               controls.maxDistance = 10;
+  //               controls.enablePan = false;
+  //               controls.enableZoom = true;
+  //             } else {
+  //               controls.minDistance = 3;
+  //               controls.maxDistance = 10;
+  //               controls.enablePan = false;
+  //               controls.enableZoom = false;
+  //             }
+  //             setTimeout(() => {
+  //               console.log("setting isAnimating to false");
+  //               setIsAnimating(false);
+  //               controls.enabled = true; // keep deisable if going to computer
+  //             }, 100);
+  //             onClick?.();
+  //           },
+  //         });
+  //       },
+  //     },
+  //     "-=0.1"
+    //   );
+    
     const tl = gsap.timeline({
       defaults: { ease: "power2.out" },
     });
-
+    
     tl.to(
       [
         ".navbar",
@@ -92,9 +201,9 @@ const Clickable = ({
         stagger: 0.05,
       }
     );
-
+    
     console.log("cameraTargetPosition", cameraTargetPosition);
-
+    
     tl.to(
       ".hero-3d-layout",
       {
@@ -108,23 +217,11 @@ const Clickable = ({
             duration: isScreen ? 1.2 : 1,
             ease: "sine.out",
             onUpdate: () => {
-              if (!isScreen) {
-                camera.lookAt(itemPosition);
-              } else {
-                gsap.to(camera.rotation, {
-                  y: dummy.rotation.y,
-                  duration: 0.5,
-                  ease: "sine.out",
-                });
-              }
+              camera.lookAt(itemPosition);
             },
           });
-
-          if (isScreen) {
-            gsap.to(camera.quaternion, {});
-          }
-
-          // Tween orbit target
+    
+          // Smoothly update the orbit controls target
           gsap.to(currentTarget, {
             x: itemPosition.x,
             y: itemPosition.y,
@@ -133,27 +230,36 @@ const Clickable = ({
             ease: "sine.out",
             onUpdate: () => {
               controls.target.copy(currentTarget);
-              if (!isScreen) {
-                controls.update();
-              }
+              controls.update();
             },
             onComplete: () => {
+              // Smoothly transition control settings
               if (isScreen) {
-                controls.minDistance = 0;
-                controls.maxDistance = 10;
-                controls.enablePan = false;
-                controls.enableZoom = true;
+                gsap.to(controls, {
+                  minDistance: 0,
+                  maxDistance: 10,
+                  enablePan: false,
+                  enableZoom: true,
+                  duration: 0.5,
+                });
               } else {
-                controls.minDistance = 3;
-                controls.maxDistance = 10;
-                controls.enablePan = false;
-                controls.enableZoom = false;
+                gsap.to(controls, {
+                  minDistance: 3,
+                  maxDistance: 10,
+                  enablePan: false,
+                  enableZoom: false,
+                  duration: 0.5,
+                });
               }
+    
+              // Ensure the "isAnimating" state is updated after control transitions
               setTimeout(() => {
                 console.log("setting isAnimating to false");
                 setIsAnimating(false);
-                controls.enabled = true; // keep deisable if going to computer
+                controls.enabled = true;
               }, 100);
+              
+              // Call the onClick callback
               onClick?.();
             },
           });
@@ -161,6 +267,7 @@ const Clickable = ({
       },
       "-=0.1"
     );
+    
   };
 
   const resetCamera = () => {

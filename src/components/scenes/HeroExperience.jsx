@@ -23,6 +23,8 @@ import {
 import CanvasLoader from "./CanvasLoader";
 import { itemData } from "../../constants/scenePositions";
 import DesktopScreen from "./DesktopScreen";
+// import { resolveZoom } from "../../utils/scene";
+// import { useMemo } from "react";
 // import { useHelper } from "@react-three/drei";
 // import * as THREE from "three";
 
@@ -45,6 +47,9 @@ const SceneContent = () => {
     } 
   }, [dumbbellRef.current, dumbbellLightRef.current]);
 
+  // const { maxDistance, minDistance } = useMemo(() => resolveZoom({ isInteracting, isMobile }), [isInteracting, isMobile]);
+  
+
   return (
     <>
       {/* deep blue ambient */}
@@ -54,9 +59,9 @@ const SceneContent = () => {
       </EffectComposer>
       <OrbitControls
         makeDefault
-        enabled={!isInteracting}
+        enabled={!isMobile}
         enablePan={false}
-        enableZoom={true}
+        enableZoom={!isMobile}
         maxDistance={isInteracting ? 20 : 14}
         minDistance={isInteracting ? 3 : 10}
         minPolarAngle={isInteracting ? 0 : Math.PI / 5}
@@ -77,7 +82,7 @@ const SceneContent = () => {
         <Particles count={50} />
         <group
           ref={roomRef}
-          scale={isMobile ? MOBILE_SCALE : 0.95}
+          scale={isMobile ? MOBILE_SCALE : 1}
           position={[0, -3.5, 0]}
           rotation={[0, -Math.PI / 4, 0]}
         >
@@ -123,8 +128,9 @@ const SceneContent = () => {
           {/* left screen */}
           <Clickable
             withRing={false}
-            roomRef={roomRef}
-            {...itemData.leftScreen}
+          roomRef={roomRef}
+          name="leftScreen"
+          {...itemData.leftScreen}
           >
             <DesktopScreen   width={2} height={1.2} />
           </Clickable>
@@ -142,8 +148,9 @@ const SceneContent = () => {
 const HeroExperience = () => {
   return (
     <Canvas
+      // onClick={() => alert("if you want to learn more about me, please try a bigger screen")}
       camera={{ position: ORIGINAL_CAMERA_POSITION, fov: 45 }}
-      className="hero-canvas w-1/2"
+      className="hero-canvas h-1/2"
     >
       <Suspense fallback={<CanvasLoader />}>
         <SceneContent />

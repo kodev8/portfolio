@@ -95,4 +95,26 @@ export const resetScene = (
       },
       "-=0.1"
     );
-  };
+};
+  
+
+export const resolveZoom = ({ isInteracting, isMobile, isScreen }) => {
+  let maxDistance;
+  let minDistance;
+
+  if (isInteracting) {
+    maxDistance = 10;
+    if (isMobile) {
+      minDistance = isScreen ? 1.8 : 1.5;
+    } else {
+      minDistance = 3;
+    }
+  } else {
+    maxDistance = 14;
+    minDistance = 10;
+  }
+  console.log("Func isInteracting", isInteracting,"isMobile", isMobile, "isScreen", isScreen, "maxDistance", maxDistance, "minDistance", minDistance);
+
+  return { maxDistance, minDistance };
+};
+

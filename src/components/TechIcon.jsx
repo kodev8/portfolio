@@ -147,20 +147,20 @@ const TechIcon = memo(({ model, position: initialPosition, resetTrigger, sizedDa
           floatIntensity={isDragging ? 0 : isMobile ? 0.3 : 0.9}
         >
           <group
-            scale={model.scale * (viewport.width / 100) * (isMobile ? 7 : 5)}
+            scale={model.scale * (viewport.width / 100) * 8}
             rotation={model.rotation}
           >
             <primitive object={scene.scene} />
           </group>
 
           <Text
-            fontSize={(viewport.width / 100) * (isMobile ? 3 : 2.5)}
+            fontSize={(viewport.width / 100) * 3}
             fontWeight={900}
             color="white"
             position={
               model.textPosition ?? [
                 0,
-                -0.6 * (viewport.width / 100) * (isMobile ? 7 : 5),
+                -0.6 * (viewport.width / 100) * 7,
                 0,
               ]
             }

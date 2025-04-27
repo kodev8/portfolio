@@ -420,7 +420,7 @@ const ProjectCarousel = ({
             <HiArrowsExpand />
           </Button>
         </DialogTrigger>
-        <DialogContent className="bg-gray-800 border-gray-700 z-[7000] text-white max-w-[95vw] md:max-w-[85vw] lg:max-w-[75vw] w-full p-0 overflow-hidden">
+        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-[95vw] md:max-w-[85vw] lg:max-w-[75vw] w-full p-0 overflow-hidden">
           <DialogHeader className="p-3 md:p-4 border-b border-gray-700">
             <DialogTitle>{projectTitle || "Project Gallery"}</DialogTitle>
           </DialogHeader>

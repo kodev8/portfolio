@@ -7,7 +7,7 @@ import { useNav } from "../context/NavContext";
 import { cn } from "../utils";
 import { HighLightProvider, HighLightText } from "../components/HighlightText";
 import BackArrow from "../components/ui/BackArrow";
-
+import { useMedia } from "../context/MediaContext";
 const Hero = () => {
   useGSAP(() => {
     gsap.fromTo(
@@ -27,7 +27,8 @@ const Hero = () => {
   });
 
   const sectionRef = useRef(null);
-  const { registerSection } = useNav();
+  const { registerSection, navBarRef } = useNav();
+  const { isMobile } = useMedia();
 
   useEffect(() => {
     registerSection("about", sectionRef);
@@ -46,14 +47,18 @@ const Hero = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="relative overflow-hidden pb"
+      className="relative overflow-hidden"
     >
       <div id="hero-bg" className="absolute top-0 left-0 z-10">
         <img src="/images/bg.png" alt="background" />
       </div>
 
       {/* <div className="hero-layout"> */}
-      <div className="flex flex-col relative top-[104px] w-full h-screen">
+      <div className="flex flex-col relative w-full h-screen "
+        style={{
+          top: `${navBarRef.current?.offsetHeight}px`,
+        }}
+      >
         {/* left */}
         <header
           className={cn(
@@ -88,7 +93,7 @@ const Hero = () => {
               <h1>into Innovative Solutions</h1>
             </div>
             <HighLightProvider>
-              <div className="relative">
+              <div className="md:relative">
               <p className="text-white-50 md:text-xl overflow-visible z-10 ">
                 Hi, I'm Kalev —{" "}
                 <HighLightText
@@ -107,7 +112,16 @@ const Hero = () => {
               </p>
               <a
                   href="#projects"
-                  className="rounded-full absolute flex items-center gap-2 bottom-0 left-[95%] bg-white-50 hover:bg-black-200 hover:text-white-50 size-10 group transition-all duration-500 !origin-center overflow-visible hover:w-48"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location
+                    window.scrollTo({
+                      top: document.getElementById("projects").offsetTop,
+                      behavior: "smooth",
+                      
+                    });
+                  }}
+                  className="hidden md:flex rounded-full absolute  items-center gap-2 bottom-0 left-[95%] bg-white-50 hover:bg-black-200 hover:text-white-50 size-10 group transition-all duration-500 !origin-center overflow-visible hover:w-48"
                 >
                   
                   <div className="ml-auto mr-2 group-hover:size-8 group-hover:bg-white-50 rounded-full size-6 flex-center transition-all duration-500">
@@ -129,7 +143,7 @@ const Hero = () => {
         </header>
 
         {/* right */}
-        <figure className="z-1 ">
+        <figure>
           <div
             className={cn(
               "hero-3d-layout -translate-y-[45%] md:-translate-y-[25%] xl:-translate-y-[33%]",

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, forwardRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { useMedia } from "../../context/MediaContext";
 import { portfolioProjects as items } from "../../constants";
-import { Badge } from "../../components/ui/Badge";
 import { cn } from "../../utils";
 import { useNav } from "../../context/NavContext";
 import ProjectFooter from "../../components/projects/ProjectFooter";
@@ -158,7 +157,7 @@ const ListSection = forwardRef(({ item1, item2 }, ref) => {
   const isInView = useInView(ref, { margin: "-100px", once: false });
   return (
     <div
-      className={`flex flex-col gap-16 relative md:w-screen md:h-screen flex-center  md:mt-12 md:gap-4`}
+      className={`flex flex-col gap-16 relative md:min-w-screen md:h-screen flex-center md:mt-12 md:gap-4`}
       ref={ref}
     >
       {/* First item - Image on left, text on right */}
@@ -188,23 +187,24 @@ const Portfolio = () => {
   });
 
   // transform scrollY progress maps to horizontal movement
+  const containerWidth = containerRef.current?.offsetWidth || window.innerWidth;
   const x = useTransform(
     scrollYProgress,
     [0, 1],
-    [0, -window.innerWidth * (numPages - 1)]
+    [0, -containerWidth * (numPages - 1)]
   );
 
   return (
     <section
       id="portfolio"
-      className={cn("relative content-section md:snap-container", {
+      className={cn("relative content-section md:snap-container w-screen", {
         [`h-[${numPages * 100}vh]`]: !isMobile,
       })}
       ref={containerRef}
     >
       <motion.div
         className={
-          "flex flex-col w-screen gap-16 md:gap-2 md:h-screen md:flex-row md:sticky md:top-0 md:w-max"
+          "flex flex-col w-screen gap-16 md:gap-2 md:h-screen md:flex-row md:sticky md:top-0 md:w-max max-w-screen"
         }
         style={{
           x: isMobile ? 0 : x,

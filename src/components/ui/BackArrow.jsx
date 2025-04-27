@@ -7,7 +7,7 @@ const BackArrow = ({ onClick }) => {
   return (
     <div
       className={cn(
-        "fixed bottom-10 left-10 z-50 bg-black-200 rounded-full p-4 cursor-pointer transition-all duration-300 transform hover:scale-110",
+        "fixed bottom-8 left-10 z-[49] bg-black-200 rounded-full p-2 md:p-4 cursor-pointer transition-all duration-300 transform hover:scale-110",
         {
           "opacity-100 translate-y-0": isInteracting,
           "opacity-0 translate-y-10 pointer-events-none": !isInteracting,
@@ -17,8 +17,8 @@ const BackArrow = ({ onClick }) => {
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="32"
-        height="32"
+        width="24"
+        height="24"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"

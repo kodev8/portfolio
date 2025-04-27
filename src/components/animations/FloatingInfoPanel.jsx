@@ -110,8 +110,8 @@ const FloatingInfoPanel = ({
     >
       <Html
         transform
-        distanceFactor={isMobile ? 2 : 1}
-        position={[0.5, 0, 0]}
+        distanceFactor={isMobile ? 1.3 : 1}
+        position={[0, 0, 0]}
         rotation={[0, 0, 0]}
         style={{
           width: "300px",

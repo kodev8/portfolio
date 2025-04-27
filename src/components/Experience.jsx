@@ -113,9 +113,9 @@ const Experience = ({ cards, type }) => {
         /> */}
 
         <div className="relative">
-          <div className="relative z-50 space-y-10 xl:space-y-32">
+          <div className="relative">
             {cards.map((card, index) => (
-              <div key={card.title} className="grid grid-cols-12 gap-10">
+              <div key={card.title} className="grid grid-cols-12 gap-4 md:gap-10">
                 <div className="hidden xl:block xl:col-span-1"></div>
                 <div className="order-3 col-span-full flex w-full flex-col items-end   xl:order-1 xl:col-span-4 xl:translate-x-10">
                   <GlowCard
@@ -143,24 +143,24 @@ const Experience = ({ cards, type }) => {
 
                 <div className="col-span-10 order-2 xl:col-span-5 xl-order-3 ml-4">
                   <div className="flex items-start">
-                    <div className="expText relative z-20 flex gap-5 md:gap-10 xl:gap-20">
+                    <div className="expText relative flex gap-5 md:gap-10 xl:gap-20">
                       <div className="text-wrap">
-                        <h1 className="text-xl font-semibold">{card.title}</h1>
-                        <p className="text-white-50 my-5">
+                        <h1 className=" text-lg md:text-xl font-semibold">{card.title}</h1>
+                        <p className="text-white-50 text-sm md:text-base my-5">
                           🗓️&nbsp;{card.date}
                         </p>
                         {
                           card.location && (
-                            <p className="text-white-50 my-5">
+                            <p className="text-white-50 text-sm md:text-base my-5">
                               📍&nbsp;{card.location}
                             </p>
                           )
                         }
   
-                        <p className="italic text-[#839CB5]">Details</p>
+                        <p className="italic text-[#839CB5] text-sm md:text-base">Details</p>
                         <ul className="text-white-50 ms-5 mt-5 flex list-disc flex-col gap-5">
                           {card.details.map((detail, index) => (
-                            <li key={index} className="text">
+                            <li key={index} className="text-sm md:text-base">
                               {detail}
                             </li>
                           ))}

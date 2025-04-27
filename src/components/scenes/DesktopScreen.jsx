@@ -306,7 +306,7 @@ const DesktopScreen = ({ width, height }) => {
           backgroundColor: "blue",
         }}
         distanceFactor={1}
-        zIndexRange={[100, 0]}
+        zIndexRange={[10, 0]}
         prepend
         occlude="blending"
         depthWrite={false}
@@ -401,7 +401,7 @@ const DesktopScreen = ({ width, height }) => {
           <div className="absolute bottom-0 left-0 w-full h-15 bg-gray-300 flex items-center gap-4 p-1">
             <span className="text-white font-xs cursor-pointer ml-1">
               <img
-                src="/images/kk-logo.png"
+                src="/images/kk-logo.svg"
                 alt="Windows"
                 className="w-8 h-8 rounded-lg"
               />

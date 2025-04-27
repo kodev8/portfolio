@@ -92,9 +92,9 @@ export const itemData = {
       viewableOffset: [-0.5, 0.2, 0.5],
       ringScale: 0.25,
       color: "#e67f02",
-      speechOffset: [-0.5, 0.4, 0],
+      speechOffset: [0, 0.4, 0],
       name: "rubik",
-      speechDirection: "right",
+      speechDirection: "down",
     },
     itemProps: {
       scale: 0.0015,
@@ -108,7 +108,7 @@ export const itemData = {
       clickableOffset: [0, 0.01, 0],
       viewableOffset: [0.5, 0.65, 0.5],
       color: "#d6d300",
-      speechOffset: [-1, 1, 0],
+      speechOffset: [0, 0.8, 0],
       name: "pikachu",
     },
     itemProps: {
@@ -124,17 +124,17 @@ export const itemData = {
     ringScale: 0.15,
     viewableOffset: [-0.15, 0.2, 0.75],
     color: "#00ff00",
-    speechOffset: [0, 0.3, 0],
-    speechDirection: "left",
+    speechOffset: [0, 0.6, 0],
+    speechDirection: "down",
     name: "lego",
   },
 
   cleatsGroup: {
     position: [-1, -0.002, 3],
     clickableOffset: [0.7, 0.1, 0],
-    viewableOffset: [-1, 2, 2],
+    viewableOffset: [-1, 1.25, 2],
     color: "#00ffea",
-    speechOffset: [0, 1, 0],
+    speechOffset: [0.5, 1, 0],
     name: "football",
   },
 
@@ -152,9 +152,9 @@ export const itemData = {
   dumbbellGroup: {
     position: [2, 0.2, -1],
     clickableOffset: [0.2, -0.07, 0.4],
-    viewableOffset: [-2, 1.5, 1.5],
+    viewableOffset: [-1, 1.5, 1.5],
     color: "#7410ad",
-    speechOffset: [-0.4, 1, 1],
+    speechOffset: [0.1, 1, 1],
     name: "gym",
   },
   dumbbell1: {
@@ -179,8 +179,8 @@ export const itemData = {
     position: [-2.5, 2.2, 3],
     clickableOffset: [-0.3, -0.47, 0],
     viewableOffset: [0.5, 0.5, 0.5],
-    speechOffset: [0, 0, 0],
-    speechDirection: "left",
+    speechOffset: [0, 0.6, 0],
+    speechDirection: "down",
     color: "#ff0000",
     name: "trinidad",
   },
@@ -197,5 +197,6 @@ export const itemData = {
     itemRotation: [0, Math.PI / 2, 0],
     viewableOffset: [1, 0, 1.5],
     withRing: false,
+    name: "leftScreen",
   },
 };

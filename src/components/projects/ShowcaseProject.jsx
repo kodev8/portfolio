@@ -19,9 +19,9 @@ const ShowcaseProject = forwardRef(({ project }, ref) => {
         />
       </div>
       <div className="text-content flex flex-col gap-4">
-        <h2>{project.title}</h2>
+        <h2 className="text-white text-xl md:text-2xl leading-5">{project.title}</h2>
         {!isMobile && (
-          <p className="text-white-50 md:text-lg leading-5">{project.desc}</p>
+          <p className="text-white-50 text-sm md:text-lg leading-5">{project.desc}</p>
         )}
         <ProjectFooter project={project} />
       </div>

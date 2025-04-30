@@ -9,12 +9,12 @@ Title: Adidas Teamgeist Ball (Germany 2006 Match Ball)
 
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
-import * as THREE from 'three'
+// import * as THREE from 'three'
 
 export function Football(props) {
   const { nodes, materials } = useGLTF('/models/hero/football.glb')
 
-  materials.Ball_Triangles.emissive = new THREE.Color(0x00f)
+  // materials.Ball_Triangles.emissive = new THREE.Color(0x00f)
   return (
     <group {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
@@ -26,4 +26,4 @@ export function Football(props) {
   )
 }
 
-// useGLTF.preload('/models/hero/football.glb')
+useGLTF.preload('/models/hero/football.glb')

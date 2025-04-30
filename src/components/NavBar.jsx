@@ -15,6 +15,7 @@ import {
 } from "../components/ui/select";
 import { useLanguage } from "../context/LanguageContext";
 
+
 export function SelectLanguage() {
   const { language, updateLanguage } = useLanguage();
   return (
@@ -48,7 +49,7 @@ const NavBar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 100);
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);

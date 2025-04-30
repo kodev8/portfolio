@@ -5,11 +5,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/Dialog";
+} from "../ui/dialog";
 import { cn } from "../../utils";
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { HiArrowsExpand } from "react-icons/hi";
-import { Button } from "../ui/Button";
+import { Button } from "../ui/button";
 import { useMedia } from "../../context/MediaContext";
 
 const CarouselNav = ({ prevImage, nextImage, isTransitioning }) => {
@@ -280,7 +280,7 @@ const ProjectCarousel = ({
               <video
                 ref={isModalView ? modalVideoRef : videoRef}
                 className={cn(`max-w-full max-h-full`, {
-                  "h-[50vh]": isShowcase,
+                  "h-[50vh]": isShowcase && !isModalView
                 })}
                 src={videoUrl}
                 controls={isModalView}
@@ -303,7 +303,7 @@ const ProjectCarousel = ({
                 src={image}
                 alt={`Slide ${videoUrl ? index + 2 : index + 1}`}
                 className={cn(`max-w-full object-contain`, {
-                  "h-[50vh]": isShowcase,
+                  "h-[50vh]": isShowcase && !isModalView,
                 })}
                 // style={{ maxHeight: "100%", maxWidth: "100%" }}
               />

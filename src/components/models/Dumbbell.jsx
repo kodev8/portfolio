@@ -10,9 +10,9 @@ Title: Dumbbell
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
 import { forwardRef } from 'react'
-
+import { assetsPaths } from '../../constants';
 export const Dumbbell = forwardRef((props, ref) => {
-  const { nodes, materials } = useGLTF('/models/hero/dumbbell.glb')
+  const { nodes, materials } = useGLTF(assetsPaths.models.hero.dumbbell)
   return (
     <group {...props} dispose={null} ref={ref}>
       <group position={[-135.816, -9.227, 126.589]} rotation={[-Math.PI, 0, Math.PI / 2]}>
@@ -33,4 +33,4 @@ export const Dumbbell = forwardRef((props, ref) => {
 
 Dumbbell.displayName = 'Dumbbell'
 
-useGLTF.preload('/models/hero/dumbbell.glb')
+useGLTF.preload(assetsPaths.models.hero.dumbbell)

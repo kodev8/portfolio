@@ -9,15 +9,16 @@ Title: RUBIK'S CUBE
 
 import { useGLTF, useAnimations } from '@react-three/drei'
 import React, { useRef, useEffect } from 'react'
-import { useFrame, useGraph } from '@react-three/fiber'
-import { SkeletonUtils } from 'three-stdlib'
-import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing"
-import { BlendFunction } from "postprocessing"
-import * as THREE from 'three'
+import { assetsPaths } from '../../constants';
+// import { useFrame, useGraph } from '@react-three/fiber'
+// import { SkeletonUtils } from 'three-stdlib'
+// import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing"
+// import { BlendFunction } from "postprocessing"
+// import * as THREE from 'three'
 
 export function Rubik(props) {
   const group = React.useRef()
-  const { nodes, materials, animations } = useGLTF('/models/hero/rubik.glb')
+    const { nodes, materials, animations } = useGLTF(assetsPaths.models.hero.rubik)
   const { actions } = useAnimations(animations, group)
   return (
     <group ref={group} {...props} dispose={null}>
@@ -275,4 +276,4 @@ export function Rubik(props) {
   )
 }
 
-useGLTF.preload('/models/hero/rubik.glb')
+useGLTF.preload(assetsPaths.models.hero.rubik)

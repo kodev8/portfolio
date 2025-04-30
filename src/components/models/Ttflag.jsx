@@ -5,8 +5,9 @@ Command: npx gltfjsx@6.5.3 ttflag.glb
 
 import React, { useRef, useState, useEffect } from 'react'
 import { useGLTF } from '@react-three/drei'
+import { assetsPaths } from '../../constants';
 export function Ttflag(props) {
-  const { nodes, materials } = useGLTF("/models/hero/ttflag.glb");
+  const { nodes, materials } = useGLTF(assetsPaths.models.hero.ttflag);
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.mesh_0.geometry} material={nodes.mesh_0.material} />
@@ -15,4 +16,4 @@ export function Ttflag(props) {
   )
 }
 
-useGLTF.preload("/models/hero/ttflag.glb");
+useGLTF.preload(assetsPaths.models.hero.ttflag);

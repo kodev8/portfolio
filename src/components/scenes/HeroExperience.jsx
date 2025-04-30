@@ -23,6 +23,7 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import CanvasLoader from "./CanvasLoader";
 import { itemData } from "../../constants/scenePositions";
 import DesktopScreen from "./DesktopScreen";
+import { assetsPaths } from "../../constants";
 // import { resolveZoom } from "../../utils/scene";
 // import { useMemo } from "react";
 // import { useHelper } from "@react-three/drei";
@@ -46,10 +47,6 @@ const SceneContent = () => {
   }, [dumbbellRef.current, dumbbellLightRef.current]);
 
   // const { maxDistance, minDistance } = useMemo(() => resolveZoom({ isInteracting, isMobile }), [isInteracting, isMobile]);
-  
-  
-
-
 
   return (
     <>
@@ -114,7 +111,7 @@ const SceneContent = () => {
 
         <Text3D
           letterSpacing={-0.05}
-          font="/fonts/Mona Sans ExtraLight_Regular.json"
+          font={assetsPaths.fonts.mona_sans_extralight_regular}
           {...itemData.text}
         >
           PURPOSE

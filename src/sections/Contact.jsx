@@ -37,19 +37,19 @@ const Contact = () => {
     setLoading(true); 
 
     try {
-      // await emailjs.sendForm(
-      //   import.meta.env.VITE_EMAIL_SERVICE_ID,
-      //   import.meta.env.VITE_EMAIL_TEMPLATE_ID,
-      //   formRef.current,
-      //   import.meta.env.VITE_EMAIL_PUBLIC_KEY
-      // );
+      await emailjs.sendForm(
+        import.meta.env.VITE_EMAIL_SERVICE_ID,
+        import.meta.env.VITE_EMAIL_TEMPLATE_ID,
+        formRef.current,
+        import.meta.env.VITE_EMAIL_PUBLIC_KEY
+      );
 
       // testing so simutlate delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // await new Promise(resolve => setTimeout(resolve, 1000));
       setForm({ name: "", email: "", message: "" });
       toast.success(contactForm.success[language]);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(contactForm.error[language]);
     } finally {
       setLoading(false);

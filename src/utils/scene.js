@@ -90,7 +90,7 @@ export const resetScene = (
       {
         opacity: 1,
         duration: 0.3,
-        zIndex: 100,
+        zIndex: 48,
         stagger: 0.05,
       },
       "-=0.1"

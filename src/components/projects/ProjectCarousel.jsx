@@ -19,7 +19,7 @@ const CarouselNav = ({ prevImage, nextImage, isTransitioning }) => {
         variant="ghost"
         size="icon"
         onClick={prevImage}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 !bg-black/50 hover:bg-black text-white p-2 rounded-full  transition-all z-20"
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black text-white hover:text-white p-2 rounded-full  transition-all z-20"
       >
         <RxCaretLeft className="size-6" />
       </Button>
@@ -27,7 +27,7 @@ const CarouselNav = ({ prevImage, nextImage, isTransitioning }) => {
         variant="ghost"
         size="icon"
         onClick={nextImage}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 !bg-black/50 hover:bg-black text-white p-2 rounded-full  transition-all z-20"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black text-white hover:text-white p-2 rounded-full  transition-all z-20"
         aria-label="Next image"
         disabled={isTransitioning}
       >
@@ -313,7 +313,7 @@ const ProjectCarousel = ({
 
         {/* counter */}
         {(images.length > 1 || videoUrl) && (
-          <div className="absolute bottom-2 right-2 bg-black/50 hover:bg-black text-white text-xs px-2 py-1 rounded z-20">
+          <div className="absolute bottom-2 right-2 bg-black/50 hover:bg-black text-white hover:text-white text-xs px-2 py-1 rounded z-20">
             {currentIndex + 1}/{totalItems}
           </div>
         )}
@@ -422,7 +422,7 @@ const ProjectCarousel = ({
           <Button
             variant="outline"
             size="icon"
-            className="absolute top-2 right-2 bg-black/50 hover:bg-black text-white p-1 rounded  transition-all z-20"
+            className="absolute top-2 right-2 bg-black/50 hover:bg-black text-white hover:text-white p-1 rounded  transition-all z-20"
             aria-label="Expand carousel"
           >
             <HiArrowsExpand />

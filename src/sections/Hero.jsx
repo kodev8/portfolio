@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { words } from "../constants";
+import { words, heroWords } from "../constants";
 import HeroExperience from "../components/scenes/HeroExperience";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -8,6 +8,12 @@ import { cn } from "../utils";
 import { HighLightProvider, HighLightText } from "../components/HighlightText";
 import BackArrow from "../components/ui/BackArrow";
 import { useMedia } from "../context/MediaContext";
+import { useLanguage } from "../context/LanguageContext";
+import {
+  Tip,
+} from "../components/ui/tooltip";
+import { FaCircleInfo } from "react-icons/fa6";
+
 const Hero = () => {
   useGSAP(() => {
     gsap.fromTo(
@@ -29,6 +35,7 @@ const Hero = () => {
   const sectionRef = useRef(null);
   const { registerSection, navBarRef } = useNav();
   const { isMobile } = useMedia();
+  const { language } = useLanguage();
 
   useEffect(() => {
     registerSection("about", sectionRef);
@@ -47,34 +54,32 @@ const Hero = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="relative overflow-hidden"
+      className="relative overflow-hidden main-section !h-[120vh]"
     >
-      <div id="hero-bg" className="absolute top-0 left-0 z-10">
+      {/* <div id="hero-bg" className="absolute top-0 left-0 z-10">
         <img src="/images/bg.png" alt="background" />
-      </div>
+      </div> */}
 
       {/* <div className="hero-layout"> */}
-      <div className="flex flex-col relative w-full h-screen "
+      <div
+        className="relative w-full h-screen grid-rows-[auto_1fr]  grid grid-cols-5 "
         style={{
           top: `${navBarRef.current?.offsetHeight}px`,
         }}
       >
-        {/* left */}
+        <span className="hidden xl:block col-span-1"></span>
         <header
           className={cn(
-            "hero-layout-header flex justify-center relative w-screen md:px-20 px-5 z-10",
-            {
-              // "!opacity-0 transition-all duration-500": isInteracting,
-            }
+            "hero-layout-header col-span-full xl:col-span-3 flex justify-center relative md:px-20 px-5 z-10 mx-auto"
           )}
         >
-          <div className="flex flex-col">
+          <div className="flex flex-col  ">
             <div className="hero-text">
               <h1>
-                Engineering{" "}
+                {heroWords.engineering[language]}{" "}
                 <span className="slide">
                   <span className="wrapper">
-                    {words.map((word, index) => (
+                    {words[language].map((word, index) => (
                       <span
                         key={index}
                         className="flex items-center md:gap-3 gap-1 pb-2"
@@ -90,66 +95,39 @@ const Hero = () => {
                   </span>
                 </span>
               </h1>
-              <h1>into Innovative Solutions</h1>
+              <h1>{heroWords.innovativeSolutions[language]}</h1>
             </div>
             <HighLightProvider>
               <div className="md:relative">
-              <p className="text-white-50 md:text-xl overflow-visible z-10 ">
-                Hi, I'm Kalev —{" "}
-                <HighLightText
-                  text="a full-stack developer based in Paris, France"
-                  index={0}
-                />
-                <br />
-                I'm currently{" "}
-                <HighLightText
-                  text="looking for a full-time internship"
-                  index={1}
-                />{" "}
-                where I can <br />
-                apply my skills, learn, and contribute to real-world projects.
-               
-              </p>
-              <a
-                  href="#projects"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.location
-                    window.scrollTo({
-                      top: document.getElementById("projects").offsetTop,
-                      behavior: "smooth",
-                      
-                    });
-                  }}
-                  className="hidden md:flex rounded-full absolute  items-center gap-2 bottom-0 left-[95%] bg-white-50 hover:bg-black-200 hover:text-white-50 size-10 group transition-all duration-500 !origin-center overflow-visible hover:w-48"
-                >
-                  
-                  <div className="ml-auto mr-2 group-hover:size-8 group-hover:bg-white-50 rounded-full size-6 flex-center transition-all duration-500">
-                    <img
-                      className="animate-bounce"
-                      src="/images/arrow-down.svg"
-                      alt="arrow"
-                    />
-
-                  </div>
-                  <span className="absolute font-semibold left-4 text-black-200 mx-auto text-sm whitespace-nowrap hidden group-hover:block group-hover:text-white-50 transition-opacity duration-300">
-                    View my projects
-                  </span>
-                </a>
-                </div>
+                <p className="text-white-50 md:text-xl overflow-visible z-10 break-words whitespace-pre-wrap">
+                  {heroWords.greeting[language]}{" "}
+                  <HighLightText
+                    text={heroWords.fullStackDeveloper[language]}
+                    index={0}
+                  />
+                  {/* <br /> */} {heroWords.currently[language]}{" "}
+                  <HighLightText
+                    text={heroWords.lookingFor[language]}
+                    index={1}
+                  />{" "}
+                  {heroWords.opportunities[language]}
+                  {/* <br /> */}
+                  <Tip content={heroWords.aboutMeIndicator[language]}>
+                    <FaCircleInfo className="text-white-50 inline-block mx-2 z-10" />
+                  </Tip>
+                </p>
+              
+              </div>
             </HighLightProvider>
-          
           </div>
         </header>
+        <span className="hidden xl:block col-span-1"></span>
 
         {/* right */}
-        <figure>
+        <figure className="col-span-full">
           <div
             className={cn(
-              "hero-3d-layout -translate-y-[45%] md:-translate-y-[25%] xl:-translate-y-[33%]",
-              {
-                // "!w-full": isInteracting,
-              }
+              "hero-3d-layout col-span-full -translate-y-[45%] md:-translate-y-[25%] xl:-translate-y-[33%]"
             )}
           >
             <HeroExperience />

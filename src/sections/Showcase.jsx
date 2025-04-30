@@ -3,9 +3,11 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import TitleHeader from "../components/TitleHeader";
-import { featuredProjects } from "../constants";
+import { featuredProjects, showCaseHeader } from "../constants";
 import { useNav } from "../context/NavContext";
 import ShowcaseProject from "../components/projects/ShowcaseProject";
+import { useLanguage } from "../context/LanguageContext";ShowcaseProject
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,7 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 const AppShowcase = () => {
   const sectionRef = useRef(null);
   const projectRefs = Array.from({ length: featuredProjects.length }, () => useRef(null));
-
+  const { language } = useLanguage();
   // State for modal
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -42,7 +44,7 @@ const AppShowcase = () => {
           delay: 0.3 * (index + 1),
           scrollTrigger: {
             trigger: card,
-            start: "top bottom-=100",
+            start: "top bottom-=110",
           },
         }
       );
@@ -58,31 +60,35 @@ const AppShowcase = () => {
     <section
       id="projects"
       ref={sectionRef}
-      className="app-showcase content-section"
+      className="app-showcase content-section main-section"
     >
       <div className="w-full">
-        <TitleHeader title="Projects" sub="⭐ Featured" />
-        <div className="showcaselayout mt-16">
+        <TitleHeader title={showCaseHeader.title[language]} sub={showCaseHeader.sub[language]} />
+        <div className="grid grid-cols-1 justify-items-center lg:grid-cols-2 gap-8 lg:gap-12 mt-16">
           {/* Featured 0 */}
-          <div ref={projectRefs[0]} className="first-project-wrapper">
+
+          <div className="lg:col-span-2 lg:max-w-[60%]">
             <ShowcaseProject
               project={featuredProjects[0]}
               ref={projectRefs[0]}
             />
-          </div>
-          <div className="project-list-wrapper overflow-hidden">
-            {/* Featured 1 */}
+            </div>
+          {/* Featured 1 */}
+          
+            <div className="col-span-1">
             <ShowcaseProject
               project={featuredProjects[1]}
               ref={projectRefs[1]}
             />
+            </div>
 
             {/* Featured 2 */}
+            <div className="col-span-1">
             <ShowcaseProject
               project={featuredProjects[2]}
               ref={projectRefs[2]}
             />
-          </div>
+            </div>
         </div>
       </div>
     </section>

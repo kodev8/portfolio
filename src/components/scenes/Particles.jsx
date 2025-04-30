@@ -9,7 +9,7 @@ const Particles = ({ count = 200 }) => {
     for (let i = 0; i < count; i++) {
       temp.push({
         position: [
-          (Math.random() - 0.5) * 10,
+          (Math.random() - 0.5) * 20,
           Math.random() * 10 + 5, 
           (Math.random() - 0.5) * 10,
         ],

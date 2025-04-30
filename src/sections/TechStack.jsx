@@ -8,9 +8,12 @@ import { useNav } from "../context/NavContext";
 import TitleHeader from "../components/TitleHeader";
 import TechIcon from "../components/TechIcon";
 import GlowCard from "../components/GlowCard";
-import { techStackGroups } from "../constants";
+import { techStackGroups, techStackHeader, techStackText } from "../constants";
 import { useMedia } from "../context/MediaContext";
-
+import { useLanguage } from "../context/LanguageContext";
+import { Tip } from "../components/ui/tooltip";
+import { FaInfoCircle } from "react-icons/fa";
+import { Button } from "../components/ui/button";
 const Boundaries = memo(() => {
   const { viewport } = useThree();
   const margin = 0.3;
@@ -112,7 +115,7 @@ const IconGrid = memo(({ icons, resetTrigger, sizedData }) => {
 
   const { columns, rows, itemWidth, itemHeight } = getBestFit(icons);
   const spacingX = itemWidth;
-  const spacingY = itemHeight;
+  const spacingY = itemHeight; 
 
   const offsetX = ((columns - 1) * spacingX) / 2;
   const offsetY = ((rows - 1) * spacingY) / 2;
@@ -163,6 +166,7 @@ const ViewportProvider = ({ children }) => {
 const TechStack = () => {
   const { registerSection } = useNav();
   const sectionRef = useRef(null);
+  const { language } = useLanguage();
 
   const [resetTrigger, setResetTrigger] = useState(true);
 
@@ -221,15 +225,16 @@ const TechStack = () => {
     <section
       id="skills"
       ref={sectionRef}
-      className="flex-center section-padding snap-item"
+      className="flex-center section-padding snap-item main-section"
     >
       <div className="w-full h-full md:px-10 px-5">
-        <TitleHeader title="Tech Stack" sub="My everyday tools🔨" />
+          <TitleHeader title={techStackHeader.title[language]} sub={techStackHeader.sub[language]} tipContent={techStackHeader.tip[language]} />
+         
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8 mx-8 md:mx-16 lg:mx-24">
           {/* reset */}
-          <div className="flex justify-center mt-4 lg:col-span-2">
-            <button
+          <div className="flex justify-center lg:mt-32 lg:col-span-2">
+            <Button
               onClick={handleReset}
               className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md 
                         transition-colors duration-300 flex items-center gap-2 shadow-lg"
@@ -246,13 +251,13 @@ const TechStack = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              Reset Icons
-            </button>
+              {techStackText.reset[language]}
+            </Button>
           </div>
 
           {/* instruction text */}
           <div className="md:hidden text-center text-white-50 text-sm lg:col-span-2 -mt-2 mb-2">
-            Tap and drag icons to interact with them
+            {techStackText.tapAndDrag[language]}
           </div>
 
           {techStackGroups.map((group, index) => (
@@ -269,9 +274,9 @@ const TechStack = () => {
                   : ""
               }`}
             >
-              <GlowCard card={group} className="group w-full h-[40vh] landscape:min-h-[450px]">
-                <h3 className="text-white-50 font-semibold text-xl group-hover:text-purple-500 transition-all duration-300">
-                  {group.name}
+              <GlowCard card={group} className="group w-full lg:h-[40vh] landscape:min-h-[450px]">
+                <h3 className="text-white-50 font-semibold text-lg md:text-xl group-hover:text-purple-500 transition-all duration-300">
+                  {group.name[language]}
                 </h3>
                 <div className="h-full w-full">
                   <TechCanvas group={group} resetTrigger={resetTrigger} />

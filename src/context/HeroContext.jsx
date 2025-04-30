@@ -22,10 +22,6 @@ export const HeroProvider = ({ children }) => {
     }
   }, [isInteracting]);
 
-  useEffect(() => {
-    console.log("HeroContext isAnimating changed:", isAnimating);
-  }, [isAnimating]);
-
   const state = useMemo(
     () => ({
       isInteracting,

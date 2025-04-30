@@ -12,6 +12,7 @@ import {
 } from "../../utils/scene";
 import FloatingInfoPanel from "../animations/FloatingInfoPanel";
 import { useMedia } from "../../context/MediaContext";
+import { useLanguage } from "../../context/LanguageContext";
 
 const Clickable = ({
   children,
@@ -31,6 +32,7 @@ const Clickable = ({
   ...props
 }) => {
   const { isMobile } = useMedia();
+  const { language } = useLanguage();
   const itemRef = useRef();
   const { camera, controls } = useThree();
   const { isInteracting, setIsInteracting, isAnimating, setIsAnimating } =
@@ -71,7 +73,6 @@ const Clickable = ({
       setShowInfoPanel(true);
     }
 
-    console.log("viewableOffset", viewableOffset, cameraTargetPosition);
     const dummy = new THREE.Object3D();
     dummy.position.copy(camera.position);
     dummy.lookAt(itemPosition);
@@ -202,8 +203,6 @@ const Clickable = ({
       }
     );
     
-    console.log("cameraTargetPosition", cameraTargetPosition);
-    
     tl.to(
       ".hero-3d-layout",
       {
@@ -254,7 +253,6 @@ const Clickable = ({
     
               // Ensure the "isAnimating" state is updated after control transitions
               setTimeout(() => {
-                console.log("setting isAnimating to false");
                 setIsAnimating(false);
                 controls.enabled = true;
               }, 100);
@@ -363,7 +361,7 @@ const Clickable = ({
         showInfoPanel &&
         selectedItem?.name === name && (
           <FloatingInfoPanel
-            content={aboutMe[name]}
+            content={aboutMe[name][language]}
             position={speechOffset}
             visible={showInfoPanel}
             onLinkClick={handleLinkClick}

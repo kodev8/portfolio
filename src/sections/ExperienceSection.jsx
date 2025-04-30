@@ -4,26 +4,14 @@ import {
   expWorkCards,
   expEducationCards,
   expCertifications,
+  experienceTabs,
 } from "../constants";
 import Experience from "../components/Experience";
 import TitleHeader from "../components/TitleHeader";
 import { cn } from "../utils";
 import { useNav } from "../context/NavContext";
+import { useLanguage } from "../context/LanguageContext";
 
-const titles = {
-  work: {
-    title: "Work Experience",
-    sub: "💼 My Career Overview",
-  },
-  education: {
-    title: "Education",
-    sub: "🎓 My Academic Journey",
-  },
-  certifications: {
-    title: "Certifications",
-    sub: "🏆 My Certifications & Achievements",
-  },
-};
 const ExperienceSection = () => {
   const [activeTab, setActiveTab] = useState("work");
   const [previousTab, setPreviousTab] = useState(null);
@@ -34,6 +22,7 @@ const ExperienceSection = () => {
   const sectionRef = useRef(null);
   const titleContainerRef = useRef(null);
   const { registerSection } = useNav();
+  const { language } = useLanguage();
 
   // Register this section with the NavContext
   useEffect(() => {
@@ -44,7 +33,7 @@ const ExperienceSection = () => {
 
   // Get the slide direction based on previous and current tab
   const getSlideDirection = (previous, current) => {
-    const tabOrder = Object.keys(titles);
+    const tabOrder = Object.keys(experienceTabs);
 
     if (!previous) return "right"; // Default first load
 
@@ -142,14 +131,14 @@ const ExperienceSection = () => {
     <section
       id="experience"
       ref={sectionRef}
-      className="flex-center content-section section-padding !mt-0 md:!mt-20 xl:px-0 xl:pb-26 w-screen"
+      className="flex-center content-section section-padding main-section !mt-0 md:!mt-20 xl:px-0 xl:pb-26 w-screen"
     >
       <div className=" mx-auto px-4">
         {/* Sticky title header */}
         <TitleHeader
           ref={titleContainerRef}
           // title={titles[activeTab].title}
-          sub={titles[activeTab].sub}
+          sub={experienceTabs[activeTab].sub[language]}
         >
           <div className="flex justify-center items-center mb-4">
             <div className="bg-gray-800 p-1 text-xs rounded-full shadow-lg">
@@ -161,7 +150,7 @@ const ExperienceSection = () => {
                   style={{ height: "100%" }}
                 />
 
-                {Object.keys(titles).map((tab) => (
+                {Object.keys(experienceTabs).map((tab) => (
                   <button
                     key={tab}
                     className={cn(
@@ -173,7 +162,7 @@ const ExperienceSection = () => {
                     )}
                     onClick={() => handleTabClick(tab)}
                   >
-                    {tab[0].toUpperCase() + tab.slice(1)}
+                    {experienceTabs[tab].tabLabel[language]}
                   </button>
                 ))}
               </div>

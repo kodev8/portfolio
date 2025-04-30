@@ -6,6 +6,7 @@ import { cn } from "../../utils";
 import { useNav } from "../../context/NavContext";
 import ProjectFooter from "../../components/projects/ProjectFooter";
 import ProjectCarousel from "../../components/projects/ProjectCarousel";
+import { useLanguage } from "../../context/LanguageContext";
 
 const imgFromLeftVariants = {
   initial: {
@@ -79,6 +80,7 @@ const imgFromRightVariants = {
 };
 
 const ListItem = ({ item, dir, isInView }) => {
+  const { language } = useLanguage();
   const { isMobile } = useMedia();
   const imgVariants =
     dir === "ltr" ? imgFromLeftVariants : imgFromRightVariants;
@@ -112,7 +114,7 @@ const ListItem = ({ item, dir, isInView }) => {
             images={item.carousel}
             videoUrl={item.videoPath}
             projectTitle={item.title}
-            projectDesc={item.desc}
+            projectDesc={item.desc[language]}
             className="h-full"
             containerStyle={{ position: "relative", height: "100%" }}
           />
@@ -137,7 +139,7 @@ const ListItem = ({ item, dir, isInView }) => {
             className="font-light text-justify leading-5"
             variants={textVariants}
           >
-            {item.desc}
+            {item.desc[language]}
           </motion.p>
         )}
 
@@ -175,6 +177,7 @@ const Portfolio = () => {
   const numPages = Math.ceil(items.length / 2);
   const itemRefs = Array.from({ length: numPages }, () => useRef(null));
   const { registerSection } = useNav();
+  const { language } = useLanguage();
 
   useEffect(() => {
     registerSection("portfolio", containerRef);
@@ -197,7 +200,7 @@ const Portfolio = () => {
   return (
     <section
       id="portfolio"
-      className={cn("relative content-section md:snap-container w-screen", {
+      className={cn("relative content-section md:snap-container w-screen main-section", {
         [`h-[${numPages * 100}vh]`]: !isMobile,
       })}
       ref={containerRef}

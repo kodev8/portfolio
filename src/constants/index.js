@@ -1,12 +1,274 @@
-import { FaGlobe, FaList, FaCode, FaBrain, FaEnvelope, FaLinkedin, FaGithub, FaDownload, FaMailBulk } from "react-icons/fa";
+import {
+  FaGlobe,
+  FaList,
+  FaCode,
+  FaBrain,
+  FaEnvelope,
+  FaLinkedin,
+  FaGithub,
+  FaDownload,
+  FaMailBulk,
+} from "react-icons/fa";
+
+const MODE = import.meta.env.VITE_MODE;
+let BUCKET_URL = "";
+if (MODE === "production") {
+  BUCKET_URL = import.meta.env.VITE_BUCKET_URL;
+}
+
+const assetsPaths = {
+  files: {
+    resume: `${BUCKET_URL}/files/kalev-keil-resume.pdf`,
+  },
+  fonts: {
+    mona_sans_extralight_regular: `${BUCKET_URL}/fonts/Mona_Sans_ExtraLight_Regular.json`,
+    mona_sans_extralight_italic: `${BUCKET_URL}/fonts/Mona_Sans_ExtraLight_Italic.json`,
+  },
+  images: {
+    heroWords: {
+      ideas: `${BUCKET_URL}/images/ideas.svg`,
+      concepts: `${BUCKET_URL}/images/concepts.svg`,
+      designs: `${BUCKET_URL}/images/designs.svg`,
+      code: `${BUCKET_URL}/images/code.svg`,
+    },
+    desktop: {
+      folder: `${BUCKET_URL}/images/folder.svg`,
+      videos: `${BUCKET_URL}/images/videos.svg`,
+      credits: `${BUCKET_URL}/images/credits.svg`,
+      resume: `${BUCKET_URL}/images/resume.png`,
+      mail: `${BUCKET_URL}/images/mail.webp`,
+      logo: `${BUCKET_URL}/images/kk-logo.svg`,
+    },
+    profile_pics: [
+      `${BUCKET_URL}/images/kalev.png`,
+      `${BUCKET_URL}/images/kalev-football.jpg`,
+    ],
+    logos: {
+      cavitry_icon: `${BUCKET_URL}/images/logos/cavitry-icon.svg`,
+      cavitry_logo: `${BUCKET_URL}/images/logos/cavitry.svg`,
+      epita_icon: `${BUCKET_URL}/images/logos/epita-icon.png`,
+      epita_logo: `${BUCKET_URL}/images/logos/epita.png`,
+      guardian_life_logo: `${BUCKET_URL}/images/logos/guardian-life.webp`,
+      harvard_icon: `${BUCKET_URL}/images/logos/harvard-icon.png`,
+      harvard_logo: `${BUCKET_URL}/images/logos/harvard.svg`,
+      nvidia_icon: `${BUCKET_URL}/images/logos/nvidia-icon.png`,
+      nvidia_logo: `${BUCKET_URL}/images/logos/nvidia.png`,
+      qrc_icon: `${BUCKET_URL}/images/logos/qrc-icon.webp`,
+      qrc_logo: `${BUCKET_URL}/images/logos/qrc.png`,
+      solutionsconsuling_logo: `${BUCKET_URL}/images/logos/solutionsconsulting.png`,
+      tsz_logo: `${BUCKET_URL}/images/logos/tsz.svg`,
+    },
+    projects: {
+      amazon: [
+        `${BUCKET_URL}/images/projects/amazon/amazon-1.png`,
+        `${BUCKET_URL}/images/projects/amazon/amazon-2.png`,
+        `${BUCKET_URL}/images/projects/amazon/amazon-3.png`,
+        `${BUCKET_URL}/images/projects/amazon/amazon-4.png`,
+        `${BUCKET_URL}/images/projects/amazon/amazon-5.png`,
+        `${BUCKET_URL}/images/projects/amazon/amazon-6.png`,
+        `${BUCKET_URL}/images/projects/amazon/amazon-7.png`,
+      ],
+      epidashboard: [
+        `${BUCKET_URL}/images/projects/epidashboard/epidashboard-1.png`,
+        `${BUCKET_URL}/images/projects/epidashboard/epidashboard-2.png`,
+        `${BUCKET_URL}/images/projects/epidashboard/epidashboard-3.png`,
+        `${BUCKET_URL}/images/projects/epidashboard/epidashboard-4.png`,
+        `${BUCKET_URL}/images/projects/epidashboard/epidashboard-5.png`,
+      ],
+      netflix: [
+        `${BUCKET_URL}/images/projects/netflix/netflix-1.png`,
+        `${BUCKET_URL}/images/projects/netflix/netflix-2.png`,
+        `${BUCKET_URL}/images/projects/netflix/netflix-3.png`,
+        `${BUCKET_URL}/images/projects/netflix/netflix-4.png`,
+        `${BUCKET_URL}/images/projects/netflix/netflix-5.png`,
+        `${BUCKET_URL}/images/projects/netflix/netflix-6.png`,
+        `${BUCKET_URL}/images/projects/netflix/netflix-7.png`,
+        `${BUCKET_URL}/images/projects/netflix/netflix-8.png`,
+        `${BUCKET_URL}/images/projects/netflix/netflix-9.png`,
+        `${BUCKET_URL}/images/projects/netflix/netflix-10.png`,
+        `${BUCKET_URL}/images/projects/netflix/netflix-11.png`,
+      ],
+      options: [
+        `${BUCKET_URL}/images/projects/options/options-1.png`,
+        `${BUCKET_URL}/images/projects/options/options-2.png`,
+        `${BUCKET_URL}/images/projects/options/options-3.png`,
+        `${BUCKET_URL}/images/projects/options/options-4.png`,
+        `${BUCKET_URL}/images/projects/options/options-5.png`,
+        `${BUCKET_URL}/images/projects/options/options-6.png`,
+        `${BUCKET_URL}/images/projects/options/options-7.png`,
+        `${BUCKET_URL}/images/projects/options/options-8.png`,
+        `${BUCKET_URL}/images/projects/options/options-9.png`,
+      ],
+      pokebattle: [
+        `${BUCKET_URL}/images/projects/pokebattle/pokebattle-1.png`,
+        `${BUCKET_URL}/images/projects/pokebattle/pokebattle-2.png`,
+        `${BUCKET_URL}/images/projects/pokebattle/pokebattle-3.png`,
+        `${BUCKET_URL}/images/projects/pokebattle/pokebattle-4.png`,
+        `${BUCKET_URL}/images/projects/pokebattle/pokebattle-5.png`,
+      ],
+      statroom: [
+        `${BUCKET_URL}/images/projects/statroom/statroom-1.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-2.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-3.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-4.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-5.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-6.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-7.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-8.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-9.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-10.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-11.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-12.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-13.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-14.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-15.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-16.png`,
+        `${BUCKET_URL}/images/projects/statroom/statroom-17.png`,
+      ],
+      tictactoe: [
+        `${BUCKET_URL}/images/projects/tictactoe/tictactoe-1.png`,
+        `${BUCKET_URL}/images/projects/tictactoe/tictactoe-2.png`,
+        `${BUCKET_URL}/images/projects/tictactoe/tictactoe-3.png`,
+        `${BUCKET_URL}/images/projects/tictactoe/tictactoe-4.png`,
+      ],
+      twitter: [
+        `${BUCKET_URL}/images/projects/twitter/twitter-1.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-2.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-3.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-4.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-5.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-6.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-7.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-8.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-9.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-10.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-11.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-12.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-13.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-14.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-15.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-16.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-17.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-18.png`,
+        `${BUCKET_URL}/images/projects/twitter/twitter-19.png`,
+      ],
+      uber: [
+        `${BUCKET_URL}/images/projects/uber/uber-1.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-2.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-3.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-4.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-5.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-6.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-7.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-8.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-9.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-10.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-11.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-12.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-13.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-14.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-15.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-16.png`,
+        `${BUCKET_URL}/images/projects/uber/uber-17.png`,
+      ],
+    },
+  },
+  videos: {
+    projects: {
+      pokebattle: `${BUCKET_URL}/videos/projects/pokebattle-demo.mp4`,
+      statroom: `${BUCKET_URL}/videos/projects/statroom-demo.mp4`,
+      uber: `${BUCKET_URL}/videos/projects/uber-demo.mp4`,
+    },
+    clips: [
+      `${BUCKET_URL}/videos/clips/hv1.MOV`,
+      `${BUCKET_URL}/videos/clips/hv2.MOV`,
+      `${BUCKET_URL}/videos/clips/hv3.MOV`,
+      `${BUCKET_URL}/videos/clips/hv4.MOV`,
+      `${BUCKET_URL}/videos/clips/hv5.MOV`,
+      `${BUCKET_URL}/videos/clips/hv6.MOV`,
+      `${BUCKET_URL}/videos/clips/hv7.MOV`,
+      `${BUCKET_URL}/videos/clips/hv8.MOV`,
+      `${BUCKET_URL}/videos/clips/hv9.MOV`,
+      `${BUCKET_URL}/videos/clips/hv10.MOV`,
+      `${BUCKET_URL}/videos/clips/hv11.MOV`,
+      `${BUCKET_URL}/videos/clips/hv12.MOV`,
+      `${BUCKET_URL}/videos/clips/hv13.MOV`,
+      `${BUCKET_URL}/videos/clips/hv14.MOV`,
+      `${BUCKET_URL}/videos/clips/hv15.MOV`,
+      `${BUCKET_URL}/videos/clips/hv16.MOV`,
+      `${BUCKET_URL}/videos/clips/hv17.MOV`,
+      `${BUCKET_URL}/videos/clips/hv18.MOV`,
+      `${BUCKET_URL}/videos/clips/hv19.MOV`,
+      `${BUCKET_URL}/videos/clips/hv20.MOV`,
+      `${BUCKET_URL}/videos/clips/hv21.MOV`,
+    ],
+  },
+  sounds: {
+    click: `${BUCKET_URL}/sounds/click.mp3`,
+  },
+
+  models: {
+    hero: {
+      bedroom: `${BUCKET_URL}/models/hero/bedroom.glb`,
+      cleats: `${BUCKET_URL}/models/hero/cleats.glb`,
+      dumbbell: `${BUCKET_URL}/models/hero/dumbbell.glb`,
+      football: `${BUCKET_URL}/models/hero/football.glb`,
+      pikachu: `${BUCKET_URL}/models/hero/pikachu.glb`,
+      rubik: `${BUCKET_URL}/models/hero/rubik.glb`,
+      spiderman: `${BUCKET_URL}/models/hero/spiderman.glb`,
+      ttflag: `${BUCKET_URL}/models/hero/ttflag.glb`,
+    },
+    skills: {
+      aws: `${BUCKET_URL}/models/skills/aws.glb`,
+      azure: `${BUCKET_URL}/models/skills/azure.glb`,
+      csharp: `${BUCKET_URL}/models/skills/csharp.glb`,
+      django: `${BUCKET_URL}/models/skills/django.glb`,
+      docker: `${BUCKET_URL}/models/skills/docker.glb`,
+      dotnet: `${BUCKET_URL}/models/skills/dotnet.glb`,
+      express: `${BUCKET_URL}/models/skills/express.glb`,
+      fastapi: `${BUCKET_URL}/models/skills/fastapi.glb`,
+      firebase: `${BUCKET_URL}/models/skills/firebase.glb`,
+      flask: `${BUCKET_URL}/models/skills/flask.glb`,
+      git: `${BUCKET_URL}/models/skills/git.glb`,
+      htmx: `${BUCKET_URL}/models/skills/htmx.glb`,
+      javascript: `${BUCKET_URL}/models/skills/javascript.glb`,
+      mongodb: `${BUCKET_URL}/models/skills/mongodb.glb`,
+      mysql: `${BUCKET_URL}/models/skills/mysql.glb`,
+      neo4j: `${BUCKET_URL}/models/skills/neo4j.glb`,
+      next: `${BUCKET_URL}/models/skills/next.glb`,
+      php: `${BUCKET_URL}/models/skills/php.glb`,
+      postgresql: `${BUCKET_URL}/models/skills/postgresql.glb`,
+      python: `${BUCKET_URL}/models/skills/python.glb`,
+      qc: `${BUCKET_URL}/models/skills/qc.glb`,
+      react: `${BUCKET_URL}/models/skills/react.glb`,
+      redis: `${BUCKET_URL}/models/skills/redis.glb`,
+      rust: `${BUCKET_URL}/models/skills/rust.glb`,
+      sql: `${BUCKET_URL}/models/skills/sql.glb`,
+      sqlite: `${BUCKET_URL}/models/skills/sqlite.glb`,
+      streamlit: `${BUCKET_URL}/models/skills/streamlit.glb`,
+      tailwind: `${BUCKET_URL}/models/skills/tailwind.glb`,
+      three: `${BUCKET_URL}/models/skills/three.glb`,
+      typescript: `${BUCKET_URL}/models/skills/typescript.glb`,
+    },
+  },
+};
+
 
 // contact info
 const contactInfo = {
   email: "kalevkeil@gmail.com",
   github: "https://github.com/kodev8",
   linkedin: "https://linkedin.com/in/kalev-keil",
-  resume: "/files/kalev-keil-resume.pdf",
+  resume: assetsPaths.files.resume,
 };
+
+const videos = assetsPaths.videos.clips.map((video, index) => ({
+  title: `Clip ${index + 1}`,
+  url: video,
+  type: "local",
+}));
+
+
 
 // ---------------------------------- NAV BAR ----------------------------------
 const navLinksTranslations = {
@@ -84,8 +346,9 @@ const navLinksTranslations = {
   },
 };
 
-const navLinks = Object.keys(navLinksTranslations).map((key) => navLinksTranslations[key]);
-
+const navLinks = Object.keys(navLinksTranslations).map(
+  (key) => navLinksTranslations[key]
+);
 
 const topNavLinks = [
   navLinksTranslations.about,
@@ -96,21 +359,20 @@ const topNavLinks = [
 
 const navBarImages = [
   {
-    src: "/images/kalev.png", 
+    src: assetsPaths.images.profile_pics[0],
     alt: {
       en: "Professional Me",
       fr: "Moi - professionnel",
     },
   },
   {
-    src: "/images/kalev-football.jpg",
+    src: assetsPaths.images.profile_pics[1],
     alt: {
       en: "Football Me",
       fr: "Moi - football",
     },
   },
-]
-
+];
 
 // ---------------------------------- HERO ----------------------------------
 const heroWords = {
@@ -154,16 +416,16 @@ const heroWords = {
 
 const wordsInitial = {
   en: [
-    { text: "Ideas", imgPath: "/images/ideas.svg" },
-    { text: "Concepts", imgPath: "/images/concepts.svg" },
-    { text: "Designs", imgPath: "/images/designs.svg" },
-    { text: "Code", imgPath: "/images/code.svg" },
+    { text: "Ideas", imgPath: assetsPaths.images.heroWords.ideas },
+    { text: "Concepts", imgPath: assetsPaths.images.heroWords.concepts },
+    { text: "Designs", imgPath: assetsPaths.images.heroWords.designs },
+    { text: "Code", imgPath: assetsPaths.images.heroWords.code },
   ],
   fr: [
-    { text: "Idées", imgPath: "/images/ideas.svg" },
-    { text: "Concepts", imgPath: "/images/concepts.svg" },
-    { text: "Designs", imgPath: "/images/designs.svg" },
-    { text: "Code", imgPath: "/images/code.svg" },
+    { text: "Idées", imgPath: assetsPaths.images.heroWords.ideas },
+    { text: "Concepts", imgPath: assetsPaths.images.heroWords.concepts },
+    { text: "Designs", imgPath: assetsPaths.images.heroWords.designs },
+    { text: "Code", imgPath: assetsPaths.images.heroWords.code },
   ],
 };
 
@@ -211,114 +473,6 @@ const canvasWarning = {
   fr: "Cette expérience est mieux vue sur un écran plus grand! Mais vous pouvez toujours essayer ;)",
 };
 
-const videos = [
-  {
-    title: "Clip 1",
-    url: "/videos/clips/hv1.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 2",
-    url: "/videos/clips/hv2.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 3",
-    url: "/videos/clips/hv3.MOV",
-    type: "local",
-  },
-
-  {
-    title: "Clip 4",
-    url: "/videos/clips/hv4.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 5",
-    url: "/videos/clips/hv5.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 6",
-    url: "/videos/clips/hv6.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 7",
-    url: "/videos/clips/hv7.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 8",
-    url: "/videos/clips/hv8.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 9",
-    url: "/videos/clips/hv9.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 10",
-    url: "/videos/clips/hv10.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 11",
-    url: "/videos/clips/hv11.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 12",
-    url: "/videos/clips/hv12.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 13",
-    url: "/videos/clips/hv13.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 14",
-    url: "/videos/clips/hv14.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 15",
-    url: "/videos/clips/hv15.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 16",
-    url: "/videos/clips/hv16.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 17",
-    url: "/videos/clips/hv17.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 18",
-    url: "/videos/clips/hv18.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 19",
-    url: "/videos/clips/hv19.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 20",
-    url: "/videos/clips/hv20.MOV",
-    type: "local",
-  },
-  {
-    title: "Clip 21",
-    url: "/videos/clips/hv21.MOV",
-    type: "local",
-  },
-];
 
 const credits = [
   {
@@ -355,45 +509,43 @@ const credits = [
   },
 ];
 
-
 const windowLabels = {
   projects: {
     header: {
       en: "Projects",
       fr: "Projets",
     },
-    icon: "/images/folder.svg",
-
+    icon: assetsPaths.images.desktop.folder,
   },
   videos: {
     header: {
       en: "Videos",
       fr: "Vidéos",
     },
-    icon: "/images/videos.svg",
+    icon: assetsPaths.images.desktop.videos,
   },
   credits: {
     header: {
       en: "Credits",
       fr: "Crédits",
     },
-    icon: "/images/credits.svg",
+    icon: assetsPaths.images.desktop.credits,
   },
   resume: {
     header: {
       en: "Resume",
       fr: "CV",
     },
-    icon: "/images/resume.png",
+    icon: assetsPaths.images.desktop.resume,
   },
   contact: {
     header: {
       en: "Contact",
       fr: "Contact",
     },
-    icon: "/images/mail.webp",
+    icon: assetsPaths.images.desktop.mail,
   },
-}
+};
 
 const desktopProjectsText = {
   backToProjects: {
@@ -447,9 +599,9 @@ const experienceText = {
 
 const expWorkCards = [
   {
-    imgPath: "/images/logos/cavitry.svg",
+    logoPath: assetsPaths.images.logos.cavitry_logo,
     imgScale: 0.8,
-    logoPath: "/images/logos/cavitry-icon.svg",
+    iconPath: assetsPaths.images.logos.cavitry_icon,
     title: {
       en: "Data Analyst Assistant & Assistant Coach",
       fr: "Assistant Analyste de Données & Assistant Coach",
@@ -475,8 +627,8 @@ const expWorkCards = [
     gradient: "from-yellow-500 via-green-500 to-yellow-500",
   },
   {
-    imgPath: "/images/logos/guardian-life.webp",
-    logoPath: "/images/logos/guardian-life.webp",
+    logoPath: assetsPaths.images.logos.guardian_life_logo,
+    iconPath: assetsPaths.images.logos.guardian_life_logo,
     title: {
       en: "Pension Assistant - Group Pensions Department",
       fr: "Assistant de Pension - Département des Pensions Groupées",
@@ -502,8 +654,8 @@ const expWorkCards = [
     gradient: "from-yellow-500 via-orange-500 to-white",
   },
   {
-    imgPath: "/images/logos/solutionsconsulting.png",
-    logoPath: "/images/logos/solutionsconsulting.png",
+    logoPath: assetsPaths.images.logos.solutionsconsuling_logo,
+    iconPath: assetsPaths.images.logos.solutionsconsuling_logo,
     imgScale: 0.8,
     title: {
       en: "Data Entry Clerk",
@@ -530,8 +682,8 @@ const expWorkCards = [
     gradient: "from-white via-slate-300 to-white",
   },
   {
-    imgPath: "/images/logos/tsz.svg",
-    logoPath: "/images/logos/tsz.svg",
+    logoPath: assetsPaths.images.logos.tsz_logo,
+    iconPath: assetsPaths.images.logos.tsz_logo,
     imgScale: 0.8,
     title: {
       en: "Administrative Assistant",
@@ -563,8 +715,8 @@ const expWorkCards = [
 
 const expEducationCards = [
   {
-    imgPath: "/images/logos/epita.png",
-    logoPath: "/images/logos/epita-icon.png",
+    logoPath: assetsPaths.images.logos.epita_logo,
+    iconPath: assetsPaths.images.logos.epita_icon,
     title: {
       en: "Bachelor of Computer Science",
       fr: "Licence en Informatique",
@@ -596,9 +748,9 @@ const expEducationCards = [
     gradient: "from-white to-blue-500",
   },
   {
-    imgPath: "/images/logos/qrc.png",
+    logoPath: assetsPaths.images.logos.qrc_logo,
+    iconPath: assetsPaths.images.logos.qrc_icon,
     imgScale: 2.5,
-    logoPath: "/images/logos/qrc-icon.webp",
     title: {
       en: "6th Form Education (CAPE)",
       fr: "Éducation au 6ème Forme (CAPE)",
@@ -632,9 +784,9 @@ const expEducationCards = [
     gradient: "from-blue-500 to-[#62e0ff]",
   },
   {
-    imgPath: "/images/logos/qrc.png",
+    logoPath: assetsPaths.images.logos.qrc_logo,
+    iconPath: assetsPaths.images.logos.qrc_icon,
     imgScale: 2.5,
-    logoPath: "/images/logos/qrc-icon.webp",
     title: {
       en: "High School Education (CSEC)",
       fr: "Éducation au Lycée (CSEC)",
@@ -669,8 +821,8 @@ const expEducationCards = [
 
 const expCertifications = [
   {
-    imgPath: "/images/logos/nvidia.png",
-    logoPath: "/images/logos/nvidia-icon.png",
+    logoPath: assetsPaths.images.logos.nvidia_logo,
+    iconPath: assetsPaths.images.logos.nvidia_icon,
     title: {
       en: "Data Parallelism: How to Train Deep Learning Models on Multiple GPUs",
       fr: "Parallélisme des Données: Comment Entraîner des Modèles de Deep Learning sur Plusieurs GPUs",
@@ -694,8 +846,8 @@ const expCertifications = [
     gradient: "from-green-500 to-white",
   },
   {
-    imgPath: "/images/logos/nvidia.png",
-    logoPath: "/images/logos/nvidia-icon.png",
+    logoPath: assetsPaths.images.logos.nvidia_logo,
+    iconPath: assetsPaths.images.logos.nvidia_icon,
     title: {
       en: "Fundamentals of Deep Learning",
       fr: "Fondamentaux du Deep Learning",
@@ -719,8 +871,8 @@ const expCertifications = [
     gradient: "from-white to-green-500",
   },
   {
-    imgPath: "/images/logos/nvidia.png",
-    logoPath: "/images/logos/nvidia-icon.png",
+    logoPath: assetsPaths.images.logos.nvidia_logo,
+    iconPath: assetsPaths.images.logos.nvidia_icon,
     title: {
       en: "Fundamentals of Accelerated Data Science",
       fr: "Fondamentaux de la Science des Données avec Accélération GPU",
@@ -744,8 +896,8 @@ const expCertifications = [
     gradient: "from-green-500 to-white",
   },
   {
-    imgPath: "/images/logos/harvard.svg",
-    logoPath: "/images/logos/harvard-icon.png",
+    logoPath: assetsPaths.images.logos.harvard_logo,
+    iconPath: assetsPaths.images.logos.harvard_icon,
     title: {
       en: "CS50: Introduction to Computer Science",
       fr: "CS50: Introduction à la Science de l'Informatique",
@@ -834,27 +986,8 @@ const projects = [
       en: "A data analysis platform built with a modern tech stack. Statroom leverages LangGraph for AI-powered data analysis, with a React frontend and FastAPI backend. The application uses both Neo4j and MongoDB for different data storage needs.",
       fr: "Une plateforme d'analyse de données construite avec un stack moderne. Statroom utilise LangGraph pour l'analyse de données avec intelligence artificielle, avec un frontend React et un backend FastAPI. L'application utilise à la fois Neo4j et MongoDB pour différentes besoins de stockage de données.",
     },
-    thumbnail: "/images/projects/statroom/statroom-1.png",
-    carousel: [
-      "/images/projects/statroom/statroom-1.png",
-      "/images/projects/statroom/statroom-2.png",
-      "/images/projects/statroom/statroom-3.png",
-      "/images/projects/statroom/statroom-4.png",
-      "/images/projects/statroom/statroom-5.png",
-      "/images/projects/statroom/statroom-6.png",
-      "/images/projects/statroom/statroom-7.png",
-      "/images/projects/statroom/statroom-8.png",
-      "/images/projects/statroom/statroom-9.png",
-      "/images/projects/statroom/statroom-10.png",
-      "/images/projects/statroom/statroom-11.png",
-      "/images/projects/statroom/statroom-12.png",
-      "/images/projects/statroom/statroom-13.png",
-      "/images/projects/statroom/statroom-14.png",
-      "/images/projects/statroom/statroom-15.png",
-      "/images/projects/statroom/statroom-16.png",
-      "/images/projects/statroom/statroom-17.png",
-      
-    ],
+    thumbnail: assetsPaths.images.projects.statroom[0],
+    carousel: assetsPaths.images.projects.statroom,
     stack: [
       "Python",
       "Langgraph",
@@ -867,7 +1000,7 @@ const projects = [
       "MongoDB",
       "Shadcn/UI",
     ],
-    videoPath: "/videos/projects/statroom-demo.mp4",
+    videoPath: assetsPaths.videos.projects.statroom,
     githubUrl: "https://github.com/kodev8/statroom",
     readmeUrl:
       "https://raw.githubusercontent.com/kodev8/statroom/main/README.md",
@@ -888,23 +1021,13 @@ const projects = [
       "Pandas",
       "Numpy",
     ],
-    thumbnail: "/images/projects/options/options-1.png",
+    thumbnail: assetsPaths.images.projects.options[0],
     readmeUrl:
       "https://raw.githubusercontent.com/kodev8/options-tool/main/README.md",
     githubUrl: "https://github.com/kodev8/options-tool",
     liveUrl: "https://options-tool.streamlit.app/",
     bgColor: "bg-slate-700",
-    carousel: [
-      "/images/projects/options/options-1.png",
-      "/images/projects/options/options-2.png",
-      "/images/projects/options/options-3.png",
-      "/images/projects/options/options-4.png",
-      "/images/projects/options/options-5.png",
-      "/images/projects/options/options-6.png",
-      "/images/projects/options/options-7.png",
-      "/images/projects/options/options-8.png",
-      "/images/projects/options/options-9.png",
-    ],
+    carousel: assetsPaths.images.projects.options,
   },
   {
     id: 4,
@@ -913,33 +1036,15 @@ const projects = [
       en: "A clone of the Uber ride-sharing platform built with Flask. This project implements key Uber features with a clean, responsive interface and SQL database integration.",
       fr: "Un clone de la plateforme de partage de trajets Uber construit avec Flask. Ce projet implémente les fonctionnalités clés d'Uber avec une interface propre et réactive et une intégration de base de données SQL.",
     },
-    stack: ["Python", "Flask","htmx", "SQL", "HTML", "CSS", "JavaScript"],
-    thumbnail: "/images/projects/uber/uber-1.png",
+    stack: ["Python", "Flask", "htmx", "SQL", "HTML", "CSS", "JavaScript"],
+    thumbnail: assetsPaths.images.projects.uber[0],
     readmeUrl:
       "https://raw.githubusercontent.com/kodev8/uber-klone/main/README.md",
-    videoPath: "/videos/projects/uber-demo.mp4",
+    videoPath: assetsPaths.videos.projects.uber,
     githubUrl: "https://github.com/kodev8/uber-klone",
     liveUrl: "https://uber-klone.onrender.com",
     bgColor: "bg-slate-700",
-    carousel: [
-      "/images/projects/uber/uber-1.png",
-      "/images/projects/uber/uber-2.png",
-      "/images/projects/uber/uber-3.png",
-      "/images/projects/uber/uber-4.png",
-      "/images/projects/uber/uber-5.png",
-      "/images/projects/uber/uber-6.png",
-      "/images/projects/uber/uber-7.png",
-      "/images/projects/uber/uber-8.png",
-      "/images/projects/uber/uber-9.png",
-      "/images/projects/uber/uber-10.png",
-      "/images/projects/uber/uber-11.png",
-      "/images/projects/uber/uber-12.png",
-      "/images/projects/uber/uber-13.png",
-      "/images/projects/uber/uber-14.png",
-      "/images/projects/uber/uber-15.png",
-      "/images/projects/uber/uber-16.png",
-      "/images/projects/uber/uber-17.png",
-    ],
+    carousel: assetsPaths.images.projects.uber,
   },
   {
     id: 6,
@@ -949,19 +1054,13 @@ const projects = [
       fr: "Un simulateur de combat Pokémon construit avec Pygame. Ce jeu redonne l'expérience de combat Pokémon classique avec des données de l'API PokeAPI, avec un combat basé sur les tours et des mécaniques Pokémon authentiques.",
     },
     stack: ["Python", "Pygame", "Pygbug", "PokeAPI"],
-    thumbnail: "/images/projects/pokebattle/pokebattle-1.png",
-    videoPath: "/videos/projects/pokebattle-demo.mp4",
+    thumbnail: assetsPaths.images.projects.pokebattle[0],
+    videoPath: assetsPaths.videos.projects.pokebattle,
     githubUrl: "https://github.com/kodev8/pokebattle",
     readmeUrl:
       "https://raw.githubusercontent.com/kodev8/pokebattle/main/README.md",
     liveUrl: "https://kodev8.itch.io/pokebattle",
-    carousel: [
-      "/images/projects/pokebattle/pokebattle-1.png",
-      "/images/projects/pokebattle/pokebattle-2.png",
-      "/images/projects/pokebattle/pokebattle-3.png",
-      "/images/projects/pokebattle/pokebattle-4.png",
-      "/images/projects/pokebattle/pokebattle-5.png",
-    ],
+    carousel: assetsPaths.images.projects.pokebattle,
   },
   {
     id: 7,
@@ -971,18 +1070,12 @@ const projects = [
       fr: "Une application de tableau de bord complète construite avec PHP et MySQL. Ce projet présente la visualisation dynamique des données, l'authentification des utilisateurs et le design réactif pour la gestion des institutions éducatives.",
     },
     stack: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
-    thumbnail: "/images/projects/epidashboard/epidashboard-1.png",
+    thumbnail: assetsPaths.images.projects.epidashboard[0],
     readmeUrl:
       "https://raw.githubusercontent.com/kodev8/epidashboard-php/main/README.md",
     githubUrl: "https://github.com/kodev8/epidashboard-php",
     liveUrl: "https://github.com/kodev8/epidashboard-php",
-    carousel: [
-      "/images/projects/epidashboard/epidashboard-1.png",
-      "/images/projects/epidashboard/epidashboard-2.png",
-      "/images/projects/epidashboard/epidashboard-3.png",
-      "/images/projects/epidashboard/epidashboard-4.png",
-      "/images/projects/epidashboard/epidashboard-5.png",
-    ],
+    carousel: assetsPaths.images.projects.epidashboard,
   },
   {
     id: 3,
@@ -991,21 +1084,22 @@ const projects = [
       en: "A functional clone of Amazon's e-commerce platform built with Flask and HTMX. This project replicates core Amazon features with a responsive design and MongoDB integration for data storage.",
       fr: "Un clone fonctionnel de la plateforme e-commerce d'Amazon construite avec Flask et HTMX. Ce projet reproduit les fonctionnalités clés d'Amazon avec un design réactif et une intégration de MongoDB pour le stockage des données.",
     },
-    stack: ["Python", "Flask","htmx", "SQL", "HTML", "CSS", "JavaScript", "MongoDB"],
-    thumbnail: "/images/projects/amazon/amazon-1.png",
+    stack: [
+      "Python",
+      "Flask",
+      "htmx",
+      "SQL",
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "MongoDB",
+    ],
+    thumbnail: assetsPaths.images.projects.amazon[0],
     readmeUrl:
       "https://raw.githubusercontent.com/kodev8/amazon-klone/main/README.md",
     githubUrl: "https://github.com/kodev8/amazon-klone",
     liveUrl: "https://amazon-klone.onrender.com",
-    carousel: [
-      "/images/projects/amazon/amazon-1.png",
-      "/images/projects/amazon/amazon-2.png",
-      "/images/projects/amazon/amazon-3.png",
-      "/images/projects/amazon/amazon-4.png",
-      "/images/projects/amazon/amazon-5.png",
-      "/images/projects/amazon/amazon-6.png",
-      "/images/projects/amazon/amazon-7.png",
-    ],
+    carousel: assetsPaths.images.projects.amazon,
   },
   {
     id: 5,
@@ -1015,17 +1109,12 @@ const projects = [
       fr: "Une implémentation moderne du célèbre jeu TicTacToe utilisant HTMX et Flask. Ce projet montre comment construire des applications web interactives avec peu de JavaScript en exploitant HTMX pour les mises à jour de contenu dynamiques.",
     },
     stack: ["Python", "Flask", "htmx", "SQL", "HTML", "CSS", "JavaScript"],
-    thumbnail: "/images/projects/tictactoe/tictactoe-1.png",
+    thumbnail: assetsPaths.images.projects.tictactoe[0],
     githubUrl: "https://github.com/kodev8/tictactoe-htmx",
     readmeUrl:
       "https://raw.githubusercontent.com/kodev8/tictactoe-htmx/main/README.md",
     liveUrl: "https://tictactoe-htmx.onrender.com",
-    carousel: [
-      "/images/projects/tictactoe/tictactoe-1.png",
-      "/images/projects/tictactoe/tictactoe-2.png",
-      "/images/projects/tictactoe/tictactoe-3.png",
-      "/images/projects/tictactoe/tictactoe-4.png",
-    ],
+    carousel: assetsPaths.images.projects.tictactoe,
   },
   {
     id: 8,
@@ -1035,23 +1124,10 @@ const projects = [
       fr: "Un clone de l'application mobile Netflix construite avec Swift et SwiftUI. Ce projet reproduit l'interface utilisateur Netflix et intègre l'API TMDb pour les données de films et de séries TV.",
     },
     stack: ["Swift", "SwiftUI", "TMDb API"],
-    imagePath: "https://picsum.photos/200/300",
     // readmeUrl:
-      // "https://raw.githubusercontent.com/kodev8/movies-swiftui/main/README.md",
+    // "https://raw.githubusercontent.com/kodev8/movies-swiftui/main/README.md",
     githubUrl: "https://github.com/kodev8/movies-swift",
-    carousel: [
-      "/images/projects/netflix/netflix-1_with_bgc.png",
-      "/images/projects/netflix/netflix-2_with_bgc.png",
-      "/images/projects/netflix/netflix-3_with_bgc.png",
-      "/images/projects/netflix/netflix-4_with_bgc.png",
-      "/images/projects/netflix/netflix-5_with_bgc.png",
-      "/images/projects/netflix/netflix-6_with_bgc.png",
-      "/images/projects/netflix/netflix-7_with_bgc.png",
-      "/images/projects/netflix/netflix-8_with_bgc.png",
-      "/images/projects/netflix/netflix-9_with_bgc.png",
-      "/images/projects/netflix/netflix-10_with_bgc.png",
-      "/images/projects/netflix/netflix-11_with_bgc.png",
-    ],
+    carousel: assetsPaths.images.projects.netflix,
   },
   // {
   //   id: 9,
@@ -1073,28 +1149,8 @@ const projects = [
     readmeUrl:
       "https://raw.githubusercontent.com/Grigoli2001/Twitter/New_dbs/README.md",
     githubUrl: "https://github.com/Grigoli2001/Twitter/tree/New_dbs",
-    thumbnail: "/images/projects/twitter/twitter-1.png",
-    carousel: [
-      "/images/projects/twitter/twitter-1.png",
-      "/images/projects/twitter/twitter-2.png",
-      "/images/projects/twitter/twitter-3.png",
-      "/images/projects/twitter/twitter-4.png",
-      "/images/projects/twitter/twitter-5.png",
-      "/images/projects/twitter/twitter-6.png",
-      "/images/projects/twitter/twitter-7.png",
-      "/images/projects/twitter/twitter-8.png",
-      "/images/projects/twitter/twitter-9.png",
-      "/images/projects/twitter/twitter-10.png",
-      "/images/projects/twitter/twitter-11.png",
-      "/images/projects/twitter/twitter-12.png",
-      "/images/projects/twitter/twitter-13.png",
-      "/images/projects/twitter/twitter-14.png",
-      "/images/projects/twitter/twitter-15.png",
-      "/images/projects/twitter/twitter-16.png",
-      "/images/projects/twitter/twitter-17.png",
-      "/images/projects/twitter/twitter-18.png",
-      "/images/projects/twitter/twitter-19.png",
-    ],
+    thumbnail: assetsPaths.images.projects.twitter[0],
+    carousel: assetsPaths.images.projects.twitter,
   },
   // {
   //   id: 11,
@@ -1140,35 +1196,35 @@ const techStackText = {
 const programmingLanguages = [
   {
     name: "Python",
-    modelPath: "/models/skills/python.glb",
+    modelPath: assetsPaths.models.skills.python,
     scale: 0.2,
     rotation: [0, 0, 0],
     verified: true,
   },
   {
     name: "JavaScript",
-    modelPath: "/models/skills/javascript.glb",
+    modelPath: assetsPaths.models.skills.javascript,
     scale: 0.3,
     rotation: [1.5, 0, 0],
     verified: true,
   },
   {
     name: "TypeScript",
-    modelPath: "/models/skills/typescript.glb",
+    modelPath: assetsPaths.models.skills.typescript,
     scale: 0.3,
     rotation: [1.5, 0, 0],
     verified: true,
   },
   {
     name: "SQL",
-    modelPath: "/models/skills/sql.glb",
+    modelPath: assetsPaths.models.skills.sql,
     scale: 0.3,
     rotation: [1.2, 0, 0],
     verified: true,
   },
   {
     name: "PHP",
-    modelPath: "/models/skills/php.glb",
+    modelPath: assetsPaths.models.skills.php,
     scale: 0.3,
     position: [0, -1, 0],
     rotation: [0, 0, 0],
@@ -1177,7 +1233,7 @@ const programmingLanguages = [
   },
   {
     name: "Rust",
-    modelPath: "/models/skills/rust.glb",
+    modelPath: assetsPaths.models.skills.rust,
     scale: 0.3,
     rotation: [0, -1.5, 0],
     textPosition: [0, -0.8, 0],
@@ -1185,7 +1241,7 @@ const programmingLanguages = [
   },
   {
     name: "C#",
-    modelPath: "/models/skills/csharp.glb",
+    modelPath: assetsPaths.models.skills.csharp,
     scale: 0.02,
     rotation: [0, 0, 0],
     verified: true,
@@ -1195,21 +1251,21 @@ const programmingLanguages = [
 const tools = [
   {
     name: "Git",
-    modelPath: "/models/skills/git.glb",
+    modelPath: assetsPaths.models.skills.git,
     scale: 0.0125,
     rotation: [0, -Math.PI / 4, 0],
     verified: true,
   },
   {
     name: "Docker",
-    modelPath: "/models/skills/docker.glb",
+    modelPath: assetsPaths.models.skills.docker,
     scale: 0.375,
     rotation: [0, 0, 0],
     verified: true,
   },
   {
     name: "AWS",
-    modelPath: "/models/skills/aws.glb",
+    modelPath: assetsPaths.models.skills.aws,
     scale: 0.1,
     rotation: [0, 0, 0],
     position: [0, -0.75, 0],
@@ -1217,14 +1273,14 @@ const tools = [
   },
   {
     name: "Azure",
-    modelPath: "/models/skills/azure.glb",
+    modelPath: assetsPaths.models.skills.azure,
     scale: 0.4,
     rotation: [1.5, 0, 0],
     verified: true,
   },
   {
     name: "Firebase",
-    modelPath: "/models/skills/firebase.glb",
+    modelPath: assetsPaths.models.skills.firebase,
     scale: 0.75,
     rotation: [0, 0.1, 0],
     verified: true,
@@ -1232,7 +1288,7 @@ const tools = [
 
   {
     name: "QuantConnect",
-    modelPath: "/models/skills/qc.glb",
+    modelPath: assetsPaths.models.skills.qc,
     scale: 0.4,
     textPosition: [0, -0.8, 0],
     rotation: [1.5, 0, 0],
@@ -1243,42 +1299,42 @@ const tools = [
 const frameworks = [
   {
     name: "Django",
-    modelPath: "/models/skills/django.glb",
+    modelPath: assetsPaths.models.skills.django,
     scale: 0.5,
     rotation: [1.5, 0, 0],
     verified: true,
   },
   {
     name: "",
-    modelPath: "/models/skills/flask.glb",
+    modelPath: assetsPaths.models.skills.flask,
     scale: 0.7,
     rotation: [1.5, 0, 0],
     verified: true,
   },
   {
     name: "FastAPI",
-    modelPath: "/models/skills/fastapi.glb",
+    modelPath: assetsPaths.models.skills.fastapi,
     scale: 0.4,
     rotation: [1.5, 0, 0],
     verified: true,
   },
   {
     name: "Streamlit",
-    modelPath: "/models/skills/streamlit.glb",
+    modelPath: assetsPaths.models.skills.streamlit,
     scale: 0.5,
     rotation: [1.5, 0, 0],
     verified: true,
   },
   {
     name: "Tailwind CSS",
-    modelPath: "/models/skills/tailwind.glb",
+    modelPath: assetsPaths.models.skills.tailwind,
     scale: 0.4,
     rotation: [0.25, 0, 0],
     verified: true,
   },
   {
     name: "htmx",
-    modelPath: "/models/skills/htmx.glb",
+    modelPath: assetsPaths.models.skills.htmx,
     scale: 0.4,
     rotation: [1.2, 0, 0],
     verified: true,
@@ -1286,28 +1342,28 @@ const frameworks = [
 
   {
     name: "Express",
-    modelPath: "/models/skills/express.glb",
+    modelPath: assetsPaths.models.skills.express,
     scale: 0.4,
     rotation: [1.5, 0, 0],
     verified: true,
   },
   {
     name: "Three.js",
-    modelPath: "/models/skills/three.glb",
+    modelPath: assetsPaths.models.skills.three,
     scale: 0.015,
     rotation: [0, 0, 0],
     verified: true,
   },
   {
     name: "Next.js",
-    modelPath: "/models/skills/next.glb",
+    modelPath: assetsPaths.models.skills.next,
     scale: 0.4,
     rotation: [1.5, 0, 0],
     verified: true,
   },
   {
     name: ".NET",
-    modelPath: "/models/skills/dotnet.glb",
+    modelPath: assetsPaths.models.skills.dotnet,
     scale: 0.4,
     rotation: [1.5, 0, 0],
     verified: true,
@@ -1315,7 +1371,7 @@ const frameworks = [
 
   {
     name: "React/React Native",
-    modelPath: "/models/skills/react.glb",
+    modelPath: assetsPaths.models.skills.react,
     scale: 0.4,
     rotation: [0, 0, 0],
     verified: true,
@@ -1326,28 +1382,28 @@ const frameworks = [
 const databases = [
   {
     name: "MongoDB",
-    modelPath: "/models/skills/mongodb.glb",
+    modelPath: assetsPaths.models.skills.mongodb,
     scale: 0.3,
     rotation: [1.5, 0, 0],
     verified: true,
   },
   {
     name: "PostgreSQL",
-    modelPath: "/models/skills/postgresql.glb",
+    modelPath: assetsPaths.models.skills.postgresql,
     scale: 0.4,
     rotation: [1, 0, 0],
     verified: true,
   },
   {
     name: "MySQL",
-    modelPath: "/models/skills/mysql.glb",
+    modelPath: assetsPaths.models.skills.mysql,
     scale: 0.5,
     rotation: [0, 0, 0],
     verified: true,
   },
   {
     name: "Redis",
-    modelPath: "/models/skills/redis.glb",
+    modelPath: assetsPaths.models.skills.redis,
     scale: 0.4,
     rotation: [1.2, 0, 0],
     verified: true,
@@ -1355,14 +1411,14 @@ const databases = [
 
   {
     name: "SQLite",
-    modelPath: "/models/skills/sqlite.glb",
+    modelPath: assetsPaths.models.skills.sqlite,
     scale: 0.4,
     rotation: [1.2, 0, 0],
     verified: true,
   },
   {
     name: "Neo4j",
-    modelPath: "/models/skills/neo4j.glb",
+    modelPath: assetsPaths.models.skills.neo4j,
     scale: 0.3,
     rotation: [1.4, 0, 0],
     verified: true,
@@ -1453,14 +1509,13 @@ const contactForm = {
     en: "Message sent successfully",
     fr: "Message envoyé avec succès",
   },
-    error: {
-      en: "Error sending message",
+  error: {
+    en: "Error sending message",
     fr: "Erreur lors de l'envoi du message",
   },
 };
 
 // ------------------------------------------
-
 
 export {
   words,
@@ -1495,4 +1550,5 @@ export {
   windowLabels,
   canvasWarning,
   experienceText,
+  assetsPaths,
 };

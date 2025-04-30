@@ -11,9 +11,9 @@ import React from 'react'
 import { useGraph } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import { SkeletonUtils } from 'three-stdlib'
-
+import { assetsPaths } from '../../constants';
 export function Pikachu(props) {
-  const { scene } = useGLTF('/models/hero/pikachu.glb')
+  const { scene } = useGLTF(assetsPaths.models.hero.pikachu)
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes, materials } = useGraph(clone)
   
@@ -29,4 +29,4 @@ export function Pikachu(props) {
   )
 }
 
-useGLTF.preload('/models/hero/pikachu.glb')
+useGLTF.preload(assetsPaths.models.hero.pikachu)

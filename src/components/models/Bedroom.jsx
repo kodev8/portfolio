@@ -10,10 +10,11 @@ Title: Isometric bedroom
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useMedia } from '../../context/MediaContext';
+import { assetsPaths } from '../../constants';
 
 export const Bedroom = (props) => {
   const { isMobile } = useMedia();
-  const { nodes, materials } = useGLTF("/models/hero/bedroom.glb");
+  const { nodes, materials } = useGLTF(assetsPaths.models.hero.bedroom);
   return (
     <group {...props} dispose={null}>
       <group position={[0, -6.028, 0]} rotation={[-Math.PI / 2, 0, 0]}>
@@ -155,4 +156,4 @@ export const Bedroom = (props) => {
   )
 }
 
-useGLTF.preload('/models/hero/bedroom.glb')
+useGLTF.preload(assetsPaths.models.hero.bedroom)

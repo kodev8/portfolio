@@ -91,7 +91,7 @@ const Experience = ({ cards, type }) => {
                     className="w-full max-h-32 xl:max-h-36 flex-center"
                   >
                     <img
-                      src={card.imgPath}
+                      src={card.logoPath}
                       alt="exp-img"
                       className="h-full object-cover"
                       style={{ transform: `scale(${ isLaptop ? card.imgScale : isMobile ? card.imgScale * 0.5 : 1})` }}
@@ -105,7 +105,7 @@ const Experience = ({ cards, type }) => {
                     <div className={`gradient-line h-[220%] lg:h-[250%] bg-gradient-to-b ${card.gradient}`} />
                   </div>
                   <div className="timeline-logo translate-x-5 md:translate-x-10 ">
-                    <img src={card.logoPath} alt="logo" className="w-full h-full object-contain" />
+                    <img src={card.iconPath} alt="logo" className="w-full h-full object-contain" />
                   </div>
                 </div>
 

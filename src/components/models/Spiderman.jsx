@@ -11,9 +11,9 @@ import React from 'react'
 import { useGraph } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import { SkeletonUtils } from 'three-stdlib'
-
+import { assetsPaths } from '../../constants';
 export function Spiderman(props) {
-  const { scene } = useGLTF('/models/hero/spiderman.glb')
+  const { scene } = useGLTF(assetsPaths.models.hero.spiderman)
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes, materials } = useGraph(clone)
   return (
@@ -26,4 +26,4 @@ export function Spiderman(props) {
   )
 }
 
-useGLTF.preload('/models/hero/spiderman.glb')
+useGLTF.preload(assetsPaths.models.hero.spiderman)

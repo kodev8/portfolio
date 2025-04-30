@@ -13,9 +13,11 @@ import { useGLTF } from '@react-three/drei'
 import { SkeletonUtils } from 'three-stdlib'
 
 export function Pikachu(props) {
-  const { scene } = useGLTF('/models/pikachu.glb')
+  const { scene } = useGLTF('/models/hero/pikachu.glb')
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes, materials } = useGraph(clone)
+  
+ 
   return (
     <group {...props} dispose={null}>
       <primitive object={nodes._rootJoint} />
@@ -27,4 +29,4 @@ export function Pikachu(props) {
   )
 }
 
-useGLTF.preload('/models/pikachu.glb')
+useGLTF.preload('/models/hero/pikachu.glb')

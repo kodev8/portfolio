@@ -11,7 +11,7 @@ import NavBar2 from "./components/NavBar2";
 import { cn } from "./utils";
 import { HeroProvider } from "./context/HeroContext";
 import WriterIntro from "./components/animations/WriterIntro";
-import { Toaster } from "./components/ui/Sonner.tsx";
+import { Toaster } from "./components/ui/sonner.tsx";
 import { useMedia } from "./context/MediaContext";
 function App() {
   const { animationComplete, setAnimationComplete } = useAnimation();

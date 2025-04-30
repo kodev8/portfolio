@@ -1,5 +1,5 @@
-import { Badge } from "../ui/Badge";
-import { Button } from "../ui/Button";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import { motion } from "motion/react";
 import { cn } from "../../utils";
 import { useLanguage } from "../../context/LanguageContext";

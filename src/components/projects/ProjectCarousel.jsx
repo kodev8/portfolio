@@ -5,11 +5,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/Dialog";
+} from "../ui/dialog";
 import { cn } from "../../utils";
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { HiArrowsExpand } from "react-icons/hi";
-import { Button } from "../ui/Button";
+import { Button } from "../ui/button";
 import { useMedia } from "../../context/MediaContext";
 
 const CarouselNav = ({ prevImage, nextImage, isTransitioning }) => {

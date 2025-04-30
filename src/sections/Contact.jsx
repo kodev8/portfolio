@@ -4,8 +4,8 @@ import { useNav } from "../context/NavContext";
 import TitleHeader from "../components/TitleHeader";
 import ContactSvg from "../components/ContactSvg";
 import { toast } from "sonner";
-import { Spinner } from "../components/ui/Spinner";
-import { Button } from "../components/ui/Button";
+import { Spinner } from "../components/ui/spinner";
+import { Button } from "../components/ui/button";
 import { contactHeader, contactForm } from "../constants";
 import { useLanguage } from "../context/LanguageContext";
 

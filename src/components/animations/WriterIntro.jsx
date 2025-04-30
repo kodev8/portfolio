@@ -32,9 +32,6 @@ export default function WriterIntro() {
         containerRef.current.getBoundingClientRect().height / 2;
       containerRef.current.style.left = scaledLeft + "px";
       containerRef.current.style.top = scaledTop + "px";
-      console.log("logoRef=", logoRef.current.getBoundingClientRect());
-      console.log("containerRefLeft=", containerRef.current.style.left);
-      console.log("containerRefTop=", containerRef.current.style.top);
     };
 
     window.addEventListener("resize", handleResize);
@@ -46,8 +43,6 @@ export default function WriterIntro() {
 
   useEffect(() => {
     const animationSequence = async () => {
-      console.log("FIRING");
-
       if (animationComplete) return;
       const audio = new Audio("/sounds/click.mp3");
       audio.volume = 0.1;
@@ -107,8 +102,6 @@ export default function WriterIntro() {
 
       await animateBrackets();
 
-      console.log("logoRef", logoRef);
-
       if (logoRef?.current) {
         const scaleFactor = 0.5;
 
@@ -124,7 +117,6 @@ export default function WriterIntro() {
           y: 0,
           transition: { duration: 0.8, ease: "easeInOut" },
         });
-        console.log("onComplete");
         setIsAnimating(false);
         setAnimationComplete(true);
       }
@@ -199,10 +191,10 @@ export default function WriterIntro() {
             </svg>
           )}
 
-          <span className="inline-block">{firstPart}</span>
+          <span className="inline-block text-4xl md:text-6xl">{firstPart}</span>
 
           <motion.span
-            className="inline-block"
+            className="inline-block text-4xl md:text-6xl"
             style={{
               transformStyle: "preserve-3d",
               perspective: "1000px",
@@ -215,7 +207,7 @@ export default function WriterIntro() {
             {lastChar}
           </motion.span>
 
-          {showCursor && <span className="cursor"></span>}
+          {showCursor && <span className="cursor text-4xl md:text-6xl"></span>}
 
           {showBrackets && (
             <svg

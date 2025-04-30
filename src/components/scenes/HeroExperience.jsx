@@ -1,6 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Rubik } from "../models/Rubik";
 import { Pikachu } from "../models/Pikachu";
 import { Spiderman } from "../models/Spiderman";
@@ -16,10 +16,10 @@ import { useMedia } from "../../context/MediaContext";
 import { useHero } from "../../context/HeroContext";
 import { Bedroom } from "../models/Bedroom";
 import { Dumbbell } from "../models/Dumbbell";
-import {
-  EffectComposer,
-  Bloom,
-} from "@react-three/postprocessing";
+import { toast } from "sonner";
+import { useLanguage } from "../../context/LanguageContext";
+import { canvasWarning } from "../../constants";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import CanvasLoader from "./CanvasLoader";
 import { itemData } from "../../constants/scenePositions";
 import DesktopScreen from "./DesktopScreen";
@@ -28,14 +28,12 @@ import DesktopScreen from "./DesktopScreen";
 // import { useHelper } from "@react-three/drei";
 // import * as THREE from "three";
 
-const MOBILE_SCALE = 0.5;
+const MOBILE_SCALE = 0.7;
 export const ORIGINAL_CAMERA_POSITION = [0, 0, 15];
 
 const SceneContent = () => {
   const { isMobile } = useMedia();
-  const {
-    isInteracting,
-  } = useHero();
+  const { isInteracting } = useHero();
   const roomRef = useRef();
   const dumbbellRef = useRef();
   const dumbbellLightRef = useRef();
@@ -44,11 +42,14 @@ const SceneContent = () => {
   useEffect(() => {
     if (dumbbellRef.current && dumbbellLightRef.current) {
       dumbbellLightRef.current.target = dumbbellRef.current;
-    } 
+    }
   }, [dumbbellRef.current, dumbbellLightRef.current]);
 
   // const { maxDistance, minDistance } = useMemo(() => resolveZoom({ isInteracting, isMobile }), [isInteracting, isMobile]);
   
+  
+
+
 
   return (
     <>
@@ -59,9 +60,9 @@ const SceneContent = () => {
       </EffectComposer>
       <OrbitControls
         makeDefault
-        enabled={!isMobile}
+        enabled={true}
         enablePan={false}
-        enableZoom={!isMobile}
+        enableZoom={true}
         maxDistance={isInteracting ? 20 : 14}
         minDistance={isInteracting ? 3 : 10}
         minPolarAngle={isInteracting ? 0 : Math.PI / 5}
@@ -70,87 +71,100 @@ const SceneContent = () => {
         minAzimuthAngle={isInteracting ? -Math.PI / 2 : -Math.PI / 4}
       />
 
-        <HeroLights />
-        <spotLight
-          ref={dumbbellLightRef}
-          angle={0.2}
-          penumbra={0.2}
-          position={[2, 10, -1]}
-          intensity={50}
-          color="white"
-          />
-        <Particles count={50} />
-        <group
-          ref={roomRef}
-          scale={isMobile ? MOBILE_SCALE : 1}
-          position={[0, -3.5, 0]}
-          rotation={[0, -Math.PI / 4, 0]}
+      <HeroLights />
+      <spotLight
+        ref={dumbbellLightRef}
+        angle={0.2}
+        penumbra={0.2}
+        position={[2, 10, -1]}
+        intensity={50}
+        color="white"
+      />
+      <Particles count={75} />
+      <group
+        ref={roomRef}
+        scale={isMobile ? MOBILE_SCALE : 1}
+        position={[0, -3.5, 0]}
+        rotation={[0, -Math.PI / 4, 0]}
+      >
+        {/* <Room /> */}
+        <Bedroom scale={0.04} />
+
+        {/* Rubik */}
+        <Clickable {...itemData.rubik.clickableProps}>
+          <Rubik {...itemData.rubik.itemProps} />
+        </Clickable>
+
+        {/* Spiderman */}
+        <Clickable {...itemData.spiderman}>
+          <Spiderman scale={itemData.spiderman.scale}></Spiderman>
+        </Clickable>
+
+        {/* Cleats */}
+        <Clickable {...itemData.cleatsGroup}>
+          <Cleats {...itemData.cleat1} />
+          <Cleats {...itemData.cleat2} />
+          <Football {...itemData.football} />
+        </Clickable>
+
+        {/* TT Flag */}
+        <Clickable {...itemData.ttflag}>
+          <Ttflag scale={itemData.ttflag.scale} />
+        </Clickable>
+
+        <Text3D
+          letterSpacing={-0.05}
+          font="/fonts/Mona Sans ExtraLight_Regular.json"
+          {...itemData.text}
         >
-          {/* <Room /> */}
-          <Bedroom scale={0.04} />
+          PURPOSE
+          <meshNormalMaterial color="white" />
+        </Text3D>
 
-          {/* Rubik */}
-          <Clickable {...itemData.rubik.clickableProps}>
-            <Rubik {...itemData.rubik.itemProps} />
-          </Clickable>
+        {/* Pikachu */}
+        <Clickable {...itemData.pikachu.clickableProps}>
+          <Pikachu {...itemData.pikachu.itemProps} />
+        </Clickable>
 
-          {/* Spiderman */}
-          <Clickable {...itemData.spiderman}>
-            <Spiderman scale={itemData.spiderman.scale}></Spiderman>
-          </Clickable>
-
-          {/* Cleats */}
-          <Clickable {...itemData.cleatsGroup}>
-            <Cleats {...itemData.cleat1} />
-            <Cleats {...itemData.cleat2} />
-            <Football {...itemData.football} />
-          </Clickable>
-
-          {/* TT Flag */}
-          <Clickable {...itemData.ttflag}>
-            <Ttflag scale={itemData.ttflag.scale} />
-          </Clickable>
-
-          <Text3D
-            letterSpacing={-0.05}
-            font="/fonts/Mona Sans ExtraLight_Regular.json"
-            {...itemData.text}
-          >
-            PURPOSE
-            <meshNormalMaterial color="white" />
-          </Text3D>
-
-          {/* Pikachu */}
-          <Clickable {...itemData.pikachu.clickableProps}>
-            <Pikachu {...itemData.pikachu.itemProps} />
-          </Clickable>
-
-          {/* left screen */}
-          <Clickable
-            withRing={false}
+        {/* left screen */}
+        <Clickable
+          withRing={false}
           roomRef={roomRef}
           name="leftScreen"
           {...itemData.leftScreen}
-          >
-            <DesktopScreen   width={2} height={1.2} />
-          </Clickable>
+        >
+          <DesktopScreen width={2} height={1.2} />
+        </Clickable>
 
-        
-          <Clickable roomRef={roomRef} {...itemData.dumbbellGroup}>
-            <Dumbbell {...itemData.dumbbell1} />
-            <Dumbbell ref={dumbbellRef} {...itemData.dumbbell2} />
-          </Clickable>
-        </group>
+        <Clickable roomRef={roomRef} {...itemData.dumbbellGroup}>
+          <Dumbbell {...itemData.dumbbell1} />
+          <Dumbbell ref={dumbbellRef} {...itemData.dumbbell2} />
+        </Clickable>
+      </group>
     </>
   );
 };
 
 const HeroExperience = () => {
+  const { isMobile } = useMedia();
+  const { language } = useLanguage();
+  const [hasWarned, setHasWarned] = useState(false);
+
+  const handleCanvasClick = () => {
+    if (isMobile && !hasWarned) {
+      toast.warning(canvasWarning[language]);
+      setHasWarned(true);
+    }
+  };
+
   return (
     <Canvas
-      // onClick={() => alert("if you want to learn more about me, please try a bigger screen")}
+      onClick={handleCanvasClick}
       camera={{ position: ORIGINAL_CAMERA_POSITION, fov: 45 }}
-      className="hero-canvas h-1/2"
+      className="hero-canvas"
+      style={{
+        backgroundColor: "#000000",
+      }}
     >
       <Suspense fallback={<CanvasLoader />}>
         <SceneContent />

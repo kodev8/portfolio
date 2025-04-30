@@ -54,10 +54,8 @@ const HighLightText = ({ text, index }) => {
   const ref = useRef(null);
   const timeoutRef = useRef(null);
 
-  // Handle animation based on sequence state
   useEffect(() => {
     if (sequenceActive) {
-      // Set timeout for this specific item based on its index
       timeoutRef.current = setTimeout(() => {
         if (ref.current) {
           ref.current.classList.add("active");
@@ -65,7 +63,6 @@ const HighLightText = ({ text, index }) => {
       }, index * delay);
     }
 
-    // Cleanup function
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
@@ -79,7 +76,7 @@ const HighLightText = ({ text, index }) => {
       ref={ref}
       onMouseEnter={startSequence}
       onClick={startSequence}
-      className="hero-important cursor-cell"
+      className="hero-important cursor-cell break-words whitespace-pre-wrap"
     >
       {text}
     </span>

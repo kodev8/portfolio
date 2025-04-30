@@ -12,33 +12,30 @@ import { HiArrowsExpand } from "react-icons/hi";
 import { Button } from "../ui/Button";
 import { useMedia } from "../../context/MediaContext";
 
-
-const CarouselNav = ({prevImage, nextImage, isTransitioning}) => {
+const CarouselNav = ({ prevImage, nextImage, isTransitioning }) => {
   return (
     <>
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={prevImage}
-      className="absolute left-2 top-1/2 transform -translate-y-1/2 !bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all z-20"
-    >
-      <RxCaretLeft className="size-6"/>
-    </Button>
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={nextImage}
-      className="absolute right-2 top-1/2 transform -translate-y-1/2 !bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all z-20"
-      aria-label="Next image"
-      disabled={isTransitioning}
-    >
-  
-      <RxCaretRight className="size-6"/>
-    </Button>
-  </>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={prevImage}
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 !bg-black/50 hover:bg-black text-white p-2 rounded-full  transition-all z-20"
+      >
+        <RxCaretLeft className="size-6" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={nextImage}
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 !bg-black/50 hover:bg-black text-white p-2 rounded-full  transition-all z-20"
+        aria-label="Next image"
+        disabled={isTransitioning}
+      >
+        <RxCaretRight className="size-6" />
+      </Button>
+    </>
   );
 };
-
 
 const ProjectCarousel = ({
   images,
@@ -50,6 +47,7 @@ const ProjectCarousel = ({
   projectTitle = "",
   projectDesc = "",
   className = "",
+  isShowcase = false,
   containerStyle = {},
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -183,7 +181,7 @@ const ProjectCarousel = ({
     if (videoUrl && currentIndex === 0 && videoRef.current) {
       const timer = setTimeout(() => {
         videoRef.current.play().catch((err) => {
-          console.log("Video play failed:", err);
+          console.error("Video play failed:", err);
         });
       }, 1500);
 
@@ -236,7 +234,7 @@ const ProjectCarousel = ({
       setTimeout(() => {
         if (modalVideoRef.current) {
           modalVideoRef.current.play().catch((err) => {
-            console.log("Video play failed in dialog:", err);
+            console.error("Video play failed in dialog:", err);
           });
         }
       }, 300);
@@ -246,12 +244,12 @@ const ProjectCarousel = ({
   };
 
   const handleVideoClick = (e, isModalView) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     const videoElement = isModalView ? modalVideoRef.current : videoRef.current;
     if (videoElement) {
       if (videoElement.paused) {
         videoElement.play().catch((err) => {
-          console.log("Video play failed on click:", err);
+          console.error("Video play failed on click:", err);
         });
       } else {
         videoElement.pause();
@@ -263,64 +261,70 @@ const ProjectCarousel = ({
     const totalItems = videoUrl ? images.length + 1 : images.length;
     return (
       <div
-        className={`relative w-full h-full ${isModalView ? "aspect-auto" : ""}`}
+        className={`relative w-full overflow-hidden  ${
+          isModalView ? "aspect-auto" : ""
+        }`}
         onMouseEnter={!isModalView ? handleMouseEnter : undefined}
         onMouseLeave={!isModalView ? handleMouseLeave : undefined}
       >
-        <div className="w-full h-full overflow-hidden">
-          {/* Slide container */}
-          <div
-            className="w-full h-full flex transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${currentIndex * 100}%)`,
-            }}
-          >
-            {/* video slide */}
-            {videoUrl && (
-              <div className="min-w-full w-full h-full flex-shrink-0 flex-grow-0 bg-black flex items-center justify-center">
-                <video
-                  ref={isModalView ? modalVideoRef : videoRef}
-                  className="max-w-full max-h-full"
-                  src={videoUrl}
-                  controls={isModalView}
-                  muted={!isModalView}
-                  playsInline
-                  poster={images[0]}
-                  onClick={(e) => handleVideoClick(e, isModalView)}
-                  onEnded={handleVideoEnded}
-                  style={{ maxHeight: "100%", maxWidth: "100%" }}
-                />
-              </div>
-            )}
+        {/* Slide container */}
+        <div
+          className="w-full h-full flex transition-transform duration-500 ease-in-out"
+          style={{
+            transform: `translateX(-${currentIndex * 100}%)`,
+          }}
+        >
+          {/* video slide */}
+          {videoUrl && (
+            <div className="min-w-full w-full h-full flex-shrink-0 flex-grow-0 bg-black flex items-center justify-center">
+              <video
+                ref={isModalView ? modalVideoRef : videoRef}
+                className={cn(`max-w-full max-h-full`, {
+                  "h-[50vh]": isShowcase,
+                })}
+                src={videoUrl}
+                controls={isModalView}
+                muted={!isModalView}
+                playsInline
+                poster={images[0]}
+                onClick={(e) => handleVideoClick(e, isModalView)}
+                onEnded={handleVideoEnded}
+              />
+            </div>
+          )}
 
-            {/* image slides */}
-            {images.map((image, index) => (
-              <div
-                key={index}
-                className="min-w-full w-full h-full flex-shrink-0 flex-grow-0 bg-black flex items-center justify-center"
-              >
-                <img
-                  src={image}
-                  alt={`Slide ${videoUrl ? index + 2 : index + 1}`}
-                  className="max-w-full max-h-full object-contain"
-                  style={{ maxHeight: "100%", maxWidth: "100%" }}
-                />
-              </div>
-            ))}
-          </div>
+          {/* image slides */}
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className="min-w-full w-full h-full flex-shrink-0 flex-grow-0 bg-black flex items-center justify-center"
+            >
+              <img
+                src={image}
+                alt={`Slide ${videoUrl ? index + 2 : index + 1}`}
+                className={cn(`max-w-full object-contain`, {
+                  "h-[50vh]": isShowcase,
+                })}
+                // style={{ maxHeight: "100%", maxWidth: "100%" }}
+              />
+            </div>
+          ))}
         </div>
 
-        
-          {/* counter */}
+        {/* counter */}
         {(images.length > 1 || videoUrl) && (
-          <div className="absolute bottom-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded z-20">
+          <div className="absolute bottom-2 right-2 bg-black/50 hover:bg-black text-white text-xs px-2 py-1 rounded z-20">
             {currentIndex + 1}/{totalItems}
           </div>
         )}
 
         {/* nav for modal */}
         {(isModalView || controls) && (images.length > 1 || videoUrl) && (
-          <CarouselNav prevImage={prevImage} nextImage={nextImage} isTransitioning={isTransitioning} />
+          <CarouselNav
+            prevImage={prevImage}
+            nextImage={nextImage}
+            isTransitioning={isTransitioning}
+          />
         )}
 
         {/* nav dots */}
@@ -349,14 +353,18 @@ const ProjectCarousel = ({
           !isModalView &&
           (images.length > 1 || videoUrl) &&
           isHovered && (
-            <CarouselNav prevImage={prevImage} nextImage={nextImage} isTransitioning={isTransitioning} />
+            <CarouselNav
+              prevImage={prevImage}
+              nextImage={nextImage}
+              isTransitioning={isTransitioning}
+            />
           )}
 
         {/* Video play indicator for non-modal view */}
         {videoUrl && currentIndex === 0 && !isModalView && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div
-              className={`bg-black bg-opacity-30 rounded-full p-4 transition-opacity duration-1500 ${
+              className={`bg-black/50 rounded-full p-4 transition-opacity duration-1500 ${
                 isHovered ? "opacity-0" : "opacity-70"
               }`}
             >
@@ -414,7 +422,7 @@ const ProjectCarousel = ({
           <Button
             variant="outline"
             size="icon"
-            className="absolute top-2 right-2 bg-black bg-opacity-50 text-white p-1 rounded hover:bg-opacity-70 transition-all z-20"
+            className="absolute top-2 right-2 bg-black/50 hover:bg-black text-white p-1 rounded  transition-all z-20"
             aria-label="Expand carousel"
           >
             <HiArrowsExpand />

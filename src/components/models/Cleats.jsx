@@ -9,9 +9,10 @@ Title: Adidas Predator Precision 25 Year David Beckham
 
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
+import { assetsPaths } from '../../constants';
 
 export function Cleats(props) {
-  const { nodes, materials } = useGLTF('/models/hero/cleats.glb')
+  const { nodes, materials } = useGLTF(assetsPaths.models.hero.cleats)
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Object_2.geometry} material={materials.Material} rotation={[-1.169, 0.282, 0.224]} scale={0.425} />
@@ -19,4 +20,4 @@ export function Cleats(props) {
   )
 }
 
-useGLTF.preload('/models/hero/cleats.glb')
+useGLTF.preload(assetsPaths.models.hero.cleats)

@@ -441,8 +441,8 @@ const heroWords = {
     fr: "Voir mes projets",
   },
   aboutMeIndicator: {
-    en: "The scene below is a 3D model of my room to help you learn more about me outside of work.",
-    fr: "La scène ci-dessous est un modèle 3D de ma chambre pour vous aider à en savoir plus sur moi en dehors du travail.",
+    en: "The scene below is a 3D model of my room to help you learn more about me outside of work. Click on ringed items or the monitor!",
+    fr: "La scène ci-dessous est un modèle 3D de ma chambre pour vous aider à en savoir plus sur moi en dehors du travail. Cliquez sur les objets entourés ou le moniteur!",
   },
 };
 
@@ -792,8 +792,8 @@ const expEducationCards = [
       fr: "Queen's Royal College",
     },
     location: {
-      en: "Tobago, Trinidad & Tobago",
-      fr: "Tobago, Trinidad & Tobago",
+      en: "Port of Spain, Trinidad & Tobago",
+      fr: "Port of Spain, Trinidad & Tobago",
     },
     date: {
       en: "September 2017 - June 2019",
@@ -828,8 +828,8 @@ const expEducationCards = [
       fr: "Queen's Royal College",
     },
     location: {
-      en: "Tobago, Trinidad & Tobago",
-      fr: "Tobago, Trinidad & Tobago",
+      en: "Port of Spain, Trinidad & Tobago",
+      fr: "Port of Spain, Trinidad & Tobago",
     },
     date: {
       en: "September 2012 - June 2017",

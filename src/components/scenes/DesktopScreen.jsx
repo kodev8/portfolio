@@ -606,7 +606,7 @@ const ProjectsWindow = ({ projectData, language }) => {
                 }}
               >
                 <img
-                  src="/images/folder.svg"
+                  src={assetsPaths.images.desktop.folder}
                   alt="folder"
                   className="w-6 h-6 mr-3"
                 />

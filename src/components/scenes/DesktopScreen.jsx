@@ -41,34 +41,26 @@ const DesktopScreen = ({ width, height }) => {
   const [windowZIndices, setWindowZIndices] = useState({});
   const [highestZIndex, setHighestZIndex] = useState(1000);
   const [isHovered, setIsHovered] = useState(false);
+  const [readMesFetched, setReadMesFetched] = useState(false);
   const [projectData, setProjectData] = useState(projects);
   const originalSizeRef = useRef({});
 
 
-  useEffect(() => {
-    const fetchProjectsReadmes = async () => {
-      projects.forEach(async (project) => {
-        if (!project.readmeUrl) return;
+  const fetchReadme = async (project) => {
+    if (!project.readmeUrl) return;
+    const response = await fetch(project.readmeUrl);
+    if (!response.ok) {
+      return;
+    }
+    const data = await response.text();
+    const html = marked(data);
+    setProjectData((prev) =>
+      prev.map((p) =>
+        p.id === project.id ? { ...p, longDesc: html } : p
+      )
+    );
+  };
 
-        try {
-          const response = await fetch(project.readmeUrl);
-          if (!response.ok) {
-            return;
-          }
-          const data = await response.text();
-          const html = marked(data);
-          setProjectData((prev) =>
-            prev.map((p) =>
-              p.id === project.id ? { ...p, longDesc: html } : p
-            )
-          );
-        } catch (error) {
-          console.error(`Error fetching README for ${project.title}:`, error);
-        }
-      });
-    };
-    fetchProjectsReadmes();
-  }, []);
 
   const bringToFront = (windowType) => {
     if (windowType === activeWindow) return;
@@ -95,6 +87,12 @@ const DesktopScreen = ({ width, height }) => {
     const newZIndex = highestZIndex + 1;
     setHighestZIndex(newZIndex);
     setOpenWindows((prev) => [...prev, type]);
+    if(!readMesFetched && type === "projects") {
+      projectData.forEach(async (project) => {
+        await fetchReadme(project);
+      });
+      setReadMesFetched(true);
+    }
     setActiveWindow(type);
 
     // update z index z index
@@ -570,6 +568,7 @@ const ProjectsWindow = ({ projectData, language }) => {
               </div>
             )}
 
+            <div className="flex gap-2 items-center">
             {selectedProject.liveUrl && (
               <a
                 href={selectedProject.liveUrl}
@@ -585,11 +584,13 @@ const ProjectsWindow = ({ projectData, language }) => {
               <a
                 href={selectedProject.githubUrl}
                 target="_blank"
-                rel="noopener noreferrer"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline text-sm"
               >
                 {viewGitHubText[language]}
               </a>
-            )}
+              )}
+            </div>
           </div>
         </div>
       ) : (
@@ -600,7 +601,9 @@ const ProjectsWindow = ({ projectData, language }) => {
               <div
                 key={index}
                 className="bg-white p-3 rounded-md shadow cursor-pointer hover:bg-gray-50 flex items-center"
-                onClick={() => setSelectedProject(project)}
+                onClick={() => {
+                  setSelectedProject(project);
+                }}
               >
                 <img
                   src="/images/folder.svg"

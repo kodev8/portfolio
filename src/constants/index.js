@@ -250,6 +250,38 @@ const assetsPaths = {
       three: `${BUCKET_URL}/models/skills/three.glb`,
       typescript: `${BUCKET_URL}/models/skills/typescript.glb`,
     },
+    skills_as_img: {
+      aws: `${BUCKET_URL}/models/skills_img/aws.svg`,
+      azure: `${BUCKET_URL}/models/skills_img/azure.svg`,
+      csharp: `${BUCKET_URL}/models/skills_img/csharp.svg`,
+      django: `${BUCKET_URL}/models/skills_img/django.svg`,
+      docker: `${BUCKET_URL}/models/skills_img/docker.svg`,
+      dotnet: `${BUCKET_URL}/models/skills_img/dotnet.png`,
+      express: `${BUCKET_URL}/models/skills_img/express.png`,
+      fastapi: `${BUCKET_URL}/models/skills_img/fastapi.svg`,
+      firebase: `${BUCKET_URL}/models/skills_img/firebase.svg`,
+      flask: `${BUCKET_URL}/models/skills_img/flask.png`,
+      git: `${BUCKET_URL}/models/skills_img/git.svg`,
+      htmx: `${BUCKET_URL}/models/skills_img/htmx.png`,
+      javascript: `${BUCKET_URL}/models/skills_img/javascript.svg`,
+      mongodb: `${BUCKET_URL}/models/skills_img/mongodb.svg`,
+      mysql: `${BUCKET_URL}/models/skills_img/mysql.svg`,
+      neo4j: `${BUCKET_URL}/models/skills_img/neo4j.png`,
+      next: `${BUCKET_URL}/models/skills_img/next.png`,
+      php: `${BUCKET_URL}/models/skills_img/php.png`,
+      postgresql: `${BUCKET_URL}/models/skills_img/postgresql.svg`,
+      python: `${BUCKET_URL}/models/skills_img/python.svg`,
+      qc: `${BUCKET_URL}/models/skills_img/qc.png`,
+      react: `${BUCKET_URL}/models/skills_img/react.svg`,
+      redis: `${BUCKET_URL}/models/skills_img/redis.svg`,
+      rust: `${BUCKET_URL}/models/skills_img/rust.png`,
+      sql: `${BUCKET_URL}/models/skills_img/sql.png`,
+      sqlite: `${BUCKET_URL}/models/skills_img/sqlite.png`,
+      streamlit: `${BUCKET_URL}/models/skills_img/streamlit.svg`,
+      tailwind: `${BUCKET_URL}/models/skills_img/tailwind.svg`,
+      three: `${BUCKET_URL}/models/skills_img/three.png`,
+      typescript: `${BUCKET_URL}/models/skills_img/typescript.svg`,
+    },
   },
 };
 
@@ -643,8 +675,8 @@ const expWorkCards = [
     },
     details: {
       en: [
-        "Effectué l'entrée des données des employés pour plusieurs plans de pension.",
-        "Généré des rapports et effectué une analyse des données des membres et des employeurs.",
+        "Entered employee data for multiple pension plans.",
+        "Generated reports and performed data analysis for members and employers.",
       ],
       fr: [
         "Effectué l'entrée des données des employés pour plusieurs plans de pension.",
@@ -772,7 +804,7 @@ const expEducationCards = [
         "Subjects: Pure Mathematics, Chemistry, Physics, Communication Studies, Caribbean Studies.",
         "Graduated with all Grade 1s and A profiles.",
         "CAPE National Open Scholarship Recipient (2019).",
-        "Tobago National Merit List in Chemistry and Caribbean Studies (2019).",
+        "Trinidad and Tobago National Merit List in Chemistry and Caribbean Studies (2019).",
       ],
       fr: [
         "Matières: Mathématiques Pures, Chimie, Physique, Études des Communications, Études Caraïbes.",
@@ -1191,12 +1223,17 @@ const techStackText = {
     en: "Tap and drag icons to interact with them",
     fr: "Tap and drag icons to interact with them",
   },
+  tip3d: {
+    en: "Loading 3d icons may slow down the page",
+    fr: "Le chargement des icônes 3D peut ralentir la page",
+  },
 };
 
 const programmingLanguages = [
   {
     name: "Python",
     modelPath: assetsPaths.models.skills.python,
+    imgPath: assetsPaths.models.skills_as_img.python,
     scale: 0.2,
     rotation: [0, 0, 0],
     verified: true,
@@ -1204,6 +1241,7 @@ const programmingLanguages = [
   {
     name: "JavaScript",
     modelPath: assetsPaths.models.skills.javascript,
+    imgPath: assetsPaths.models.skills_as_img.javascript,
     scale: 0.3,
     rotation: [1.5, 0, 0],
     verified: true,
@@ -1211,13 +1249,15 @@ const programmingLanguages = [
   {
     name: "TypeScript",
     modelPath: assetsPaths.models.skills.typescript,
+    imgPath: assetsPaths.models.skills_as_img.typescript,
     scale: 0.3,
     rotation: [1.5, 0, 0],
     verified: true,
   },
   {
     name: "SQL",
-    modelPath: assetsPaths.models.skills.sql,
+    modelPath: assetsPaths.models.skills. sql,
+    imgPath: assetsPaths.models.skills_as_img.sql,
     scale: 0.3,
     rotation: [1.2, 0, 0],
     verified: true,
@@ -1225,6 +1265,7 @@ const programmingLanguages = [
   {
     name: "PHP",
     modelPath: assetsPaths.models.skills.php,
+    imgPath: assetsPaths.models.skills_as_img.php,
     scale: 0.3,
     position: [0, -1, 0],
     rotation: [0, 0, 0],
@@ -1234,6 +1275,7 @@ const programmingLanguages = [
   {
     name: "Rust",
     modelPath: assetsPaths.models.skills.rust,
+    imgPath: assetsPaths.models.skills_as_img.rust,
     scale: 0.3,
     rotation: [0, -1.5, 0],
     textPosition: [0, -0.8, 0],
@@ -1242,6 +1284,7 @@ const programmingLanguages = [
   {
     name: "C#",
     modelPath: assetsPaths.models.skills.csharp,
+    imgPath: assetsPaths.models.skills_as_img.csharp,
     scale: 0.02,
     rotation: [0, 0, 0],
     verified: true,
@@ -1252,6 +1295,7 @@ const tools = [
   {
     name: "Git",
     modelPath: assetsPaths.models.skills.git,
+    imgPath: assetsPaths.models.skills_as_img.git,
     scale: 0.0125,
     rotation: [0, -Math.PI / 4, 0],
     verified: true,
@@ -1259,6 +1303,7 @@ const tools = [
   {
     name: "Docker",
     modelPath: assetsPaths.models.skills.docker,
+    imgPath: assetsPaths.models.skills_as_img.docker,
     scale: 0.375,
     rotation: [0, 0, 0],
     verified: true,
@@ -1266,6 +1311,7 @@ const tools = [
   {
     name: "AWS",
     modelPath: assetsPaths.models.skills.aws,
+    imgPath: assetsPaths.models.skills_as_img.aws,
     scale: 0.1,
     rotation: [0, 0, 0],
     position: [0, -0.75, 0],
@@ -1274,6 +1320,7 @@ const tools = [
   {
     name: "Azure",
     modelPath: assetsPaths.models.skills.azure,
+    imgPath: assetsPaths.models.skills_as_img.azure,
     scale: 0.4,
     rotation: [1.5, 0, 0],
     verified: true,
@@ -1281,6 +1328,7 @@ const tools = [
   {
     name: "Firebase",
     modelPath: assetsPaths.models.skills.firebase,
+    imgPath: assetsPaths.models.skills_as_img.firebase,
     scale: 0.75,
     rotation: [0, 0.1, 0],
     verified: true,
@@ -1289,6 +1337,7 @@ const tools = [
   {
     name: "QuantConnect",
     modelPath: assetsPaths.models.skills.qc,
+    imgPath: assetsPaths.models.skills_as_img.qc,
     scale: 0.4,
     textPosition: [0, -0.8, 0],
     rotation: [1.5, 0, 0],
@@ -1300,6 +1349,7 @@ const frameworks = [
   {
     name: "Django",
     modelPath: assetsPaths.models.skills.django,
+    imgPath: assetsPaths.models.skills_as_img.django,
     scale: 0.5,
     rotation: [1.5, 0, 0],
     verified: true,
@@ -1307,6 +1357,7 @@ const frameworks = [
   {
     name: "",
     modelPath: assetsPaths.models.skills.flask,
+    imgPath: assetsPaths.models.skills_as_img.flask,
     scale: 0.7,
     rotation: [1.5, 0, 0],
     verified: true,
@@ -1314,6 +1365,7 @@ const frameworks = [
   {
     name: "FastAPI",
     modelPath: assetsPaths.models.skills.fastapi,
+    imgPath: assetsPaths.models.skills_as_img.fastapi,
     scale: 0.4,
     rotation: [1.5, 0, 0],
     verified: true,
@@ -1321,6 +1373,7 @@ const frameworks = [
   {
     name: "Streamlit",
     modelPath: assetsPaths.models.skills.streamlit,
+    imgPath: assetsPaths.models.skills_as_img.streamlit,
     scale: 0.5,
     rotation: [1.5, 0, 0],
     verified: true,
@@ -1328,6 +1381,7 @@ const frameworks = [
   {
     name: "Tailwind CSS",
     modelPath: assetsPaths.models.skills.tailwind,
+    imgPath: assetsPaths.models.skills_as_img.tailwind,
     scale: 0.4,
     rotation: [0.25, 0, 0],
     verified: true,
@@ -1335,6 +1389,7 @@ const frameworks = [
   {
     name: "htmx",
     modelPath: assetsPaths.models.skills.htmx,
+    imgPath: assetsPaths.models.skills_as_img.htmx,
     scale: 0.4,
     rotation: [1.2, 0, 0],
     verified: true,
@@ -1343,6 +1398,7 @@ const frameworks = [
   {
     name: "Express",
     modelPath: assetsPaths.models.skills.express,
+    imgPath: assetsPaths.models.skills_as_img.express,
     scale: 0.4,
     rotation: [1.5, 0, 0],
     verified: true,
@@ -1350,6 +1406,7 @@ const frameworks = [
   {
     name: "Three.js",
     modelPath: assetsPaths.models.skills.three,
+    imgPath: assetsPaths.models.skills_as_img.three,
     scale: 0.015,
     rotation: [0, 0, 0],
     verified: true,
@@ -1357,6 +1414,7 @@ const frameworks = [
   {
     name: "Next.js",
     modelPath: assetsPaths.models.skills.next,
+    imgPath: assetsPaths.models.skills_as_img.next,
     scale: 0.4,
     rotation: [1.5, 0, 0],
     verified: true,
@@ -1364,6 +1422,7 @@ const frameworks = [
   {
     name: ".NET",
     modelPath: assetsPaths.models.skills.dotnet,
+    imgPath: assetsPaths.models.skills_as_img.dotnet,
     scale: 0.4,
     rotation: [1.5, 0, 0],
     verified: true,
@@ -1372,6 +1431,7 @@ const frameworks = [
   {
     name: "React/React Native",
     modelPath: assetsPaths.models.skills.react,
+    imgPath: assetsPaths.models.skills_as_img.react,
     scale: 0.4,
     rotation: [0, 0, 0],
     verified: true,
@@ -1383,6 +1443,7 @@ const databases = [
   {
     name: "MongoDB",
     modelPath: assetsPaths.models.skills.mongodb,
+    imgPath: assetsPaths.models.skills_as_img.mongodb,
     scale: 0.3,
     rotation: [1.5, 0, 0],
     verified: true,
@@ -1390,6 +1451,7 @@ const databases = [
   {
     name: "PostgreSQL",
     modelPath: assetsPaths.models.skills.postgresql,
+    imgPath: assetsPaths.models.skills_as_img.postgresql,
     scale: 0.4,
     rotation: [1, 0, 0],
     verified: true,
@@ -1397,6 +1459,7 @@ const databases = [
   {
     name: "MySQL",
     modelPath: assetsPaths.models.skills.mysql,
+    imgPath: assetsPaths.models.skills_as_img.mysql,
     scale: 0.5,
     rotation: [0, 0, 0],
     verified: true,
@@ -1404,6 +1467,7 @@ const databases = [
   {
     name: "Redis",
     modelPath: assetsPaths.models.skills.redis,
+    imgPath: assetsPaths.models.skills_as_img.redis,
     scale: 0.4,
     rotation: [1.2, 0, 0],
     verified: true,
@@ -1412,6 +1476,7 @@ const databases = [
   {
     name: "SQLite",
     modelPath: assetsPaths.models.skills.sqlite,
+    imgPath: assetsPaths.models.skills_as_img.sqlite,
     scale: 0.4,
     rotation: [1.2, 0, 0],
     verified: true,
@@ -1419,6 +1484,7 @@ const databases = [
   {
     name: "Neo4j",
     modelPath: assetsPaths.models.skills.neo4j,
+    imgPath: assetsPaths.models.skills_as_img.neo4j,
     scale: 0.3,
     rotation: [1.4, 0, 0],
     verified: true,
@@ -1433,13 +1499,7 @@ const techStackGroups = [
     },
     icons: programmingLanguages,
   },
-  {
-    name: {
-      en: "Frameworks & Libraries",
-      fr: "Frameworks & Librairies",
-    },
-    icons: frameworks,
-  },
+  
   {
     name: {
       en: "Tools",
@@ -1453,6 +1513,13 @@ const techStackGroups = [
       fr: "Bases de données",
     },
     icons: databases,
+  },
+  {
+    name: {
+      en: "Frameworks & Libraries",
+      fr: "Frameworks & Librairies",
+    },
+    icons: frameworks,
   },
 ];
 

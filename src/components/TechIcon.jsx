@@ -9,7 +9,7 @@ const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
 const TechIcon = memo(({ model, position: initialPosition, resetTrigger, sizedData }) => {
   const { isMobile } = useMedia();
-  const { viewport, size } = sizedData;
+  const { viewport, size, is3d } = sizedData;
   const groupRef = useRef();
   const rigidBodyRef = useRef();
   const positionRef = useRef(new THREE.Vector3(...initialPosition));
@@ -53,7 +53,7 @@ const TechIcon = memo(({ model, position: initialPosition, resetTrigger, sizedDa
       positionRef.current.set(...initialPosition);
       rotationRef.current.set(0, 0, 0);
     }
-  }, [model.name, initialPosition, resetTrigger]);
+  }, [model.name, initialPosition, resetTrigger, is3d]);
 
   const bind = useDrag(
     ({ delta: [dx, dy], event, down, first }) => {

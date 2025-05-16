@@ -484,13 +484,15 @@ const ResumeWindow = ({ language }) => (
   
   <div className="window-content flex flex-col items-center">
     <iframe
-      src="/files/kalev-keil-resume.pdf"
+      src={assetsPaths.files.resume}
       className="w-full h-[400px]"
       title={windowLabels.resume.header[language]}
     />
     <a
-      href="/files/kalev-keil-resume.pdf"
-      download
+      href={assetsPaths.files.resume}
+      download="kalev-keil-resume.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
       className="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
     >
       {downloadResumeText[language]}

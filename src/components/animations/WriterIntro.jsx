@@ -4,6 +4,7 @@ import { useNav } from "../../context/NavContext";
 import "./WriterIntro.css";
 import { useAnimation as useAnimationContext } from "../../context/AnimationContext";
 import { cn } from "../../utils";
+import { assetsPaths } from "../../constants";
 
 export default function WriterIntro() {
   const containerControls = useAnimation();
@@ -44,7 +45,7 @@ export default function WriterIntro() {
   useEffect(() => {
     const animationSequence = async () => {
       if (animationComplete) return;
-      const audio = new Audio("/sounds/click.mp3");
+      const audio = new Audio(assetsPaths.sounds.click);
       audio.volume = 0.1;
       setIsAnimating(true);
       const fullText = "Kalev K";

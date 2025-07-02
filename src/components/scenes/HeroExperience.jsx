@@ -23,6 +23,7 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import CanvasLoader from "./CanvasLoader";
 import { itemData } from "../../constants/scenePositions";
 import DesktopScreen from "./DesktopScreen";
+import { Html } from "@react-three/drei";
 import { assetsPaths } from "../../constants";
 // import { resolveZoom } from "../../utils/scene";
 // import { useMemo } from "react";
@@ -38,6 +39,7 @@ const SceneContent = () => {
   const roomRef = useRef();
   const dumbbellRef = useRef();
   const dumbbellLightRef = useRef();
+  const { setIsRoomOpen } = useHero();
   // useHelper(dumbbellLightRef, THREE.SpotLightHelper, 0.5, "white")
 
   useEffect(() => {
@@ -112,11 +114,20 @@ const SceneContent = () => {
         <Text3D
           letterSpacing={-0.05}
           font={assetsPaths.fonts.mona_sans_extralight_regular}
-          {...itemData.text}
+          {...itemData.purposeText}
         >
           PURPOSE
           <meshNormalMaterial color="white" />
         </Text3D>
+
+        <Html {...itemData.exitButton}>
+          <button
+            onClick={() => setIsRoomOpen(false)}
+            className="p-2 text-[20px] text-black font-bold rounded-md cursor-pointer"
+          >
+            ⬅️
+          </button>
+        </Html>
 
         {/* Pikachu */}
         <Clickable {...itemData.pikachu.clickableProps}>

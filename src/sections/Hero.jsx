@@ -9,10 +9,10 @@ import { HighLightProvider, HighLightText } from "../components/HighlightText";
 import BackArrow from "../components/ui/BackArrow";
 import { useMedia } from "../context/MediaContext";
 import { useLanguage } from "../context/LanguageContext";
-import {
-  Tip,
-} from "../components/ui/tooltip";
+import { Tip } from "../components/ui/tooltip";
 import { FaCircleInfo } from "react-icons/fa6";
+import { motion } from "framer-motion";
+import { useHero } from "../context/HeroContext";
 
 const Hero = () => {
   useGSAP(() => {
@@ -36,7 +36,7 @@ const Hero = () => {
   const { registerSection, navBarRef } = useNav();
   const { isMobile } = useMedia();
   const { language } = useLanguage();
-
+  const { isRoomOpen, setIsRoomOpen } = useHero();
   useEffect(() => {
     registerSection("about", sectionRef);
   }, [registerSection]);
@@ -102,21 +102,25 @@ const Hero = () => {
                 <p className="text-white-50 md:text-xl overflow-visible z-10 break-words whitespace-pre-wrap">
                   {heroWords.greeting[language]}{" "}
                   <HighLightText
-                    text={heroWords.fullStackDeveloper[language]}
+                    text={heroWords.softwareEngineer[language]}
                     index={0}
                   />
                   {/* <br /> */} {heroWords.currently[language]}{" "}
-                  <HighLightText
-                    text={heroWords.lookingFor[language]}
-                    index={1}
-                  />{" "}
-                  {heroWords.opportunities[language]}
+                  <HighLightText text={heroWords.noways[language]} index={1} />{" "}
+                  {heroWords.focus[language]}{" "}
+                  {/* {heroWords.opportunities[language]} */}
                   {/* <br /> */}
-                  <Tip content={heroWords.aboutMeIndicator[language]}>
-                    <FaCircleInfo className="text-white-50 inline-block mx-2 z-10" />
-                  </Tip>
+                  <HighLightText
+                    text={heroWords.cloudandnetwork[language]}
+                    index={2}
+                  />
+
+                  {isRoomOpen && (
+                    <Tip content={heroWords.aboutMeIndicator[language]}>
+                      <FaCircleInfo className="text-white-50 inline-block mx-2 z-10" />
+                    </Tip>
+                  )}
                 </p>
-              
               </div>
             </HighLightProvider>
           </div>
@@ -124,15 +128,51 @@ const Hero = () => {
         <span className="hidden xl:block col-span-1"></span>
 
         {/* right */}
-        <figure className="col-span-full">
-          <div
-            className={cn(
-              "hero-3d-layout col-span-full -translate-y-[45%] md:-translate-y-[25%] xl:-translate-y-[33%]"
-            )}
-          >
-            <HeroExperience />
-          </div>
-        </figure>
+
+        {isRoomOpen ? (
+          <figure className="col-span-full">
+            <div
+              className={cn(
+                "hero-3d-layout col-span-full -translate-y-[45%] md:-translate-y-[25%] xl:-translate-y-[33%]"
+              )}
+            >
+              <HeroExperience />
+            </div>
+          </figure>
+        ) : (
+          <>
+            <span className=""></span>
+            <div className="col-span-3 flex flex-col items-center">
+              <motion.div
+                className="mt-10 sm:mt-16 md:mt-20 flex justify-center px-4 sm:px-0"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <button
+                  onClick={() => setIsRoomOpen(true)}
+                  className="group relative flex flex-col items-center w-full max-w-md sm:max-w-lg px-6 sm:px-8 py-8 sm:py-10 bg-zinc-900 border border-zinc-700 rounded-3xl shadow-lg hover:shadow-xl hover:border-sky-500 transition-all duration-300 transform hover:-translate-y-1"
+                >
+                  <div className="text-xl md:text-2xl font-bold text-white group-hover:scale-105 transition-transform text-center leading-snug">
+                    {heroWords.wantToKnowMore[language]}
+                  </div>
+                  <p className="text-sm sm:text-base text-zinc-400 mt-3 sm:mt-4 group-hover:text-zinc-300 transition-colors text-center max-w-sm">
+                    {heroWords.clickToExplore[language]}
+                  </p>
+                  <span className="mt-6 px-4 py-2 sm:px-5 sm:py-2.5 bg-white text-black rounded-full font-medium group-hover:bg-sky-500 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                    {heroWords.enterMyRoom[language]}
+                  </span>
+                  <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 bg-sky-600 text-[10px] sm:text-xs text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow">
+                    {heroWords.newTab[language]}
+                  </div>
+                </button>
+              </motion.div>
+            </div>
+
+            <span className=""></span>
+          </>
+        )}
       </div>
       {/* Add the back arrow */}
       <BackArrow onClick={handleBackClick} />

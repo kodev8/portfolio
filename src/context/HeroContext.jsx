@@ -13,6 +13,7 @@ export const HeroProvider = ({ children }) => {
   const [isInteracting, setIsInteracting] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isRoomOpen, setIsRoomOpen] = useState(false);
 
   useEffect(() => {
     if (isInteracting) {
@@ -30,6 +31,8 @@ export const HeroProvider = ({ children }) => {
       setSelectedItem,
       isAnimating,
       setIsAnimating,
+      isRoomOpen,
+      setIsRoomOpen,
     }),
     [
       isInteracting,
@@ -38,6 +41,8 @@ export const HeroProvider = ({ children }) => {
       setSelectedItem,
       isAnimating,
       setIsAnimating,
+      isRoomOpen,
+      setIsRoomOpen,
     ]
   );
 

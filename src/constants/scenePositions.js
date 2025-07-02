@@ -185,9 +185,15 @@ export const itemData = {
     name: "trinidad",
   },
 
-  text: {
-    position: [-3.5, 4],
+  purposeText: {
+    position: [-3.5, 4, 0.5],
     scale: 0.5,
+    rotation: [0, Math.PI / 2, 0],
+  },
+
+  exitButton: {
+    position: [-3.5, 5, 4],
+    scale: 0.2,
     rotation: [0, Math.PI / 2, 0],
   },
 

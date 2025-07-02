@@ -44,6 +44,8 @@ const assetsPaths = {
       `${BUCKET_URL}/images/kalev-football.jpg`,
     ],
     logos: {
+      noways_icon: `${BUCKET_URL}/images/logos/noways-icon.jpeg`,
+      noways_logo: `${BUCKET_URL}/images/logos/noways.png`,
       cavitry_icon: `${BUCKET_URL}/images/logos/cavitry-icon.svg`,
       cavitry_logo: `${BUCKET_URL}/images/logos/cavitry.svg`,
       epita_icon: `${BUCKET_URL}/images/logos/epita-icon.png`,
@@ -288,7 +290,7 @@ const assetsPaths = {
 
 // contact info
 const contactInfo = {
-  email: "kalevkeil@gmail.com",
+  email: "kalev-giovanni.keil@epita.fr",
   github: "https://github.com/kodev8",
   linkedin: "https://linkedin.com/in/kalev-keil",
   resume: assetsPaths.files.resume,
@@ -425,8 +427,8 @@ const heroWords = {
     fr: "un développeur full-stack basé à Paris, France.",
   },
   currently: {
-    en: "I'm currently",
-    fr: "Je suis actuellement",
+    en: "I'm currently an intern at",
+    fr: "Je suis actuellement un stagiaire à",
   },
   lookingFor: {
     en: "looking for a full-time internship",
@@ -436,6 +438,22 @@ const heroWords = {
     en: "where I can apply my skills, learn, and contribute to real-world projects.",
     fr: "où je peux appliquer mes compétences, apprendre et contribuer à des projets du monde réel.",
   },
+  softwareEngineer: {
+    en: "a software engineer based in Paris, France.",
+    fr: "un ingénieur logiciel basé à Paris, France.",
+  },
+  noways: {
+    en: "Noways",
+    fr: "Noways",
+  },
+  focus: {
+    en: "focusing on",
+    fr: "spécialisé dans",
+  },
+  cloudandnetwork: {
+    en: "cloud engineering and network security.",
+    fr: "l'ingénierie cloud et la sécurité réseau.",
+  },
   viewProjects: {
     en: "View my projects",
     fr: "Voir mes projets",
@@ -443,6 +461,22 @@ const heroWords = {
   aboutMeIndicator: {
     en: "The scene below is a 3D model of my room to help you learn more about me outside of work. Click on ringed items or the monitor!",
     fr: "La scène ci-dessous est un modèle 3D de ma chambre pour vous aider à en savoir plus sur moi en dehors du travail. Cliquez sur les objets entourés ou le moniteur!",
+  },
+  wantToKnowMore: {
+    en: "Want to know more about me outside of work?",
+    fr: "Voulez-vous en savoir plus sur moi en dehors du travail?",
+  },
+  clickToExplore: {
+    en: "Click to explore my space outside work — my hobbies, interests, and personal life by interacting with the items in the room.",
+    fr: "Cliquez pour explorer mon espace en dehors du travail — mes loisirs, mes intérêts et ma vie personnelle en interagissant avec les objets dans la pièce.",
+  },
+  enterMyRoom: {
+    en: "Enter My Room 🛋️",
+    fr: "Entrer dans ma chambre 🛋️",
+  },
+  newTab: {
+    en: "new",
+    fr: "nouveau",
   },
 };
 
@@ -496,7 +530,7 @@ const aboutMe = {
 
   gym: {
     en: "As an athlete also, I spend a lot of time in the gym to keep fit and stay healthy. I've been lifting for a while to compliment my football training and have always enjoyed it.",
-    fr: "Comme un athlète aussi, je passe beaucoup de temps au gymnase pour rester en forme et en bonne santé. Je fais du lifting depuis un moment pour complémenter mon entraînement de football et j'ai toujours aimé ça.",
+    fr: "En tant qu'un athlète aussi, je passe beaucoup de temps au gymnase pour rester en forme et en bonne santé. Je fais du lifting depuis un moment pour complémenter mon entraînement de football et j'ai toujours aimé ça.",
   },
 };
 
@@ -630,6 +664,34 @@ const experienceText = {
 };
 
 const expWorkCards = [
+  {
+    logoPath: assetsPaths.images.logos.noways_logo,
+    imgScale: 0.8,
+    iconPath: assetsPaths.images.logos.noways_icon,
+    title: {
+      en: "Software Engineer Intern",
+      fr: "Stagiaire Ingénieur Logiciel",
+    },
+    date: {
+      en: "July 2025 - Present",
+      fr: "Juillet 2025 - Présent",
+    },
+    location: {
+      en: "Noways, Paris, France",
+      fr: "Noways, Paris, France",
+    },
+    details: {
+      en: [
+        "Implementation of the network digital twin to optimize network and cloud performance and security",
+        "Creating a ci/cd pipeline tool to automate the deployment of cloud infrastructure and network security solutions",
+      ],
+      fr: [
+        "Implémentation du twin numérique de réseau pour optimiser les performances et la sécurité du réseau et du cloud",
+        "Création d'un outil de pipeline ci/cd pour automatiser le déploiement de l'infrastructure cloud et des solutions de sécurité réseau",
+      ],
+    },
+    gradient: "from-white via-slate-300 to-white",
+  },
   {
     logoPath: assetsPaths.images.logos.cavitry_logo,
     imgScale: 0.8,

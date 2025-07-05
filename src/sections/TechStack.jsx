@@ -274,7 +274,7 @@ const TechStack = () => {
       ref={sectionRef}
       className="flex-center section-padding snap-item main-section"
     >
-      <div className="w-full h-full md:px-10 px-5">
+      <div className="w-full h-full md:px-10 sm:px-4">
         <TitleHeader
           title={techStackHeader.title[language]}
           sub={techStackHeader.sub[language]}

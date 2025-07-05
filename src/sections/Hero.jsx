@@ -141,8 +141,8 @@ const Hero = () => {
           </figure>
         ) : (
           <>
-            <span className=""></span>
-            <div className="col-span-3 flex flex-col items-center">
+            <span className="hidden lg:block"></span>
+            <div className="col-span-full lg:col-span-3 flex flex-col items-center">
               <motion.div
                 className="mt-10 sm:mt-16 md:mt-20 flex justify-center px-4 sm:px-0"
                 initial={{ opacity: 0, y: 30 }}
@@ -170,7 +170,7 @@ const Hero = () => {
               </motion.div>
             </div>
 
-            <span className=""></span>
+            <span className="hidden lg:block"></span>
           </>
         )}
       </div>

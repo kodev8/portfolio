@@ -244,15 +244,25 @@ const ProjectCarousel = ({
   };
 
   const handleVideoClick = (e, isModalView) => {
+    if (isModalView) {
+      return;
+    }
+
     e.stopPropagation();
-    const videoElement = isModalView ? modalVideoRef.current : videoRef.current;
+    const videoElement = videoRef.current;
     if (videoElement) {
       if (videoElement.paused) {
-        videoElement.play().catch((err) => {
-          console.error("Video play failed on click:", err);
-        });
+        videoElement
+          .play()
+          .then(() => {
+            setIsHovered(true);
+          })
+          .catch((err) => {
+            console.error("Video play failed on click:", err);
+          });
       } else {
         videoElement.pause();
+        setIsHovered(false);
       }
     }
   };
@@ -261,15 +271,16 @@ const ProjectCarousel = ({
     const totalItems = videoUrl ? images.length + 1 : images.length;
     return (
       <div
-        className={`relative w-full overflow-hidden  ${
-          isModalView ? "aspect-auto" : ""
-        }`}
+        className={cn(`relative flex flex-col h-full w-full overflow-hidden`, {
+          "aspect-auto": isModalView,
+          "h-[70%]": isModalView && isMobile,
+        })}
         onMouseEnter={!isModalView ? handleMouseEnter : undefined}
         onMouseLeave={!isModalView ? handleMouseLeave : undefined}
       >
         {/* Slide container */}
         <div
-          className="w-full h-full flex transition-transform duration-500 ease-in-out"
+          className="w-full h-[90%] sm:h-[95%] flex transition-transform duration-500 ease-in-out"
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
           }}
@@ -280,11 +291,12 @@ const ProjectCarousel = ({
               <video
                 ref={isModalView ? modalVideoRef : videoRef}
                 className={cn(`max-w-full max-h-full`, {
-                  "h-[50vh]": isShowcase && !isModalView
+                  "h-[50vh]": isShowcase && !isModalView,
                 })}
                 src={videoUrl}
                 controls={isModalView}
-                muted={!isModalView}
+                muted={true}
+                autoPlay={false}
                 playsInline
                 poster={images[0]}
                 onClick={(e) => handleVideoClick(e, isModalView)}
@@ -313,7 +325,15 @@ const ProjectCarousel = ({
 
         {/* counter */}
         {(images.length > 1 || videoUrl) && (
-          <div className="absolute bottom-2 right-2 bg-black/50 hover:bg-black text-white hover:text-white text-xs px-2 py-1 rounded z-20">
+          <div
+            className={cn(
+              "absolute right-2 bg-black/50 hover:bg-black text-white hover:text-white text-xs px-2 py-1 rounded z-20",
+              {
+                "bottom-2": !isModalView || !isMobile,
+                "bottom-4": isModalView && isMobile,
+              }
+            )}
+          >
             {currentIndex + 1}/{totalItems}
           </div>
         )}
@@ -329,7 +349,7 @@ const ProjectCarousel = ({
 
         {/* nav dots */}
         {isModalView && (images.length > 1 || videoUrl) && (
-          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+          <div className="mx-auto translate-y-4 sm:translate-y-3 flex space-x-2 z-20">
             {Array.from({ length: totalItems }).map((_, index) => (
               <button
                 key={index}
@@ -364,9 +384,13 @@ const ProjectCarousel = ({
         {videoUrl && currentIndex === 0 && !isModalView && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div
-              className={`bg-black/50 rounded-full p-4 transition-opacity duration-1500 ${
-                isHovered ? "opacity-0" : "opacity-70"
-              }`}
+              className={cn(
+                `bg-black/50 rounded-full p-4 transition-opacity duration-1500`,
+                {
+                  "opacity-0": isHovered,
+                  "opacity-70": !isHovered,
+                }
+              )}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -434,18 +458,19 @@ const ProjectCarousel = ({
           </DialogHeader>
           <div className="p-0 md:p-2">
             <div
-              className={
-                isMobile ? "h-[45vh]" : "h-[50vh] md:h-[65vh] lg:h-[75vh]"
-              }
+              className={cn("", {
+                "h-[60vh] overflow-y-auto": isMobile,
+                "h-[65vh] md:h-[85vh]": !isMobile,
+              })}
             >
               {renderCarouselContent(true)}
+              <div className="h-3 relative"></div>
+              {isMobile && projectDesc && (
+                <div className="px-4 py-3 text-sm">
+                  <p className="text-gray-300 leading-5">{projectDesc}</p>
+                </div>
+              )}
             </div>
-            <div className="h-10 relative"></div>
-            {isMobile && projectDesc && (
-              <div className="px-4 py-3 text-sm">
-                <p className="text-gray-300 leading-5">{projectDesc}</p>
-              </div>
-            )}
           </div>
         </DialogContent>
       </Dialog>

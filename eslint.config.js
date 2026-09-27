@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'coverage', 'playwright-report', 'test-results', 'blob-report'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
@@ -27,6 +27,15 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+    },
+  },
+  {
+    // Playwright fixtures call `use(...)`, which the react-hooks plugin reads
+    // as React 19's `use` hook. None of this directory is React.
+    files: ['tests/**/*.ts'],
+    rules: {
+      'react-hooks/rules-of-hooks': 'off',
+      'react-refresh/only-export-components': 'off',
     },
   },
 )

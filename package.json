@@ -14,7 +14,8 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:record": "E2E_RECORD=1 playwright test --workers=1"
+    "assets:sync": "bash scripts/sync-assets.sh",
+    "test:e2e:cdn": "playwright test --config playwright.cdn.config.ts"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

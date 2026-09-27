@@ -1,29 +1,12 @@
-import { existsSync, mkdirSync } from "node:fs";
-import path from "node:path";
 import { test as base, expect, type Page } from "@playwright/test";
-
-const HAR_DIR = path.join(process.cwd(), "tests", "e2e", ".har");
-const HAR_FILE = path.join(HAR_DIR, "cdn.har");
-
-/**
- * Where the 3D models and images come from.
- *
- * The bucket sits on a free Cloudflare plan with a limited egress allowance, so
- * the default replays a recorded HAR: the first run pays for one fetch of each
- * asset, every run after that is free and offline. Delete tests/e2e/.har to
- * re-record, or set E2E_ASSETS=live to always hit the CDN.
- *
- * Once the assets are available locally for dev mode, point playwright at the
- * dev server and drop this shim entirely.
- */
-const ASSET_MODE = (process.env.E2E_ASSETS ?? "har") as "har" | "live";
-
-const CDN_GLOB = "**://cdn.kalevkeil.com/**";
 
 /**
  * Headless Chromium has no audio device, so `HTMLMediaElement.play()` returns a
  * promise that never settles. The writer intro awaits exactly that call before
  * it will reveal the page, so without this the site never appears.
+ *
+ * This works around the harness, but it also hides a real fragility in the app.
+ * intro-resilience.spec.ts deliberately does without it.
  */
 const stubMediaPlayback = async (page: Page) => {
   await page.addInitScript(() => {
@@ -40,25 +23,18 @@ const stubEmailJs = async (page: Page) => {
   );
 };
 
-const routeAssets = async (page: Page) => {
-  if (ASSET_MODE === "live") return;
-
-  mkdirSync(HAR_DIR, { recursive: true });
-  await page.routeFromHAR(HAR_FILE, {
-    url: CDN_GLOB,
-    // Record on the first run; `npm run test:e2e:record` forces a refresh.
-    update: process.env.E2E_RECORD === "1" || !existsSync(HAR_FILE),
-    // A cache, not a wall: anything the recording missed still resolves, at
-    // the cost of one small request rather than a cryptic "Failed to fetch".
-    notFound: "fallback",
-  });
-};
-
 export const test = base.extend<{ page: Page }>({
   page: async ({ page }, use) => {
     await stubMediaPlayback(page);
     await stubEmailJs(page);
-    await routeAssets(page);
+    await use(page);
+  },
+});
+
+/** Same fixtures minus the audio stub, for testing the intro's own resilience. */
+export const rawTest = base.extend<{ page: Page }>({
+  page: async ({ page }, use) => {
+    await stubEmailJs(page);
     await use(page);
   },
 });

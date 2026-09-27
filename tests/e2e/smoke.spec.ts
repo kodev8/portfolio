@@ -50,6 +50,20 @@ test.describe("smoke", () => {
     await expect(page.getByRole("heading", { name: /into Innovative Solutions/i })).toBeVisible();
   });
 
+  test("uses every element id only once", async ({ page }) => {
+    await gotoHome(page);
+
+    const duplicates = await page.evaluate(() => {
+      const counts = new Map<string, number>();
+      for (const el of document.querySelectorAll("[id]")) {
+        counts.set(el.id, (counts.get(el.id) ?? 0) + 1);
+      }
+      return [...counts].filter(([, n]) => n > 1).map(([id, n]) => `${id} x${n}`);
+    });
+
+    expect(duplicates).toEqual([]);
+  });
+
   test("keeps the 3D room behind its own button", async ({ page }) => {
     // The hero canvas is opt-in; nothing should mount WebGL on first paint.
     await gotoHome(page);

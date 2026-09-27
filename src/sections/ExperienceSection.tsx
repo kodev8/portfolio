@@ -149,7 +149,6 @@ const ExperienceSection = () => {
               <div ref={tabsRef} className="flex relative p-1">
                 <div
                   ref={highlightRef}
-                  id="experience"
                   className="absolute bg-[#000000] rounded-full z-1"
                   style={{ height: "100%" }}
                 />

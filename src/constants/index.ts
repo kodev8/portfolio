@@ -1441,7 +1441,7 @@ const frameworks: TechIconDef[] = [
     verified: true,
   },
   {
-    name: "",
+    name: "Flask",
     modelPath: assetsPaths.models.skills.flask,
     imgPath: assetsPaths.models.skills_as_img.flask,
     scale: 0.7,

@@ -26,6 +26,8 @@ const CarouselNav = ({ prevImage, nextImage, isTransitioning }: CarouselNavProps
         size="icon"
         onClick={prevImage}
         className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black text-white hover:text-white p-2 rounded-full  transition-all z-20"
+        aria-label="Previous image"
+        disabled={isTransitioning}
       >
         <RxCaretLeft className="size-6" />
       </Button>

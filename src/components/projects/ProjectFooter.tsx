@@ -22,7 +22,7 @@ function ProjectFooter({ project, variants, className = "" }: ProjectFooterProps
               }}
           >
         {project.stack.map((tech) => (
-          <Badge className="bg-slate-600 text-white-50" key={tech}>
+          <Badge variant="tech" key={tech}>
             {tech}
           </Badge>
         ))}
@@ -36,7 +36,7 @@ function ProjectFooter({ project, variants, className = "" }: ProjectFooterProps
             rel="noopener noreferrer"
             variants={variants}
           >
-            <Button variant="outline">{viewLiveText[language]}</Button>
+            <Button variant="room">{viewLiveText[language]}</Button>
           </motion.a>
         )}
         {project.githubUrl && (
@@ -46,7 +46,7 @@ function ProjectFooter({ project, variants, className = "" }: ProjectFooterProps
             rel="noopener noreferrer"
             variants={variants}
           >
-            <Button variant="outline">{viewGitHubText[language]}</Button>
+            <Button variant="room-outline">{viewGitHubText[language]}</Button>
           </motion.a>
         )}
       </motion.div>

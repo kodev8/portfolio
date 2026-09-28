@@ -1,12 +1,30 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useMedia } from "../context/MediaContext";
 import GlowCard from "../components/GlowCard";
 import { useLanguage } from "../context/LanguageContext";
 import { experienceText } from "../constants";
+import type { ReactNode } from "react";
 import type { ExperienceCard } from "../types";
 gsap.registerPlugin(ScrollTrigger);
+
+/** Stroke icon for a metadata row. Replaces the emoji this section used. */
+const MetaIcon = ({ children }: { children: ReactNode }) => (
+  <svg
+    width="15"
+    height="15"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.7"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="shrink-0 text-room-low"
+    aria-hidden="true"
+  >
+    {children}
+  </svg>
+);
 
 interface ExperienceProps {
   cards: ExperienceCard[];
@@ -28,44 +46,26 @@ const Experience = ({ cards }: ExperienceProps) => {
         },
       });
     });
-    ScrollTrigger.matchMedia({
-      // Desktop
-      "(min-width: 768px)": function () {
-        gsap.utils.toArray<Element>(".timeline").forEach((timeline) => {
-          ScrollTrigger.create({
-            trigger: timeline,
-            start: "top 60% center",
-            end: "70% center",
-            onUpdate: (self) => {
-              gsap.set(timeline, {
-                scaleY: 1 - self.progress,
-                transformOrigin: "bottom bottom",
-              });
-            },
-          });
-        });
-      },
-
-      "(max-width: 767px)": function () {
-        gsap.utils.toArray<Element>(".timeline").forEach((timeline) => {
-          ScrollTrigger.create({
-            trigger: timeline,
-            start: "top 90%",
-            end: "70% center",
-            onUpdate: (self) => {
-              gsap.set(timeline, {
-                scaleY: 1 - self.progress,
-                transformOrigin: "bottom bottom",
-              });
-            },
-          });
-        });
-      },
-
-      "all": function () {
-      },
+    // Draw the rail itself rather than scaling a ground-coloured mask off it.
+    // The mask approach left the line hidden whenever its trigger had not
+    // updated, which is why the timeline kept vanishing at some widths.
+    gsap.utils.toArray<Element>(".gradient-line").forEach((line) => {
+      gsap.fromTo(
+        line,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: "none",
+          transformOrigin: "top top",
+          scrollTrigger: {
+            trigger: line,
+            start: "top 85%",
+            end: "bottom 55%",
+            scrub: true,
+          },
+        }
+      );
     });
-
 
     gsap.utils.toArray<Element>(".expText").forEach((text) => {
       gsap.from(text, {
@@ -81,7 +81,6 @@ const Experience = ({ cards }: ExperienceProps) => {
     }, "<");
   }, []);
 
-  const { isMobile, isLaptop } = useMedia();
   const { language } = useLanguage();
   // const colors = ["bg-red-500/50", "bg-blue-500/50", "bg-green-500/50", "bg-yellow-500/50"];
   return (
@@ -92,23 +91,29 @@ const Experience = ({ cards }: ExperienceProps) => {
               <div key={card.title[language]} className="grid grid-cols-12 gap-4 md:gap-10">
                 <div className="hidden xl:block xl:col-span-1"></div>
                 <div className="order-3 col-span-full flex w-full flex-col items-end mb-10 xl:mb-0  xl:order-1 xl:col-span-4 xl:translate-x-10">
+                  {/* One fixed tile at a shared size for every logo. The old
+                      per-card imgScale rendered Noways tiny inside a white box
+                      while Cavitry filled its card edge to edge. */}
                   <GlowCard
                     card={card}
-                    className="w-full max-h-32 xl:max-h-36 flex-center"
+                    className="flex-center h-28 w-full xl:h-32"
                   >
                     <img
                       src={card.logoPath}
-                      alt="exp-img"
-                      className="h-full object-cover"
-                      style={{ transform: `scale(${ isLaptop ? card.imgScale : isMobile ? card.imgScale! * 0.5 : 1})` }}
+                      alt={`${card.title[language]} logo`}
+                      className="max-h-[68%] max-w-[72%] object-contain"
                     />
                   </GlowCard>
                 </div>
 
                 <div className="relative order-1 xl:order-2 col-span-2 flex justify-end xl:col-span-1">
                   <div className="timeline-wrapper mt-4 mx-auto">
-                    <div className={`timeline bg-black`} />
-                    <div className={`gradient-line h-[220%] lg:h-[250%] bg-gradient-to-b ${card.gradient}`} />
+                    {/* The rail colour used to come from card.gradient, a
+                        Tailwind class string held in data. Tailwind cannot see
+                        runtime-assembled classes, so it purged whichever ones
+                        no other file happened to use and those rails rendered
+                        invisible. It is a token gradient now. */}
+                    <div className="gradient-line h-[220%] lg:h-[250%]" />
                   </div>
                   <div className="timeline-logo translate-x-5 md:translate-x-10 ">
                     <img src={card.iconPath} alt="logo" className="w-full h-full object-contain" />
@@ -119,29 +124,38 @@ const Experience = ({ cards }: ExperienceProps) => {
                   <div className="flex items-start">
                     <div className="expText relative flex gap-5 md:gap-10 xl:gap-20">
                       <div className="text-wrap">
-                        <h1 className=" text-lg md:text-xl font-semibold">{card.title[language]}</h1>
-                        <p className="text-white-50 text-sm md:text-base my-5">
-                          🗓️&nbsp;{card.date[language]}
-                        </p>
-                        {
-                          card.location && (
-                            <p className="text-white-50 text-sm md:text-base my-5">
-                              📍&nbsp;{card.location[language]}
-                            </p>
-                          )
-                        }
-                        {
-                          card.institution && (
-                            <p className="text-white-50 text-sm md:text-base my-5">
-                              🏛️&nbsp;{card.institution[language]}
-                            </p>
-                          )
-                        }
+                        <h3 className="type-h3">{card.title[language]}</h3>
 
-                        <p className="italic text-[#839CB5] text-sm md:text-base">{experienceText.details[language]}</p>
-                        <ul className="text-white-50 ms-5 mt-5 flex list-disc flex-col gap-5">
+                        <p className="mt-3 font-mono text-[11px] tracking-[0.06em] text-room-accent uppercase">
+                          {card.date[language]}
+                        </p>
+
+                        <div className="mt-3 flex flex-col gap-2">
+                          {card.location && (
+                            <p className="flex items-center gap-2 text-sm text-room-mid md:text-base">
+                              <MetaIcon>
+                                <path d="M12 21s-7-4.6-7-10a7 7 0 0 1 14 0c0 5.4-7 10-7 10z" />
+                                <circle cx="12" cy="11" r="2.4" />
+                              </MetaIcon>
+                              {card.location[language]}
+                            </p>
+                          )}
+                          {card.institution && (
+                            <p className="flex items-center gap-2 text-sm text-room-mid md:text-base">
+                              <MetaIcon>
+                                <path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6" />
+                              </MetaIcon>
+                              {card.institution[language]}
+                            </p>
+                          )}
+                        </div>
+
+                        <p className="mt-5 font-mono text-[11px] tracking-[0.08em] text-room-low uppercase">
+                          {experienceText.details[language]}
+                        </p>
+                        <ul className="mt-3 ms-5 flex list-disc flex-col gap-3 text-room-mid">
                           {card.details[language].map((detail, index) => (
-                            <li key={index} className="text">
+                            <li key={index} className="max-w-[66ch] leading-relaxed">
                               {detail}
                             </li>
                           ))}

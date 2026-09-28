@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { useNav } from "../context/NavContext";
 import TitleHeader from "../components/TitleHeader";
-import ContactSvg from "../components/ContactSvg";
+import ContactRoutes from "../components/ContactRoutes";
 import { toast } from "sonner";
 import { Spinner } from "../components/ui/spinner";
 import { Button } from "../components/ui/button";
@@ -62,6 +62,7 @@ const Contact = () => {
     <section id="contact" ref={sectionRef} className="flex-center section-padding main-section">
       <div className="w-full h-full md:px-10 sm:px-4">
         <TitleHeader
+          index="05"
           title={contactHeader.title[language]}
           sub={contactHeader.sub[language]}
         />
@@ -112,17 +113,24 @@ const Contact = () => {
                   />
                 </div>
 
-                <Button type="submit" disabled={loading} className="!py-4 bg-white  text-black w-fit mx-auto">
-                  {loading ? <Spinner className="text-black" /> : contactForm.submit.label[language]}
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="h-12 w-fit self-start rounded-xl bg-room-accent px-6 text-base font-semibold text-room-on-accent
+                             transition-[filter,transform] duration-[var(--dur-fast)] ease-[var(--ease-out)]
+                             hover:brightness-110 disabled:opacity-60"
+                >
+                  {loading ? (
+                    <Spinner className="text-room-on-accent" />
+                  ) : (
+                    contactForm.submit.label[language]
+                  )}
                 </Button>
               </form>
             </div>
           </div>
-          <div className="flex-center xl:col-span-6 min-h-96">
-            <div className="cSection">
-              <ContactSvg />
-            </div>
-
+          <div className="xl:col-span-6 flex items-center">
+            <ContactRoutes />
           </div>
         </div>
       </div>

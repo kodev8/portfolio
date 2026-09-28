@@ -17,7 +17,9 @@ const ShowcaseProject = forwardRef<HTMLDivElement, ShowcaseProjectProps>(
 
     return (
       <motion.div className="project " ref={ref}>
-        <div className={`relative ${project.bgColor} rounded-lg overflow-hidden`}>
+        <div
+          className={`relative aspect-video overflow-hidden rounded-2xl ${project.bgColor}`}
+        >
           <ProjectCarousel
             images={project.carousel || [project.thumbnail!]}
             videoUrl={project.videoPath}
@@ -28,9 +30,9 @@ const ShowcaseProject = forwardRef<HTMLDivElement, ShowcaseProjectProps>(
           />
         </div>
         <div className="text-content flex flex-col gap-4 my-4">
-          <h2 className="text-white text-xl font-bold md:text-2xl leading-5">{project.title}</h2>
+          <h3 className="type-h3 text-room-hi">{project.title}</h3>
           {!isMobile && (
-            <p className="text-white text-sm md:text-lg leading-5">{project.desc[language] }</p>
+            <p className="type-body">{project.desc[language]}</p>
           )}
           <ProjectFooter project={project} />
         </div>

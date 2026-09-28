@@ -16,6 +16,9 @@ const badgeVariants = cva(
           "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        // Metadata, not a control: outlined and monospaced so it never reads
+        // as something you can press.
+        tech: "border-[var(--room-line)] bg-transparent text-room-mid font-mono text-[11px] tracking-[0.04em] px-2.5 py-1 rounded-lg",
       },
     },
     defaultVariants: {

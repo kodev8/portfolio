@@ -19,6 +19,11 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        // Room Light pair. Primary carries the accent; secondary is a
+        // hairline outline so two actions side by side read as a hierarchy.
+        room: "h-11 rounded-xl bg-room-accent px-5 text-[15px] font-semibold text-room-on-accent hover:brightness-110",
+        "room-outline":
+          "h-11 rounded-xl border border-[var(--room-line-strong)] bg-transparent px-5 text-[15px] font-semibold text-room-hi hover:border-room-accent hover:text-room-accent",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

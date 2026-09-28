@@ -141,7 +141,8 @@ const ExperienceSection = () => {
         {/* Sticky title header */}
         <TitleHeader
           ref={titleContainerRef}
-          // title={titles[activeTab].title}
+          index="02"
+          title={experienceTabs[activeTab].title[language]}
           sub={experienceTabs[activeTab].sub[language]}
         >
           <div className="flex justify-center items-center mb-4">

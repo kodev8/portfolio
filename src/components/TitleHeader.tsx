@@ -1,5 +1,4 @@
 import { forwardRef, type ReactNode } from "react";
-import { useNav } from "../context/NavContext";
 import { useMedia } from "../context/MediaContext";
 import { Tip } from "../components/ui/tooltip";
 import { FaInfoCircle } from "react-icons/fa";
@@ -9,44 +8,46 @@ interface TitleHeaderProps {
   sub?: ReactNode;
   children?: ReactNode;
   tipContent?: string | null;
+  /** Section number shown before the eyebrow, e.g. "02". */
+  index?: string;
 }
 
+/**
+ * The shared section header: a monospaced accent eyebrow over the heading.
+ * `sub` used to render as a pill badge, which read as a control rather than a
+ * label and left every section without a real heading.
+ */
 const TitleHeader = forwardRef<HTMLDivElement, TitleHeaderProps>(
-  ({ title, sub, children, tipContent }, ref) => {
+  ({ title, sub, children, tipContent, index }, ref) => {
     const { isMobile } = useMedia();
-    const { navBarRef } = useNav();
 
     return (
       <div
         ref={ref}
-        style={{
-          top: `${isMobile ? 0 : (navBarRef.current?.offsetHeight as number) - 16}px`,
-        }}
-        className={`sticky z-[40] w-full bg-black pt-4 pb-4`}
+        // Offset with the layout token rather than a render-time ref read.
+        style={{ top: isMobile ? 0 : "calc(var(--nav-h) - 1rem)" }}
+        className="sticky z-[45] w-full bg-room-ground pt-4 pb-4"
       >
         {children}
 
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-2">
           {sub && (
-            <div className="hero-badge">
-              <p>{sub}</p>
-            </div>
+            <p className="text-center font-mono text-[11px] tracking-[0.08em] text-room-accent uppercase">
+              {index && <span className="text-room-low">{index} — </span>}
+              {sub}
+            </p>
           )}
 
-          <div>
-            <h1 className="font-semibold md:text-3xl text-xl text-center">
+          {title && (
+            <h2 className="text-center text-2xl font-bold tracking-[-0.025em] text-room-hi md:text-4xl">
               {title}
               {tipContent && (
-                <Tip
-                  content={tipContent}
-                  position="top"
-                  className="text-white-50"
-                >
-                  <FaInfoCircle className="inline-block mx-2 text-base text-white-50" />
+                <Tip content={tipContent} position="top" className="text-room-mid">
+                  <FaInfoCircle className="mx-2 inline-block text-base text-room-low" />
                 </Tip>
               )}
-            </h1>
-          </div>
+            </h2>
+          )}
         </div>
       </div>
     );

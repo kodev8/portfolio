@@ -66,7 +66,11 @@ const AppShowcase = () => {
       className="app-showcase content-section main-section"
     >
       <div className="w-full">
-        <TitleHeader title={showCaseHeader.title[language]} sub={showCaseHeader.sub[language]} />
+        <TitleHeader
+          index="03"
+          title={showCaseHeader.title[language]}
+          sub={showCaseHeader.sub[language]}
+        />
         <div className="grid grid-cols-1 justify-items-center lg:grid-cols-2 gap-8 lg:gap-12 mt-16">
           {/* Featured 0 */}
 

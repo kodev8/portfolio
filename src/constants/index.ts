@@ -492,8 +492,8 @@ const heroWords: Record<string, Translated> = {
     fr: "Cliquez pour explorer mon espace en dehors du travail — mes loisirs, mes intérêts et ma vie personnelle en interagissant avec les objets dans la pièce.",
   },
   enterMyRoom: {
-    en: "Enter My Room 🛋️",
-    fr: "Entrer dans ma chambre 🛋️",
+    en: "Enter My Room",
+    fr: "Entrer dans ma chambre",
   },
   newTab: {
     en: "new",
@@ -670,6 +670,29 @@ const contactText: Translated = {
   fr: "Contactez-moi",
 };
 
+const introText: Record<string, Translated> = {
+  skip: { en: "Skip intro", fr: "Passer l'intro" },
+};
+
+const contactRoutesText: Record<string, Translated> = {
+  email: { en: "Email", fr: "Email" },
+  linkedin: { en: "LinkedIn", fr: "LinkedIn" },
+  github: { en: "GitHub", fr: "GitHub" },
+  resume: { en: "Résumé", fr: "CV" },
+  resumeValue: { en: "Download PDF", fr: "Télécharger le PDF" },
+};
+
+const motionToggleText: Record<string, Translated> = {
+  reduce: {
+    en: "Reduce animation",
+    fr: "Réduire les animations",
+  },
+  restore: {
+    en: "Turn animation back on",
+    fr: "Réactiver les animations",
+  },
+};
+
 const downloadResumeText: Translated = {
   en: "Download Resume",
   fr: "Télécharger le CV",
@@ -711,7 +734,6 @@ const expWorkCards: ExperienceCard[] = [
         "Création d'un outil de pipeline ci/cd pour automatiser le déploiement de l'infrastructure cloud et des solutions de sécurité réseau",
       ],
     },
-    gradient: "from-white via-slate-300 to-white",
   },
   {
     logoPath: assetsPaths.images.logos.cavitry_logo,
@@ -739,7 +761,6 @@ const expWorkCards: ExperienceCard[] = [
         "Servi comme assistant coach de l'équipe U16 pendant la saison 2022/2023.",
       ],
     },
-    gradient: "from-yellow-500 via-green-500 to-yellow-500",
   },
   {
     logoPath: assetsPaths.images.logos.guardian_life_logo,
@@ -766,7 +787,6 @@ const expWorkCards: ExperienceCard[] = [
         "Généré des rapports et effectué une analyse des données des membres et des employeurs.",
       ],
     },
-    gradient: "from-yellow-500 via-orange-500 to-white",
   },
   {
     logoPath: assetsPaths.images.logos.solutionsconsuling_logo,
@@ -794,7 +814,6 @@ const expWorkCards: ExperienceCard[] = [
         "Identifié et signalé les incohérences dans les données sources.",
       ],
     },
-    gradient: "from-white via-slate-300 to-white",
   },
   {
     logoPath: assetsPaths.images.logos.tsz_logo,
@@ -824,7 +843,6 @@ const expWorkCards: ExperienceCard[] = [
         "Organisé les logistiques de livraison des colis.",
       ],
     },
-    gradient: "from-white via-slate-300 to-white",
   },
 ];
 
@@ -860,7 +878,6 @@ const expEducationCards: ExperienceCard[] = [
         "Développé des compériences en résolution de problèmes et une solide base en principes de l'informatique.",
       ],
     },
-    gradient: "from-white to-blue-500",
   },
   {
     logoPath: assetsPaths.images.logos.qrc_logo,
@@ -896,7 +913,6 @@ const expEducationCards: ExperienceCard[] = [
         "Liste nationale du Mérite de la République de Tobago en Chimie et Études Caraïbes (2019).",
       ],
     },
-    gradient: "from-blue-500 to-[#62e0ff]",
   },
   {
     logoPath: assetsPaths.images.logos.qrc_logo,
@@ -930,7 +946,6 @@ const expEducationCards: ExperienceCard[] = [
         "Premier place en Chimie et Mathématiques Supplémentaires au niveau du CSEC (2017).",
       ],
     },
-    gradient: "from-blue-500 to-[#62e0ff]",
   },
 ];
 
@@ -958,7 +973,6 @@ const expCertifications: ExperienceCard[] = [
         "Exploré des techniques avancées pour distribuer les données sur plusieurs GPUs pour optimiser les performances des modèles de deep learning.",
       ],
     },
-    gradient: "from-green-500 to-white",
   },
   {
     logoPath: assetsPaths.images.logos.nvidia_logo,
@@ -983,7 +997,6 @@ const expCertifications: ExperienceCard[] = [
         "Couvert les concepts fondamentaux du deep learning incluant les réseaux de neurones, les fonctions d'activation et l'évaluation des modèles.",
       ],
     },
-    gradient: "from-white to-green-500",
   },
   {
     logoPath: assetsPaths.images.logos.nvidia_logo,
@@ -1008,7 +1021,6 @@ const expCertifications: ExperienceCard[] = [
         "Appris à utiliser l'accélération GPU pour le prétraitement des données, la visualisation et les workflows de machine learning.",
       ],
     },
-    gradient: "from-green-500 to-white",
   },
   {
     logoPath: assetsPaths.images.logos.harvard_logo,
@@ -1033,7 +1045,6 @@ const expCertifications: ExperienceCard[] = [
         "Complété le cours de introduction à la science de l'informatique de Harvard, couvrant C, Python, algorithmes, structures de données et développement web.",
       ],
     },
-    gradient: "from-white to-red-500",
   },
 ];
 
@@ -1044,8 +1055,8 @@ const experienceTabs: Record<string, ExperienceTab> = {
       fr: "Expérience Professionnelle",
     },
     sub: {
-      en: "💼 My Career Overview",
-      fr: "💼 Mon Parcours Professionnel",
+      en: "My career overview",
+      fr: "Mon parcours professionnel",
     },
     tabLabel: {
       en: "Work",
@@ -1058,8 +1069,8 @@ const experienceTabs: Record<string, ExperienceTab> = {
       fr: "Éducation",
     },
     sub: {
-      en: "🎓 My Academic Journey",
-      fr: "🎓 Mon Parcours Académique",
+      en: "My academic journey",
+      fr: "Mon parcours académique",
     },
     tabLabel: {
       en: "Education",
@@ -1072,8 +1083,8 @@ const experienceTabs: Record<string, ExperienceTab> = {
       fr: "Certifications",
     },
     sub: {
-      en: "🏆 My Certifications & Achievements",
-      fr: "🏆 Mes Certifications & Réalisations",
+      en: "My certifications & achievements",
+      fr: "Mes certifications & réalisations",
     },
     tabLabel: {
       en: "Certifications",
@@ -1288,8 +1299,8 @@ const techStackHeader: SectionHeader = {
     fr: "Technologies",
   },
   sub: {
-    en: "My everyday tools🔨",
-    fr: "Mes outils quotidiens🔨",
+    en: "My everyday tools",
+    fr: "Mes outils quotidiens",
   },
   tip: {
     en: "Click and drag the icons to interact with them",
@@ -1620,8 +1631,8 @@ const contactHeader: SectionHeader = {
     fr: "Contactez-moi",
   },
   sub: {
-    en: "💬 Have questions or ideas? Let’s talk! 🚀",
-    fr: "💬 Avez-vous des questions ou des idées? Parlons! 🚀",
+    en: "Have questions or ideas? Let's talk",
+    fr: "Des questions ou des idées ? Parlons-en",
   },
 };
 
@@ -1698,6 +1709,9 @@ export {
   nextText,
   contactText,
   downloadResumeText,
+  motionToggleText,
+  contactRoutesText,
+  introText,
   experienceTabs,
   showCaseHeader,
   techStackText,

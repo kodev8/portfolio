@@ -1,0 +1,59 @@
+import React from "react";
+import { useAnimation } from "./context/AnimationContext";
+import NavBar from "./components/NavBar";
+import Hero from "./sections/Hero";
+import Showcase from "./sections/Showcase";
+import ExperienceSection from "./sections/ExperienceSection";
+import TechStack from "./sections/TechStack";
+import Contact from "./sections/Contact";
+import Portfolio from "./sections/portfolio/Portfolio";
+import NavBar2 from "./components/NavBar2";
+import { cn } from "./utils";
+import { HeroProvider } from "./context/HeroContext";
+import WriterIntro from "./components/animations/WriterIntro";
+import { Toaster } from "./components/ui/sonner.tsx";
+import { useMedia } from "./context/MediaContext";
+import { useSectionSnap } from "./utils/useSectionSnap";
+function App() {
+  const { animationComplete } = useAnimation();
+  const { isMobile } = useMedia();
+
+  // Nudge onto a section start when scrolling settles near one.
+  useSectionSnap(animationComplete);
+
+  // useEffect(() => {
+  //   setAnimationComplete(true);
+  // }, []);
+
+  return (
+    <div>
+      <WriterIntro />
+      <main
+        className={cn("opacity-0", {
+          "top-0 left-0 w-full opacity-100 transition-opacity duration-300":
+            animationComplete,
+        })}
+      >
+        <NavBar />
+        <NavBar2 />
+
+        <HeroProvider>
+          <Hero />
+        </HeroProvider>
+
+        {animationComplete && (
+          <>
+            <ExperienceSection />
+            <Showcase />
+            <Portfolio />
+            <TechStack />
+          </>
+        )}
+        <Contact />
+        <Toaster position={isMobile ? "bottom-center" : "bottom-right"} />
+      </main>
+    </div>
+  );
+}
+
+export default App;

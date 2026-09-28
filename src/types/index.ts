@@ -30,7 +30,6 @@ export interface ExperienceCard {
   location: Translated;
   institution?: Translated;
   details: Translated<string[]>;
-  gradient: string;
 }
 
 export interface ExperienceTab {

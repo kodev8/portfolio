@@ -117,7 +117,9 @@ const ListItem = ({ item, dir, isInView }: ListItemProps) => {
       <motion.div
         variants={imgVariants}
         animate={shouldAnimate}
-        className={cn(" w-full md:w-1/2 p-2 rounded-2xl overflow-hidden", {
+        // One 16:9 frame for every project, so rows line up instead of each
+        // carousel taking the aspect ratio of whatever was screenshotted.
+        className={cn("aspect-video w-full overflow-hidden rounded-2xl md:w-1/2", {
           "order-1": isMobile || dir === "ltr",
           "order-2": !isMobile && dir === "rtl",
         })}
@@ -143,13 +145,13 @@ const ListItem = ({ item, dir, isInView }: ListItemProps) => {
           "order-1 items-end": !isMobile && dir === "rtl",
         })}
       >
-        <motion.h2 className="text-2xl font-bold" variants={textVariants}>
+        <motion.h3 className="type-h3" variants={textVariants}>
           {item.title}
-        </motion.h2>
+        </motion.h3>
         {/* Hide description on mobile */}
         {!isMobile && (
           <motion.p
-            className="font-light text-justify leading-5"
+            className="type-body"
             variants={textVariants}
           >
             {item.desc[language]}
@@ -228,9 +230,14 @@ const Portfolio = () => {
   return (
     <section
       id="portfolio"
-      className={cn("relative content-section md:snap-container w-screen main-section", {
-        [`h-[${numPages * 100}vh]`]: !isMobile,
-      })}
+      className="relative content-section md:snap-container w-screen main-section"
+      // Height drives the horizontal scroll: useScroll maps this section's
+      // travel onto the strip's x. It used to be set with a Tailwind class
+      // built from data (`h-[${numPages * 100}vh]`), which Tailwind cannot
+      // see and therefore purged — the section collapsed to content height,
+      // scrollYProgress ran 0..1 almost instantly, and the strip sat at its
+      // end state while later sections were on screen.
+      style={{ height: isMobile ? undefined : `${numPages * 100}vh` }}
       ref={containerRef}
     >
       <motion.div

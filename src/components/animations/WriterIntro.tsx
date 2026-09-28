@@ -1,10 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useAnimation } from "motion/react";
 import { useNav } from "../../context/NavContext";
 import "./WriterIntro.css";
 import { useAnimation as useAnimationContext } from "../../context/AnimationContext";
 import { cn } from "../../utils";
-import { assetsPaths } from "../../constants";
+import { assetsPaths, introText } from "../../constants";
+import { useLanguage } from "../../context/LanguageContext";
+import { useMotion } from "../../context/MotionContext";
 
 export default function WriterIntro() {
   const containerControls = useAnimation();
@@ -20,6 +22,64 @@ export default function WriterIntro() {
   const [isAnimating, setIsAnimating] = useState(false);
   const { animationComplete, setAnimationComplete } = useAnimationContext();
   const { logoRef } = useNav();
+  const { language } = useLanguage();
+  const { motion: motionPref } = useMotion();
+
+  // The intro runs for several seconds before the rest of the page mounts.
+  // Let people past it, and skip it outright for anyone who has asked for
+  // reduced motion.
+  const cancelled = useRef(false);
+
+  const skipIntro = useCallback(() => {
+    // Revealing the page is not enough on its own: the sequence is a chain of
+    // awaited timeouts, so without this flag it keeps typing and animating
+    // the logo on top of the site it just uncovered.
+    cancelled.current = true;
+    setIsAnimating(false);
+    setAnimationComplete(true);
+
+    // Jump to the finished mark rather than freezing mid-word: the sequence
+    // types "Kalev K", deletes back to "KK", flips the last K and draws the
+    // brackets.
+    setDisplayText("KK");
+    setShowCursor(false);
+    setIsLastKFlipped(true);
+    setShowBrackets(true);
+    setLeftBracketProgress(1);
+    setRightBracketProgress(1);
+    setLeftBracketFill("#ffffff");
+    setRightBracketFill("#ffffff");
+
+    // Park the mark where the flight would have left it, with no transition.
+    const logo = logoRef.current;
+    const container = containerRef.current;
+    if (logo && container) {
+      const scaleFactor = 0.5;
+      const rect = logo.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      void containerControls.start({
+        scale: scaleFactor,
+        left: rect.left - (containerRect.width * scaleFactor) / 2,
+        top: rect.top - (containerRect.height * scaleFactor) / 2,
+        x: 0,
+        y: 0,
+        transition: { duration: 0 },
+      });
+    }
+  }, [setAnimationComplete, containerControls, logoRef]);
+
+  useEffect(() => {
+    if (motionPref === "reduced" && !animationComplete) skipIntro();
+  }, [motionPref, animationComplete, skipIntro]);
+
+  useEffect(() => {
+    if (animationComplete) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") skipIntro();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [animationComplete, skipIntro]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,11 +105,13 @@ export default function WriterIntro() {
   useEffect(() => {
     const animationSequence = async () => {
       if (animationComplete) return;
+      const stop = () => cancelled.current;
       const audio = new Audio(assetsPaths.sounds.click);
       audio.volume = 0.1;
       setIsAnimating(true);
       const fullText = "Kalev K";
       for (let i = 0; i < fullText.length; i++) {
+        if (stop()) return;
         setDisplayText((prev) => prev + fullText[i]);
         audio.currentTime = 0;
         try {
@@ -65,6 +127,7 @@ export default function WriterIntro() {
       setIsLastKFlipped(true);
       await new Promise((resolve) => setTimeout(resolve, 600));
       for (let i = 0; i < "alev ".length; i++) {
+        if (stop()) return;
         setDisplayText((prev) => prev.slice(0, -2) + prev.slice(-1));
         audio.currentTime = 0;
         try {
@@ -79,6 +142,7 @@ export default function WriterIntro() {
 
       const animateLeftBracket = async () => {
         for (let i = 0; i <= 100; i += 2) {
+          if (stop()) return;
           setLeftBracketProgress(i / 100);
           // approx 60fps
           await new Promise((resolve) => setTimeout(resolve, 16));
@@ -89,6 +153,7 @@ export default function WriterIntro() {
 
       const animateRightBracket = async () => {
         for (let i = 0; i <= 100; i += 2) {
+          if (stop()) return;
           setRightBracketProgress(i / 100);
           await new Promise((resolve) => setTimeout(resolve, 16));
         }
@@ -102,6 +167,7 @@ export default function WriterIntro() {
       };
 
       await animateBrackets();
+      if (stop()) return;
 
       // Flying the logo into the navbar is a flourish. Revealing the site is
       // not, so it happens whether or not the refs are there to animate to.
@@ -121,6 +187,7 @@ export default function WriterIntro() {
         });
       }
 
+      if (stop()) return;
       setIsAnimating(false);
       setAnimationComplete(true);
     };
@@ -157,6 +224,33 @@ export default function WriterIntro() {
         }
       )}
     >
+      {!animationComplete && (
+        <button
+          type="button"
+          onClick={skipIntro}
+          className="fixed right-6 bottom-6 z-[101] flex h-11 items-center gap-2 rounded-xl border
+                     border-[var(--room-line-strong)] bg-room-surface/80 px-4 text-sm font-semibold
+                     text-room-mid backdrop-blur-sm transition-colors duration-[var(--dur-fast)]
+                     ease-[var(--ease-out)] hover:border-room-accent hover:text-room-hi
+                     focus-visible:border-room-accent focus-visible:outline-none"
+        >
+          {introText.skip[language]}
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 4l8 8-8 8M15 4v16" />
+          </svg>
+        </button>
+      )}
+
       <motion.div
         ref={containerRef}
         onClick={() => {

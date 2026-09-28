@@ -44,6 +44,99 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* ---- Type scale. One source for every heading and body size.
+   Declared as utilities so components can @apply them.
+   See docs/design-system.md. ---- */
+@utility type-display {
+  @apply font-bold leading-[1.02] tracking-[-0.035em];
+  font-size: clamp(2rem, 5.5vw, 4.25rem);
+}
+
+@utility type-h2 {
+  @apply text-2xl leading-[1.1] font-bold tracking-[-0.025em] md:text-4xl;
+}
+
+@utility type-h3 {
+  @apply text-lg leading-snug font-bold tracking-[-0.015em] md:text-[22px];
+}
+
+@utility type-body {
+  @apply max-w-[65ch] text-base leading-relaxed text-room-mid;
+}
+
+@utility type-label {
+  @apply font-mono text-[11px] tracking-[0.08em] uppercase;
+}
+
+/* ============================================================
+ * Room Light — design tokens
+ * Palette is sampled from the 3D room so the page and the scene
+ * read as one object. See the direction canvas for rationale.
+ * ============================================================ */
+@theme {
+  --color-room-ground: #0b0a12;
+  --color-room-surface: #131126;
+  --color-room-raised: #1b1830;
+  --color-room-hi: #f2f0ff;
+  --color-room-mid: #a9a4c7;
+  --color-room-low: #857fa8;
+  --color-room-accent: #35e0c8;
+  --color-room-on-accent: #06120f;
+  --color-room-featured: #ff5ba8;
+  --color-room-link: #4d8dff;
+}
+
+:root {
+  /* Hairlines carry alpha, so they stay as plain vars rather than
+     theme colours (Tailwind would emit them as opaque utilities). */
+  --room-line: rgb(199 193 255 / 0.14);
+  --room-line-strong: rgb(199 193 255 / 0.28);
+
+  /* Layout. --nav-h is the space the fixed navbar occupies from the top of
+     the viewport, i.e. its own height plus its top offset. Measured, not
+     guessed: 96px on mobile, 120px from md up where it gains top-4. */
+  --nav-h: 96px;
+  --page-x: clamp(20px, 5vw, 80px);
+
+  /* Motion. One curve, one scale — see [data-motion] below. */
+  --dur-fast: 160ms;
+  --dur: 300ms;
+  --dur-slow: 600ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-h: 120px;
+  }
+}
+
+/* The visitor-facing motion toggle sets data-motion on <html>. It starts
+   from the OS preference, then the explicit choice wins either way. */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) {
+    --dur-fast: 0.01ms;
+    --dur: 0.01ms;
+    --dur-slow: 0.01ms;
+  }
+}
+
+:root[data-motion="reduced"] {
+  --dur-fast: 0.01ms;
+  --dur: 0.01ms;
+  --dur-slow: 0.01ms;
+}
+
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -53,9 +146,8 @@ body {
   width: 100dvw;
   /* overflow-x: hidden; */
   height: 100dvh;
-  background-color: black;
-  color: white;
-  scroll-snap-type: y mandatory;
+  background-color: var(--color-room-ground);
+  color: var(--color-room-hi);
   scroll-behavior: smooth;
   font-family: "Mona Sans", sans-serif;
 }
@@ -67,17 +159,14 @@ body {
 /* snap only on larger screens */
 @media (min-width: 768px) {
   .snap-container {
-    scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
   }
-  .snap-item {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-  .main-section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
+  /*
+   * Section snapping is handled in JS (src/utils/useSectionSnap.ts), not
+   * here. CSS scroll-snap cannot do it: `mandatory` makes a section taller
+   * than the viewport unreadable, and `proximity` never fires when the snap
+   * points are thousands of pixels apart.
+   */
 }
 
 /* .snap-container {
@@ -94,6 +183,7 @@ body {
   width: 100vw;
   min-height: 100vh;
 }
+
 
 .font-2xs {
   font-size: 12px;
@@ -171,11 +261,11 @@ body {
   }
 
    .hero-important {
-    @apply text-blue-500 font-semibold relative inline-block transition-colors duration-300 hover:text-blue-50;
+    @apply text-room-accent font-semibold relative inline-block transition-colors duration-300 hover:text-room-hi;
   }
 
   .hero-text {
-    @apply flex flex-col justify-center  text-[25px] md:text-[50px] font-semibold relative z-10 pointer-events-none;
+    @apply type-display relative z-10 flex flex-col justify-center pointer-events-none;
     img {
       @apply size-8 md:size-10 object-contain;
     }
@@ -201,7 +291,7 @@ body {
     @apply  fixed w-full left-1/2 py-5 px-5 md:px-20 -translate-x-1/2 z-[48] transition-all duration-300 ease-in-out;
 
     &.scrolled {
-      @apply top-0 bg-black!;
+      @apply top-0 bg-room-ground!;
     }
 
     &.not-scrolled {
@@ -346,7 +436,8 @@ body {
   }
 
   .timeline-logo {
-    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-black-50 bg-black-100;
+    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border bg-room-surface;
+    border-color: var(--room-line);
   }
 
   .exp-card-wrapper {
@@ -384,7 +475,25 @@ body {
 
     input,
     textarea {
-      @apply w-full px-4 py-4 md:text-base text-sm placeholder:text-blue-50 bg-blue-100 rounded-md;
+      @apply w-full rounded-xl border bg-room-surface px-4 py-3.5 text-sm text-room-hi md:text-base;
+      border-color: var(--room-line);
+      transition: border-color var(--dur-fast) var(--ease-out);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--color-room-low);
+    }
+
+    input:focus-visible,
+    textarea:focus-visible {
+      border-color: var(--color-room-accent);
+      outline: none;
+    }
+
+    label {
+      @apply mb-2 block font-mono text-[11px] tracking-[0.08em] uppercase;
+      color: var(--color-room-low);
     }
 
     a {
@@ -465,6 +574,14 @@ body {
 
 .gradient-line {
   width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-room-accent) 0%,
+    color-mix(in srgb, var(--color-room-accent) 35%, transparent) 55%,
+    transparent 100%
+  );
+  box-shadow: 0 0 18px color-mix(in srgb, var(--color-room-accent) 45%, transparent);
 }
 
 /* marquee */
@@ -498,7 +615,8 @@ body {
 .card {
   --start: 0;
   position: relative;
-  z-index: 40;
+  /* Below the sticky section header (z-45), which the cards scroll under. */
+  z-index: 30;
   overflow: hidden;
   transition: border-color 1s ease-in-out;
 }

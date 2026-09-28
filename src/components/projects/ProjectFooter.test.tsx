@@ -54,7 +54,9 @@ describe("ProjectFooter", () => {
   });
 
   it("opens external links safely in a new tab", () => {
-    renderFooter(project({ liveUrl: "https://example.com", githubUrl: "https://gh.com" }));
+    renderFooter(
+      project({ liveUrl: "https://example.com", githubUrl: "https://gh.com" })
+    );
     for (const link of screen.getAllByRole("link")) {
       expect(link).toHaveAttribute("target", "_blank");
       expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));

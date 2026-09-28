@@ -30,9 +30,7 @@ export const MediaProvider = ({ children }: { children: ReactNode }) => {
     [isMobile, isTablet, isLaptop, isDesktop]
   );
 
-  return (
-    <MediaContext.Provider value={state}>{children}</MediaContext.Provider>
-  );
+  return <MediaContext.Provider value={state}>{children}</MediaContext.Provider>;
 };
 
 export const useMedia = () => useContext(MediaContext);

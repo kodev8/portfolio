@@ -15,25 +15,25 @@ scene rather than sitting in unrelated pure black.
 Theme colours are declared in the `@theme` block, so Tailwind generates
 `bg-room-*`, `text-room-*` and `border-room-*` utilities for each.
 
-| Token | Value | Use for |
-| --- | --- | --- |
-| `room-ground` | `#0b0a12` | Page background. A near-black indigo, not `#000`, so the room's violet doesn't look pasted on. |
-| `room-surface` | `#131126` | Cards, form fields, the tab group. |
-| `room-raised` | `#1b1830` | A surface sitting on another surface. Use sparingly. |
-| `room-hi` | `#f2f0ff` | Headings and primary text. |
-| `room-mid` | `#a9a4c7` | Body copy, secondary text. |
-| `room-low` | `#857fa8` | Metadata, captions, placeholders. Lowest step that still clears 4.5:1 on ground. |
-| `room-accent` | `#35e0c8` | Primary actions, active state, the timeline rail. From the cleats ring. |
-| `room-on-accent` | `#06120f` | Text on an accent fill. Never use `room-hi` there. |
-| `room-featured` | `#ff5ba8` | "Featured" flags and highlights only. From the dumbbell ring. |
-| `room-link` | `#4d8dff` | Inline links in prose. |
+| Token            | Value     | Use for                                                                                        |
+| ---------------- | --------- | ---------------------------------------------------------------------------------------------- |
+| `room-ground`    | `#0b0a12` | Page background. A near-black indigo, not `#000`, so the room's violet doesn't look pasted on. |
+| `room-surface`   | `#131126` | Cards, form fields, the tab group.                                                             |
+| `room-raised`    | `#1b1830` | A surface sitting on another surface. Use sparingly.                                           |
+| `room-hi`        | `#f2f0ff` | Headings and primary text.                                                                     |
+| `room-mid`       | `#a9a4c7` | Body copy, secondary text.                                                                     |
+| `room-low`       | `#857fa8` | Metadata, captions, placeholders. Lowest step that still clears 4.5:1 on ground.               |
+| `room-accent`    | `#35e0c8` | Primary actions, active state, the timeline rail. From the cleats ring.                        |
+| `room-on-accent` | `#06120f` | Text on an accent fill. Never use `room-hi` there.                                             |
+| `room-featured`  | `#ff5ba8` | "Featured" flags and highlights only. From the dumbbell ring.                                  |
+| `room-link`      | `#4d8dff` | Inline links in prose.                                                                         |
 
 Hairlines keep their alpha and stay plain custom properties, because Tailwind
 would flatten them into opaque utilities:
 
-| Variable | Value | Use for |
-| --- | --- | --- |
-| `--room-line` | `rgb(199 193 255 / 0.14)` | Default card and divider borders. |
+| Variable             | Value                     | Use for                                                               |
+| -------------------- | ------------------------- | --------------------------------------------------------------------- |
+| `--room-line`        | `rgb(199 193 255 / 0.14)` | Default card and divider borders.                                     |
 | `--room-line-strong` | `rgb(199 193 255 / 0.28)` | Secondary button borders, anything that needs to read as interactive. |
 
 ### Rules
@@ -56,15 +56,15 @@ Two families, both already loaded. No new font requests.
 The mono face is what keeps metadata reading as metadata. It is the reason the
 emoji icons can go: dates and locations no longer need a glyph to look distinct.
 
-| Role | Size / line-height | Tracking | Weight |
-| --- | --- | --- | --- |
-| Display | 72 / 1.02 | -0.03em | 700 |
-| H2 | 40 / 1.1 | -0.025em | 700 |
-| H3 | 22 / 1.3 | -0.015em | 700 |
-| Body large | 18 / 1.6 | — | 400 |
-| Body | 16 / 1.6 | — | 400 |
-| Small | 14 / 1.5 | — | 400 |
-| Label (mono) | 12 / 1.2 | 0.08em, uppercase | 400 |
+| Role         | Size / line-height | Tracking          | Weight |
+| ------------ | ------------------ | ----------------- | ------ |
+| Display      | 72 / 1.02          | -0.03em           | 700    |
+| H2           | 40 / 1.1           | -0.025em          | 700    |
+| H3           | 22 / 1.3           | -0.015em          | 700    |
+| Body large   | 18 / 1.6           | —                 | 400    |
+| Body         | 16 / 1.6           | —                 | 400    |
+| Small        | 14 / 1.5           | —                 | 400    |
+| Label (mono) | 12 / 1.2           | 0.08em, uppercase | 400    |
 
 ### Rules
 
@@ -119,13 +119,13 @@ Noways tiny in a white box while CA Vitry fills its card edge to edge.
 Motion is a feature here, not decoration to be trimmed. The rules exist so it
 stays coherent at that volume, not to make it smaller.
 
-| Variable | Value | Use for |
-| --- | --- | --- |
-| `--dur-fast` | 160ms | Hover, focus, small state flips. |
-| `--dur` | 300ms | Reveals, tab changes, most transitions. |
-| `--dur-slow` | 600ms | Section-scale moves, camera transitions. |
-| `--ease-out` | `cubic-bezier(0.22, 1, 0.36, 1)` | Anything entering or responding to input. |
-| `--ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)` | Anything that leaves and returns. |
+| Variable        | Value                            | Use for                                   |
+| --------------- | -------------------------------- | ----------------------------------------- |
+| `--dur-fast`    | 160ms                            | Hover, focus, small state flips.          |
+| `--dur`         | 300ms                            | Reveals, tab changes, most transitions.   |
+| `--dur-slow`    | 600ms                            | Section-scale moves, camera transitions.  |
+| `--ease-out`    | `cubic-bezier(0.22, 1, 0.36, 1)` | Anything entering or responding to input. |
+| `--ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)` | Anything that leaves and returns.         |
 
 ### Rules
 

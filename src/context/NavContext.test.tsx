@@ -4,27 +4,27 @@ import { describe, expect, it } from "vitest";
 import { NavProvider, useNav } from "./NavContext";
 
 /** Stands in for a real section: a div with a fixed offsetTop/offsetHeight. */
-const Section = ({
-  id,
-  top,
-  height,
-}: {
-  id: string;
-  top: number;
-  height: number;
-}) => {
+const Section = ({ id, top, height }: { id: string; top: number; height: number }) => {
   const ref = useRef<HTMLElement | null>(null);
   const { registerSection } = useNav();
 
   useEffect(() => {
     if (ref.current) {
-      Object.defineProperty(ref.current, "offsetTop", { value: top, configurable: true });
-      Object.defineProperty(ref.current, "offsetHeight", { value: height, configurable: true });
+      Object.defineProperty(ref.current, "offsetTop", {
+        value: top,
+        configurable: true,
+      });
+      Object.defineProperty(ref.current, "offsetHeight", {
+        value: height,
+        configurable: true,
+      });
     }
     registerSection(id, ref);
   }, [id, top, height, registerSection]);
 
-  return <section ref={ref as React.RefObject<HTMLElement>} data-testid={`section-${id}`} />;
+  return (
+    <section ref={ref as React.RefObject<HTMLElement>} data-testid={`section-${id}`} />
+  );
 };
 
 const ActiveNav = () => {
@@ -62,7 +62,9 @@ describe("NavProvider", () => {
         <Section id="contact" top={500} height={500} />
       </NavProvider>
     );
-    expect(await screen.findByText("2", { selector: "[data-testid=count]" })).toBeInTheDocument();
+    expect(
+      await screen.findByText("2", { selector: "[data-testid=count]" })
+    ).toBeInTheDocument();
   });
 
   it("activates the section under the scroll position", async () => {

@@ -25,7 +25,7 @@ const CarouselNav = ({ prevImage, nextImage, isTransitioning }: CarouselNavProps
         variant="ghost"
         size="icon"
         onClick={prevImage}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black text-white hover:text-white p-2 rounded-full  transition-all z-20"
+        className="absolute top-1/2 left-2 z-20 -translate-y-1/2 transform rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black hover:text-white"
         aria-label="Previous image"
         disabled={isTransitioning}
       >
@@ -35,7 +35,7 @@ const CarouselNav = ({ prevImage, nextImage, isTransitioning }: CarouselNavProps
         variant="ghost"
         size="icon"
         onClick={nextImage}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black text-white hover:text-white p-2 rounded-full  transition-all z-20"
+        className="absolute top-1/2 right-2 z-20 -translate-y-1/2 transform rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black hover:text-white"
         aria-label="Next image"
         disabled={isTransitioning}
       >
@@ -76,9 +76,9 @@ const ProjectCarousel = ({
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [videoEnded, setVideoEnded] = useState(false);
-  const [hoverTimer, setHoverTimer] = useState<ReturnType<
-    typeof setTimeout
-  > | null>(null);
+  const [hoverTimer, setHoverTimer] = useState<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const modalVideoRef = useRef<HTMLVideoElement | null>(null);
@@ -297,7 +297,7 @@ const ProjectCarousel = ({
     const totalItems = videoUrl ? images.length + 1 : images.length;
     return (
       <div
-        className={cn(`relative flex flex-col h-full w-full overflow-hidden`, {
+        className={cn(`relative flex h-full w-full flex-col overflow-hidden`, {
           "aspect-auto": isModalView,
           "h-[70%]": isModalView && isMobile,
         })}
@@ -306,17 +306,17 @@ const ProjectCarousel = ({
       >
         {/* Slide container */}
         <div
-          className="w-full h-[90%] sm:h-[95%] flex transition-transform duration-500 ease-in-out"
+          className="flex h-[90%] w-full transition-transform duration-500 ease-in-out sm:h-[95%]"
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
           }}
         >
           {/* video slide */}
           {videoUrl && (
-            <div className="min-w-full w-full h-full flex-shrink-0 flex-grow-0 bg-black flex items-center justify-center">
+            <div className="flex h-full w-full min-w-full flex-shrink-0 flex-grow-0 items-center justify-center bg-black">
               <video
                 ref={isModalView ? modalVideoRef : videoRef}
-                className={cn(`max-w-full max-h-full`, {
+                className={cn(`max-h-full max-w-full`, {
                   "h-[50vh]": isShowcase && !isModalView,
                 })}
                 src={videoUrl}
@@ -335,7 +335,7 @@ const ProjectCarousel = ({
           {images.map((image, index) => (
             <div
               key={index}
-              className="min-w-full w-full h-full flex-shrink-0 flex-grow-0 bg-black flex items-center justify-center"
+              className="flex h-full w-full min-w-full flex-shrink-0 flex-grow-0 items-center justify-center bg-black"
             >
               <img
                 src={image}
@@ -353,7 +353,7 @@ const ProjectCarousel = ({
         {(images.length > 1 || videoUrl) && (
           <div
             className={cn(
-              "absolute right-2 bg-black/50 hover:bg-black text-white hover:text-white text-xs px-2 py-1 rounded z-20",
+              "absolute right-2 z-20 rounded bg-black/50 px-2 py-1 text-xs text-white hover:bg-black hover:text-white",
               {
                 "bottom-2": !isModalView || !isMobile,
                 "bottom-4": isModalView && isMobile,
@@ -375,12 +375,12 @@ const ProjectCarousel = ({
 
         {/* nav dots */}
         {isModalView && (images.length > 1 || videoUrl) && (
-          <div className="mx-auto translate-y-4 sm:translate-y-3 flex space-x-2 z-20">
+          <div className="z-20 mx-auto flex translate-y-4 space-x-2 sm:translate-y-3">
             {Array.from({ length: totalItems }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-2 h-2 rounded-full ${
+                className={`h-2 w-2 rounded-full ${
                   currentIndex === index ? "bg-white" : "bg-gray-500"
                 } transition-colors duration-300`}
                 aria-label={`Go to ${
@@ -395,23 +395,20 @@ const ProjectCarousel = ({
         )}
 
         {/* reg view nav */}
-        {!controls &&
-          !isModalView &&
-          (images.length > 1 || videoUrl) &&
-          isHovered && (
-            <CarouselNav
-              prevImage={prevImage}
-              nextImage={nextImage}
-              isTransitioning={isTransitioning}
-            />
-          )}
+        {!controls && !isModalView && (images.length > 1 || videoUrl) && isHovered && (
+          <CarouselNav
+            prevImage={prevImage}
+            nextImage={nextImage}
+            isTransitioning={isTransitioning}
+          />
+        )}
 
         {/* Video play indicator for non-modal view */}
         {videoUrl && currentIndex === 0 && !isModalView && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
             <div
               className={cn(
-                `bg-black/50 rounded-full p-4 transition-opacity duration-1500`,
+                `rounded-full bg-black/50 p-4 transition-opacity duration-1500`,
                 {
                   "opacity-0": isHovered,
                   "opacity-70": !isHovered,
@@ -447,7 +444,7 @@ const ProjectCarousel = ({
 
   if (!images || (images.length === 0 && !videoUrl)) {
     return (
-      <div className="w-full h-full bg-gray-800 flex items-center justify-center">
+      <div className="flex h-full w-full items-center justify-center bg-gray-800">
         No media
       </div>
     );
@@ -459,10 +456,7 @@ const ProjectCarousel = ({
   }
 
   return (
-    <div
-      className={`relative w-full h-full ${className}`}
-      style={containerStyle}
-    >
+    <div className={`relative h-full w-full ${className}`} style={containerStyle}>
       {/* not modal view */}
       {renderCarouselContent(false)}
 
@@ -472,14 +466,14 @@ const ProjectCarousel = ({
           <Button
             variant="outline"
             size="icon"
-            className="absolute top-2 right-2 bg-black/50 hover:bg-black text-white hover:text-white p-1 rounded  transition-all z-20"
+            className="absolute top-2 right-2 z-20 rounded bg-black/50 p-1 text-white transition-all hover:bg-black hover:text-white"
             aria-label="Expand carousel"
           >
             <HiArrowsExpand />
           </Button>
         </DialogTrigger>
-        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-[95vw] md:max-w-[85vw] lg:max-w-[75vw] w-full p-0 overflow-hidden">
-          <DialogHeader className="p-3 md:p-4 border-b border-gray-700">
+        <DialogContent className="w-full max-w-[95vw] overflow-hidden border-gray-700 bg-gray-800 p-0 text-white md:max-w-[85vw] lg:max-w-[75vw]">
+          <DialogHeader className="border-b border-gray-700 p-3 md:p-4">
             <DialogTitle>{projectTitle || "Project Gallery"}</DialogTitle>
           </DialogHeader>
           <div className="p-0 md:p-2">
@@ -490,10 +484,10 @@ const ProjectCarousel = ({
               })}
             >
               {renderCarouselContent(true)}
-              <div className="h-3 relative"></div>
+              <div className="relative h-3"></div>
               {isMobile && projectDesc && (
                 <div className="px-4 py-3 text-sm">
-                  <p className="text-gray-300 leading-5">{projectDesc}</p>
+                  <p className="leading-5 text-gray-300">{projectDesc}</p>
                 </div>
               )}
             </div>

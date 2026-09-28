@@ -12,10 +12,10 @@ const BackArrow = ({ onClick }: BackArrowProps) => {
   return (
     <div
       className={cn(
-        "fixed bottom-8 left-10 z-[49] bg-black-200 rounded-full p-2 md:p-4 cursor-pointer transition-all duration-300 transform hover:scale-110",
+        "fixed bottom-8 left-10 z-[49] transform cursor-pointer rounded-full bg-black-200 p-2 transition-all duration-300 hover:scale-110 md:p-4",
         {
-          "opacity-100 translate-y-0": isInteracting,
-          "opacity-0 translate-y-10 pointer-events-none": !isInteracting,
+          "translate-y-0 opacity-100": isInteracting,
+          "pointer-events-none translate-y-10 opacity-0": !isInteracting,
         }
       )}
       onClick={onClick}

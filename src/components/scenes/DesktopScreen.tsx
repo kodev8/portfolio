@@ -61,12 +61,8 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [minimizedWindows, setMinimizedWindows] = useState<string[]>([]);
   const [maximizedWindow, setMaximizedWindow] = useState<string | null>(null);
-  const [windowSizes, setWindowSizes] = useState<Record<string, WindowSize>>(
-    {}
-  );
-  const [windowZIndices, setWindowZIndices] = useState<Record<string, number>>(
-    {}
-  );
+  const [windowSizes, setWindowSizes] = useState<Record<string, WindowSize>>({});
+  const [windowZIndices, setWindowZIndices] = useState<Record<string, number>>({});
   const [highestZIndex, setHighestZIndex] = useState(1000);
   const [isHovered, setIsHovered] = useState(false);
   const [readMesFetched, setReadMesFetched] = useState(false);
@@ -75,7 +71,6 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
     size?: WindowSize;
     position?: WindowPosition;
   }>({});
-
 
   const fetchReadme = async (project: DesktopProject) => {
     if (!project.readmeUrl) return;
@@ -86,12 +81,9 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
     const data = await response.text();
     const html = marked(data) as string;
     setProjectData((prev) =>
-      prev.map((p) =>
-        p.id === project.id ? { ...p, longDesc: html } : p
-      )
+      prev.map((p) => (p.id === project.id ? { ...p, longDesc: html } : p))
     );
   };
-
 
   const bringToFront = (windowType: string) => {
     if (windowType === activeWindow) return;
@@ -118,7 +110,7 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
     const newZIndex = highestZIndex + 1;
     setHighestZIndex(newZIndex);
     setOpenWindows((prev) => [...prev, type]);
-    if(!readMesFetched && type === "projects") {
+    if (!readMesFetched && type === "projects") {
       projectData.forEach(async (project) => {
         await fetchReadme(project);
       });
@@ -173,9 +165,7 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
       const remainingWindows = openWindows.filter((window) => window !== type);
       if (remainingWindows.length > 0) {
         const highestWindow = remainingWindows.reduce((highest, current) => {
-          return windowZIndices[current] > windowZIndices[highest]
-            ? current
-            : highest;
+          return windowZIndices[current] > windowZIndices[highest] ? current : highest;
         }, remainingWindows[0]);
 
         setActiveWindow(highestWindow);
@@ -259,10 +249,7 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
     }
   };
 
-  const handleDragStart = (
-    e: React.MouseEvent<HTMLDivElement>,
-    windowType: string
-  ) => {
+  const handleDragStart = (e: React.MouseEvent<HTMLDivElement>, windowType: string) => {
     (controls as unknown as OrbitControls).enabled = false;
     if (maximizedWindow === windowType) return;
     bringToFront(windowType);
@@ -391,18 +378,22 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
         depthWrite={false}
       >
         {/* main container */}
-        <div className="w-full h-full m-0 p-0 color-cycle border-2 relative flex flex-col items-start justify-start">
-          <div className="absolute grid mt-2 gap-4 left-2 top-2">
+        <div className="color-cycle relative m-0 flex h-full w-full flex-col items-start justify-start border-2 p-0">
+          <div className="absolute top-2 left-2 mt-2 grid gap-4">
             {Object.keys(windowLabels).map((key, index) => (
               <div
                 key={index}
                 onClick={() => handleIconClick(key)}
-                className="hover:bg-blue-300 p-1 rounded-sm w-full cursor-pointer flex-col-center"
+                className="flex-col-center w-full cursor-pointer rounded-sm p-1 hover:bg-blue-300"
               >
-                <div className="flex-center font-[8px] mb-[2px]">
-                  <img src={windowLabels[key].icon} alt={windowLabels[key].header[language]} className="w-4 h-4" />
+                <div className="flex-center mb-[2px] font-[8px]">
+                  <img
+                    src={windowLabels[key].icon}
+                    alt={windowLabels[key].header[language]}
+                    className="h-4 w-4"
+                  />
                 </div>
-                <div className="font-4xs break-words w-fit font-semibold">
+                <div className="font-4xs w-fit font-semibold break-words">
                   {windowLabels[key].header[language]}
                 </div>
               </div>
@@ -415,7 +406,7 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
               !minimizedWindows.includes(windowType) && (
                 <div
                   key={windowType}
-                  className={`window absolute bg-gray-200 rounded shadow-lg overflow-hidden ${
+                  className={`window absolute overflow-hidden rounded bg-gray-200 shadow-lg ${
                     activeWindow === windowType ? "ring-2 ring-blue-500" : ""
                   }`}
                   style={{
@@ -432,13 +423,13 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
                   onClick={(e) => handleWindowClick(e, windowType)}
                   onMouseDown={(e) => handleDragStart(e, windowType)}
                 >
-                  <div className="window-header bg-blue-600 p-2 flex justify-between items-center cursor-move">
+                  <div className="window-header flex cursor-move items-center justify-between bg-blue-600 p-2">
                     <span className="font-bold text-white">
                       {windowLabels[windowType].header[language]}
                     </span>
                     <div className="flex gap-2">
                       <button
-                        className="w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center text-xs"
+                        className="flex h-4 w-4 items-center justify-center rounded-full bg-yellow-400 text-xs"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleMinimizeWindow(windowType);
@@ -447,7 +438,7 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
                         -
                       </button>
                       <button
-                        className="w-4 h-4 bg-green-400 rounded-full flex items-center justify-center text-xs"
+                        className="flex h-4 w-4 items-center justify-center rounded-full bg-green-400 text-xs"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleMaximizeWindow(windowType);
@@ -456,7 +447,7 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
                         {maximizedWindow === windowType ? "↙" : "□"}
                       </button>
                       <button
-                        className="w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-xs"
+                        className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleCloseWindow(windowType);
@@ -478,12 +469,12 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
               )
           )}
 
-          <div className="absolute bottom-0 left-0 w-full h-15 bg-gray-300 flex items-center gap-4 p-1">
-            <span className="text-white font-xs cursor-pointer ml-1">
+          <div className="absolute bottom-0 left-0 flex h-15 w-full items-center gap-4 bg-gray-300 p-1">
+            <span className="font-xs ml-1 cursor-pointer text-white">
               <img
                 src={assetsPaths.images.desktop.logo}
                 alt="Windows"
-                className="w-8 h-8 rounded-lg"
+                className="h-8 w-8 rounded-lg"
               />
             </span>
 
@@ -491,22 +482,24 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
             {Object.keys(windowLabels).map((key, index) => (
               <div
                 key={index}
-                className={`text-white font-xs cursor-pointer ${
+                className={`font-xs cursor-pointer text-white ${
                   openWindows.includes(key)
                     ? activeWindow === key
-                      ? "bg-blue-600 rounded"
-                      : "bg-blue-400 rounded"
+                      ? "rounded bg-blue-600"
+                      : "rounded bg-blue-400"
                     : ""
-                } ${
-                  minimizedWindows.includes(key) ? "opacity-70" : ""
-                } p-1`}
+                } ${minimizedWindows.includes(key) ? "opacity-70" : ""} p-1`}
                 onClick={() => handleIconClick(key)}
               >
-                <img src={windowLabels[key].icon} alt={windowLabels[key].header[language]} className="w-4 h-4" />
+                <img
+                  src={windowLabels[key].icon}
+                  alt={windowLabels[key].header[language]}
+                  className="h-4 w-4"
+                />
               </div>
             ))}
 
-            <div className="ml-auto text-white font-2xs flex flex-col items-start justify-start mr-2">
+            <div className="font-2xs mr-2 ml-auto flex flex-col items-start justify-start text-white">
               <p>{new Date().toLocaleTimeString()}</p>
               <p>{new Date().toLocaleDateString()}</p>
             </div>
@@ -519,11 +512,10 @@ const DesktopScreen = ({ width, height }: DesktopScreenProps) => {
 
 // ----- window content components -----
 const ResumeWindow = ({ language }: { language: Language }) => (
-
   <div className="window-content flex flex-col items-center">
     <iframe
       src={assetsPaths.files.resume}
-      className="w-full h-[400px]"
+      className="h-[400px] w-full"
       title={windowLabels.resume.header[language]}
     />
     <a
@@ -531,7 +523,7 @@ const ResumeWindow = ({ language }: { language: Language }) => (
       download="kalev-keil-resume.pdf"
       target="_blank"
       rel="noopener noreferrer"
-      className="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+      className="mt-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
     >
       {downloadResumeText[language]}
     </a>
@@ -540,10 +532,12 @@ const ResumeWindow = ({ language }: { language: Language }) => (
 
 const CreditsWindow = ({ language }: { language: Language }) => (
   <div className="window-content text-black">
-    <div className="bg-gray-100 p-4 rounded-md font-mono text-sm h-[400px] overflow-y-auto">
-      <h2 className="text-lg font-bold mb-4">{windowLabels.credits.header[language]}</h2>
+    <div className="h-[400px] overflow-y-auto rounded-md bg-gray-100 p-4 font-mono text-sm">
+      <h2 className="mb-4 text-lg font-bold">
+        {windowLabels.credits.header[language]}
+      </h2>
       {credits.map((credit, index) => (
-        <div key={index} className="mb-4 p-2 border-b border-gray-300">
+        <div key={index} className="mb-4 border-b border-gray-300 p-2">
           <p className="font-bold">{credit.name}</p>
           <p className="text-gray-600">{credit.msg[language]}</p>
           <a
@@ -567,9 +561,7 @@ const ProjectsWindow = ({
   projectData: DesktopProject[];
   language: Language;
 }) => {
-  const [selectedProject, setSelectedProject] = useState<DesktopProject | null>(
-    null
-  );
+  const [selectedProject, setSelectedProject] = useState<DesktopProject | null>(null);
 
   return (
     <div className="window-content">
@@ -577,28 +569,23 @@ const ProjectsWindow = ({
         <div className="p-4">
           <button
             onClick={() => setSelectedProject(null)}
-            className="mb-4 bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-xs"
+            className="mb-4 rounded bg-blue-500 px-2 py-1 text-xs text-white hover:bg-blue-600"
           >
             {desktopProjectsText.backToProjects[language]}
           </button>
-          <div className="bg-white rounded-md shadow p-4">
-            <h2 className="text-lg font-bold">
-              {selectedProject.title}
-            </h2>
+          <div className="rounded-md bg-white p-4 shadow">
+            <h2 className="text-lg font-bold">{selectedProject.title}</h2>
             {selectedProject.thumbnail && (
               <img
                 src={selectedProject.thumbnail}
                 alt={selectedProject.title}
-                className="my-2 w-full h-40 object-contain rounded"
+                className="my-2 h-40 w-full rounded object-contain"
               />
             )}
             <p className="my-2">{selectedProject.desc[language]}</p>
-            <div className="flex flex-wrap gap-2 my-2">
+            <div className="my-2 flex flex-wrap gap-2">
               {selectedProject.stack.map((tech, idx) => (
-                <span
-                  key={idx}
-                  className="bg-gray-200 px-2 py-1 rounded text-xs"
-                >
+                <span key={idx} className="rounded bg-gray-200 px-2 py-1 text-xs">
                   {tech}
                 </span>
               ))}
@@ -616,39 +603,39 @@ const ProjectsWindow = ({
               </div>
             )}
 
-            <div className="flex gap-2 items-center">
-            {selectedProject.liveUrl && (
-              <a
-                href={selectedProject.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline text-sm"
-              >
-                {viewLiveText[language]}
-              </a>
-            )}
-
-            {selectedProject.githubUrl && (
-              <a
-                href={selectedProject.githubUrl}
-                target="_blank"
+            <div className="flex items-center gap-2">
+              {selectedProject.liveUrl && (
+                <a
+                  href={selectedProject.liveUrl}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline text-sm"
-              >
-                {viewGitHubText[language]}
-              </a>
+                  className="text-sm text-blue-500 hover:underline"
+                >
+                  {viewLiveText[language]}
+                </a>
+              )}
+
+              {selectedProject.githubUrl && (
+                <a
+                  href={selectedProject.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-blue-500 hover:underline"
+                >
+                  {viewGitHubText[language]}
+                </a>
               )}
             </div>
           </div>
         </div>
       ) : (
-        <div className="bg-gray-100 p-4 h-[400px] overflow-y-auto">
-          <h2 className="text-lg font-bold mb-4"></h2>
+        <div className="h-[400px] overflow-y-auto bg-gray-100 p-4">
+          <h2 className="mb-4 text-lg font-bold"></h2>
           <div className="grid grid-cols-1 gap-4">
             {projectData.map((project, index) => (
               <div
                 key={index}
-                className="bg-white p-3 rounded-md shadow cursor-pointer hover:bg-gray-50 flex items-center"
+                className="flex cursor-pointer items-center rounded-md bg-white p-3 shadow hover:bg-gray-50"
                 onClick={() => {
                   setSelectedProject(project);
                 }}
@@ -656,7 +643,7 @@ const ProjectsWindow = ({
                 <img
                   src={assetsPaths.images.desktop.folder}
                   alt="folder"
-                  className="w-6 h-6 mr-3"
+                  className="mr-3 h-6 w-6"
                 />
                 <span>{project.title}</span>
               </div>
@@ -683,20 +670,20 @@ const VideosWindow = memo(({ language }: { language: Language }) => {
 
   return (
     <div className="window-content">
-      <div className="bg-gray-100 p-4 h-[400px] flex flex-col">
-        <h2 className="text-lg font-bold mb-4">{currentVideo.title}</h2>
-        <div className="flex-1 bg-black flex items-center justify-center relative">
+      <div className="flex h-[400px] flex-col bg-gray-100 p-4">
+        <h2 className="mb-4 text-lg font-bold">{currentVideo.title}</h2>
+        <div className="relative flex flex-1 items-center justify-center bg-black">
           {currentVideo.type === "local" ? (
             <video
               src={currentVideo.url}
               controls
               poster={(currentVideo as VideoClip & { thumbnail?: string }).thumbnail}
-              className="max-w-full max-h-full"
+              className="max-h-full max-w-full"
             />
           ) : (
             <iframe
               src={currentVideo.url.replace("watch?v=", "embed/")}
-              className="w-full h-full"
+              className="h-full w-full"
               title={currentVideo.title}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -704,10 +691,10 @@ const VideosWindow = memo(({ language }: { language: Language }) => {
             />
           )}
         </div>
-        <div className="flex justify-between mt-4">
+        <div className="mt-4 flex justify-between">
           <button
             onClick={prevVideo}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           >
             {previousText[language]}
           </button>
@@ -716,7 +703,7 @@ const VideosWindow = memo(({ language }: { language: Language }) => {
           </div>
           <button
             onClick={nextVideo}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           >
             {nextText[language]}
           </button>
@@ -728,12 +715,12 @@ const VideosWindow = memo(({ language }: { language: Language }) => {
 
 const ContactWindow = ({ language }: { language: Language }) => (
   <div className="window-content">
-    <div className="bg-gray-100 p-6 h-[400px] flex flex-col items-center justify-center">
-      <h2 className="text-xl font-bold mb-6">{contactText[language]}</h2>
-      <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
-        <div className="flex items-center mb-4">
+    <div className="flex h-[400px] flex-col items-center justify-center bg-gray-100 p-6">
+      <h2 className="mb-6 text-xl font-bold">{contactText[language]}</h2>
+      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-md">
+        <div className="mb-4 flex items-center">
           <svg
-            className="w-6 h-6 mr-3 text-gray-600"
+            className="mr-3 h-6 w-6 text-gray-600"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -748,9 +735,9 @@ const ContactWindow = ({ language }: { language: Language }) => (
           </a>
         </div>
 
-        <div className="flex items-center mb-4">
+        <div className="mb-4 flex items-center">
           <svg
-            className="w-6 h-6 mr-3 text-gray-600"
+            className="mr-3 h-6 w-6 text-gray-600"
             fill="currentColor"
             viewBox="0 0 24 24"
           >
@@ -768,7 +755,7 @@ const ContactWindow = ({ language }: { language: Language }) => (
 
         <div className="flex items-center">
           <svg
-            className="w-6 h-6 mr-3 text-gray-600"
+            className="mr-3 h-6 w-6 text-gray-600"
             fill="currentColor"
             viewBox="0 0 24 24"
           >

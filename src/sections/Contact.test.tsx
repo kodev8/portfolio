@@ -68,7 +68,9 @@ describe("Contact", () => {
 
     await user.click(screen.getByRole("button", { name: /send/i }));
 
-    await waitFor(() => expect(toast.success).toHaveBeenCalledWith(contactForm.success.en));
+    await waitFor(() =>
+      expect(toast.success).toHaveBeenCalledWith(contactForm.success.en)
+    );
     expect(toast.error).not.toHaveBeenCalled();
   });
 

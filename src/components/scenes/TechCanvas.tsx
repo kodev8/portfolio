@@ -97,8 +97,8 @@ const BoundsBox = memo(() => {
 
 const TechCanvasFallback = () => {
   return (
-    <div className="flex-center w-full h-full">
-      <Spinner className="w-10 h-10 text-room-accent" />
+    <div className="flex-center h-full w-full">
+      <Spinner className="h-10 w-10 text-room-accent" />
     </div>
   );
 };
@@ -114,7 +114,7 @@ const TechCanvas = memo(({ group, resetTrigger, is3d }: TechCanvasProps) => {
     <Suspense fallback={<TechCanvasFallback />}>
       <Canvas
         camera={{ position: [0, 0, 10], fov: 50 }}
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: "100%", height: "100%" }}
       >
         <ViewportProvider is3d={is3d}>
           {(sizedData) => (

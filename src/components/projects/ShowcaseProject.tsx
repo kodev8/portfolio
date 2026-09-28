@@ -16,7 +16,7 @@ const ShowcaseProject = forwardRef<HTMLDivElement, ShowcaseProjectProps>(
     const { language } = useLanguage();
 
     return (
-      <motion.div className="project " ref={ref}>
+      <motion.div className="project" ref={ref}>
         <div
           className={`relative aspect-video overflow-hidden rounded-2xl ${project.bgColor}`}
         >
@@ -29,11 +29,9 @@ const ShowcaseProject = forwardRef<HTMLDivElement, ShowcaseProjectProps>(
             isShowcase
           />
         </div>
-        <div className="text-content flex flex-col gap-4 my-4">
+        <div className="text-content my-4 flex flex-col gap-4">
           <h3 className="type-h3 text-room-hi">{project.title}</h3>
-          {!isMobile && (
-            <p className="type-body">{project.desc[language]}</p>
-          )}
+          {!isMobile && <p className="type-body">{project.desc[language]}</p>}
           <ProjectFooter project={project} />
         </div>
       </motion.div>

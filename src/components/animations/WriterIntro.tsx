@@ -218,7 +218,7 @@ export default function WriterIntro() {
   return (
     <div
       className={cn(
-        "absolute top-0 left-0 w-screen h-screen !z-[100] transition-all duration-300",
+        "absolute top-0 left-0 !z-[100] h-screen w-screen transition-all duration-300",
         {
           "h-0 w-0": animationComplete,
         }
@@ -228,11 +228,7 @@ export default function WriterIntro() {
         <button
           type="button"
           onClick={skipIntro}
-          className="fixed right-6 bottom-6 z-[101] flex h-11 items-center gap-2 rounded-xl border
-                     border-[var(--room-line-strong)] bg-room-surface/80 px-4 text-sm font-semibold
-                     text-room-mid backdrop-blur-sm transition-colors duration-[var(--dur-fast)]
-                     ease-[var(--ease-out)] hover:border-room-accent hover:text-room-hi
-                     focus-visible:border-room-accent focus-visible:outline-none"
+          className="fixed right-6 bottom-6 z-[101] flex h-11 items-center gap-2 rounded-xl border border-[var(--room-line-strong)] bg-room-surface/80 px-4 text-sm font-semibold text-room-mid backdrop-blur-sm transition-colors duration-[var(--dur-fast)] ease-[var(--ease-out)] hover:border-room-accent hover:text-room-hi focus-visible:border-room-accent focus-visible:outline-none"
         >
           {introText.skip[language]}
           <svg
@@ -259,7 +255,7 @@ export default function WriterIntro() {
           }
         }}
         className={
-          "logo-container fixed cursor-pointer font-mono font-bold text-7xl text-white tracking-wider !z-[100]"
+          "logo-container fixed !z-[100] cursor-pointer font-mono text-7xl font-bold tracking-wider text-white"
         }
         initial={{
           left: window.innerWidth / 2,
@@ -272,7 +268,7 @@ export default function WriterIntro() {
         <div className="relative flex items-center">
           {showBrackets && (
             <svg
-              className="h-12 md:h-16 w-6 md:w-8 mr-1"
+              className="mr-1 h-12 w-6 md:h-16 md:w-8"
               viewBox="-64 0 512 512"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -308,7 +304,7 @@ export default function WriterIntro() {
 
           {showBrackets && (
             <svg
-              className="h-12 md:h-16 w-6 md:w-8 ml-1"
+              className="ml-1 h-12 w-6 md:h-16 md:w-8"
               viewBox="-64 0 512 512"
               xmlns="http://www.w3.org/2000/svg"
             >

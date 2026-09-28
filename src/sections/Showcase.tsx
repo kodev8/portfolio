@@ -8,9 +8,7 @@ import { useNav } from "../context/NavContext";
 import ShowcaseProject from "../components/projects/ShowcaseProject";
 import { useLanguage } from "../context/LanguageContext";
 
-
 gsap.registerPlugin(ScrollTrigger);
-
 
 const AppShowcase = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -22,14 +20,9 @@ const AppShowcase = () => {
   );
   const { language } = useLanguage();
 
-
   useGSAP(() => {
     // Animation for the main section
-    gsap.fromTo(
-      sectionRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 1.5 }
-    );
+    gsap.fromTo(sectionRef.current, { opacity: 0 }, { opacity: 1, duration: 1.5 });
 
     // Animations for each app showcase
     const cards = projectRefs.map((ref) => ref.current);
@@ -71,31 +64,22 @@ const AppShowcase = () => {
           title={showCaseHeader.title[language]}
           sub={showCaseHeader.sub[language]}
         />
-        <div className="grid grid-cols-1 justify-items-center lg:grid-cols-2 gap-8 lg:gap-12 mt-16">
+        <div className="mt-16 grid grid-cols-1 justify-items-center gap-8 lg:grid-cols-2 lg:gap-12">
           {/* Featured 0 */}
 
           <div className="lg:col-span-2 lg:max-w-[60%]">
-            <ShowcaseProject
-              project={featuredProjects[0]}
-              ref={projectRefs[0]}
-            />
-            </div>
+            <ShowcaseProject project={featuredProjects[0]} ref={projectRefs[0]} />
+          </div>
           {/* Featured 1 */}
 
-            <div className="col-span-1">
-            <ShowcaseProject
-              project={featuredProjects[1]}
-              ref={projectRefs[1]}
-            />
-            </div>
+          <div className="col-span-1">
+            <ShowcaseProject project={featuredProjects[1]} ref={projectRefs[1]} />
+          </div>
 
-            {/* Featured 2 */}
-            <div className="col-span-1">
-            <ShowcaseProject
-              project={featuredProjects[2]}
-              ref={projectRefs[2]}
-            />
-            </div>
+          {/* Featured 2 */}
+          <div className="col-span-1">
+            <ShowcaseProject project={featuredProjects[2]} ref={projectRefs[2]} />
+          </div>
         </div>
       </div>
     </section>

@@ -308,7 +308,6 @@ const assetsPaths = {
   },
 };
 
-
 // contact info
 const contactInfo = {
   email: "kalev-giovanni.keil@epita.fr",
@@ -322,8 +321,6 @@ const videos: VideoClip[] = assetsPaths.videos.clips.map((video, index) => ({
   url: video,
   type: "local",
 }));
-
-
 
 // ---------------------------------- NAV BAR ----------------------------------
 const navLinksTranslations: Record<string, NavLink> = {
@@ -559,7 +556,6 @@ const canvasWarning: Translated = {
   en: "This experience is best viewed on a larger screen! But you can still try ;)",
   fr: "Cette expérience est mieux vue sur un écran plus grand! Mais vous pouvez toujours essayer ;)",
 };
-
 
 const credits: Credit[] = [
   {
@@ -1128,8 +1124,7 @@ const projects: Project[] = [
     ],
     videoPath: assetsPaths.videos.projects.statroom,
     githubUrl: "https://github.com/kodev8/statroom",
-    readmeUrl:
-      "https://raw.githubusercontent.com/kodev8/statroom/main/README.md",
+    readmeUrl: "https://raw.githubusercontent.com/kodev8/statroom/main/README.md",
     bgColor: "bg-slate-700",
   },
   {
@@ -1139,17 +1134,9 @@ const projects: Project[] = [
       en: "A financial analysis tool for options trading built with Python and Streamlit. This tool leverages Yahoo Finance API to fetch real-time market data and uses Plotly for interactive data visualization, helping traders make informed decisions.",
       fr: "Une outil d'analyse financière pour le trading d'options construit avec Python et Streamlit. Cet outil utilise l'API Yahoo Finance pour récupérer des données de marché en temps réel et utilise Plotly pour la visualisation interactive des données, aidant les traders à prendre des décisions éclairées.",
     },
-    stack: [
-      "Python",
-      "Streamlit",
-      "Yahoo Finance API",
-      "Plotly",
-      "Pandas",
-      "Numpy",
-    ],
+    stack: ["Python", "Streamlit", "Yahoo Finance API", "Plotly", "Pandas", "Numpy"],
     thumbnail: assetsPaths.images.projects.options[0],
-    readmeUrl:
-      "https://raw.githubusercontent.com/kodev8/options-tool/main/README.md",
+    readmeUrl: "https://raw.githubusercontent.com/kodev8/options-tool/main/README.md",
     githubUrl: "https://github.com/kodev8/options-tool",
     liveUrl: "https://options-tool.streamlit.app/",
     bgColor: "bg-slate-700",
@@ -1164,8 +1151,7 @@ const projects: Project[] = [
     },
     stack: ["Python", "Flask", "htmx", "SQL", "HTML", "CSS", "JavaScript"],
     thumbnail: assetsPaths.images.projects.uber[0],
-    readmeUrl:
-      "https://raw.githubusercontent.com/kodev8/uber-klone/main/README.md",
+    readmeUrl: "https://raw.githubusercontent.com/kodev8/uber-klone/main/README.md",
     videoPath: assetsPaths.videos.projects.uber,
     githubUrl: "https://github.com/kodev8/uber-klone",
     liveUrl: "https://uber-klone.onrender.com",
@@ -1183,8 +1169,7 @@ const projects: Project[] = [
     thumbnail: assetsPaths.images.projects.pokebattle[0],
     videoPath: assetsPaths.videos.projects.pokebattle,
     githubUrl: "https://github.com/kodev8/pokebattle",
-    readmeUrl:
-      "https://raw.githubusercontent.com/kodev8/pokebattle/main/README.md",
+    readmeUrl: "https://raw.githubusercontent.com/kodev8/pokebattle/main/README.md",
     liveUrl: "https://kodev8.itch.io/pokebattle",
     carousel: assetsPaths.images.projects.pokebattle,
   },
@@ -1210,19 +1195,9 @@ const projects: Project[] = [
       en: "A functional clone of Amazon's e-commerce platform built with Flask and HTMX. This project replicates core Amazon features with a responsive design and MongoDB integration for data storage.",
       fr: "Un clone fonctionnel de la plateforme e-commerce d'Amazon construite avec Flask et HTMX. Ce projet reproduit les fonctionnalités clés d'Amazon avec un design réactif et une intégration de MongoDB pour le stockage des données.",
     },
-    stack: [
-      "Python",
-      "Flask",
-      "htmx",
-      "SQL",
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "MongoDB",
-    ],
+    stack: ["Python", "Flask", "htmx", "SQL", "HTML", "CSS", "JavaScript", "MongoDB"],
     thumbnail: assetsPaths.images.projects.amazon[0],
-    readmeUrl:
-      "https://raw.githubusercontent.com/kodev8/amazon-klone/main/README.md",
+    readmeUrl: "https://raw.githubusercontent.com/kodev8/amazon-klone/main/README.md",
     githubUrl: "https://github.com/kodev8/amazon-klone",
     liveUrl: "https://amazon-klone.onrender.com",
     carousel: assetsPaths.images.projects.amazon,
@@ -1237,8 +1212,7 @@ const projects: Project[] = [
     stack: ["Python", "Flask", "htmx", "SQL", "HTML", "CSS", "JavaScript"],
     thumbnail: assetsPaths.images.projects.tictactoe[0],
     githubUrl: "https://github.com/kodev8/tictactoe-htmx",
-    readmeUrl:
-      "https://raw.githubusercontent.com/kodev8/tictactoe-htmx/main/README.md",
+    readmeUrl: "https://raw.githubusercontent.com/kodev8/tictactoe-htmx/main/README.md",
     liveUrl: "https://tictactoe-htmx.onrender.com",
     carousel: assetsPaths.images.projects.tictactoe,
   },
@@ -1350,7 +1324,7 @@ const programmingLanguages: TechIconDef[] = [
   },
   {
     name: "SQL",
-    modelPath: assetsPaths.models.skills. sql,
+    modelPath: assetsPaths.models.skills.sql,
     imgPath: assetsPaths.models.skills_as_img.sql,
     scale: 0.3,
     rotation: [1.2, 0, 0],
@@ -1418,7 +1392,8 @@ const tools: TechIconDef[] = [
     scale: 0.4,
     rotation: [1.5, 0, 0],
     verified: true,
-  }, {
+  },
+  {
     name: "GCP",
     modelPath: assetsPaths.models.skills.gcp,
     imgPath: assetsPaths.models.skills_as_img.gcp,
@@ -1600,7 +1575,7 @@ const techStackGroups: TechStackGroup[] = [
     },
     icons: programmingLanguages,
   },
-  
+
   {
     name: {
       en: "Tools",

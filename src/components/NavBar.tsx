@@ -17,7 +17,6 @@ import { useLanguage } from "../context/LanguageContext";
 import MotionToggle from "./ui/MotionToggle";
 import type { Language } from "../types";
 
-
 export function SelectLanguage() {
   const { language, updateLanguage } = useLanguage();
   return (
@@ -28,11 +27,7 @@ export function SelectLanguage() {
       <SelectTrigger
         withIcon={false}
         aria-label="Language"
-        className="h-9! w-fit cursor-pointer rounded-[10px] border-[var(--room-line-strong)] bg-transparent px-3
-                   font-mono text-xs tracking-[0.06em] text-room-mid uppercase
-                   transition-colors duration-[var(--dur-fast)] ease-[var(--ease-out)]
-                   hover:border-room-accent hover:text-room-hi
-                   focus-visible:border-room-accent focus-visible:ring-0"
+        className="h-9! w-fit cursor-pointer rounded-[10px] border-[var(--room-line-strong)] bg-transparent px-3 font-mono text-xs tracking-[0.06em] text-room-mid uppercase transition-colors duration-[var(--dur-fast)] ease-[var(--ease-out)] hover:border-room-accent hover:text-room-hi focus-visible:border-room-accent focus-visible:ring-0"
       >
         <SelectValue placeholder={language} />
       </SelectTrigger>
@@ -55,8 +50,6 @@ export function SelectLanguage() {
     </Select>
   );
 }
-
-
 
 const NavBar = () => {
   const { language } = useLanguage();
@@ -118,7 +111,7 @@ const NavBar = () => {
       className={cn("navbar", {
         scrolled,
         "not-scrolled": !scrolled,
-        "opacity-0 pointer-events-none": isInteracting,
+        "pointer-events-none opacity-0": isInteracting,
       })}
       style={{
         transition: "opacity 0.5s ease-out, background-color 0.3s ease",
@@ -128,7 +121,7 @@ const NavBar = () => {
         {/* Desktop Nav Links */}
         <div
           ref={logoRef as RefObject<HTMLDivElement | null>}
-          className="size-12 ml-4 mt-2 p-4 "
+          className="mt-2 ml-4 size-12 p-4"
         ></div>
         <nav className="desktop absolute left-1/2 -translate-x-1/2">
           <ul>
@@ -161,31 +154,31 @@ const NavBar = () => {
         {/* socials */}
 
         <nav className="ml-auto hidden items-center gap-3 lg:flex">
-          <a
-            href={contactInfo.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaLinkedin size={18} className="text-room-low transition-colors duration-[var(--dur-fast)] hover:text-room-hi" />
+          <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer">
+            <FaLinkedin
+              size={18}
+              className="text-room-low transition-colors duration-[var(--dur-fast)] hover:text-room-hi"
+            />
           </a>
-          <a
-            href={contactInfo.github}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaGithub size={18} className="text-room-low transition-colors duration-[var(--dur-fast)] hover:text-room-hi" />
+          <a href={contactInfo.github} target="_blank" rel="noopener noreferrer">
+            <FaGithub
+              size={18}
+              className="text-room-low transition-colors duration-[var(--dur-fast)] hover:text-room-hi"
+            />
           </a>
           <a
             href={`mailto:${contactInfo.email}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaEnvelope size={18} className="text-room-low transition-colors duration-[var(--dur-fast)] hover:text-room-hi" />
+            <FaEnvelope
+              size={18}
+              className="text-room-low transition-colors duration-[var(--dur-fast)] hover:text-room-hi"
+            />
           </a>
           <a
             href="#contact"
-            className="ml-1 flex h-9 items-center rounded-[10px] bg-room-accent px-4 text-sm font-semibold text-room-on-accent
-                       transition-[filter] duration-[var(--dur-fast)] ease-[var(--ease-out)] hover:brightness-110"
+            className="ml-1 flex h-9 items-center rounded-[10px] bg-room-accent px-4 text-sm font-semibold text-room-on-accent transition-[filter] duration-[var(--dur-fast)] ease-[var(--ease-out)] hover:brightness-110"
           >
             Contact
           </a>
@@ -201,26 +194,26 @@ const NavBar = () => {
           <span className="z-[48] ml-2">
             <MotionToggle />
           </span>
-          <span className=" ml-2 mr-3 z-[48]">
+          <span className="z-[48] mr-3 ml-2">
             <SelectLanguage />
           </span>
 
           <div
-            className="relative inline-block ml-auto"
+            className="relative ml-auto inline-block"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <div className="relative size-12 md:size-16 select-none mr-2 xl:mr-0">
-              <div className="absolute inset-0 z-[48] rounded-full outline-4 outline-white overflow-hidden">
+            <div className="relative mr-2 size-12 select-none md:size-16 xl:mr-0">
+              <div className="absolute inset-0 z-[48] overflow-hidden rounded-full outline-4 outline-white">
                 <img
                   src={navBarImages[currentImage].src}
                   alt={navBarImages[currentImage].alt[language]}
-                  className="size-full object-cover rounded-full ring-2 ring-muted-foreground/50 ring-offset-2"
+                  className="size-full rounded-full object-cover ring-2 ring-muted-foreground/50 ring-offset-2"
                 />
               </div>
 
               <svg
-                className="absolute inset-0  overflow-visible size-full rotate-[-90deg] z-[48] pointer-events-none"
+                className="pointer-events-none absolute inset-0 z-[48] size-full rotate-[-90deg] overflow-visible"
                 viewBox="0 0 120 120"
               >
                 <circle

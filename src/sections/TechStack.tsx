@@ -1,12 +1,4 @@
-import {
-  useRef,
-  useEffect,
-  useState,
-  useCallback,
-  memo,
-  lazy,
-  Suspense,
-} from "react";
+import { useRef, useEffect, useState, useCallback, memo, lazy, Suspense } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useNav } from "../context/NavContext";
@@ -35,18 +27,17 @@ import { cn } from "../utils";
 import { Spinner } from "../components/ui/spinner";
 import type { TechStackGroup } from "../types";
 
-
 const TechList2d = memo(({ group }: { group: TechStackGroup }) => {
   return (
-    <div className="grid grid-cols-2 md:flex flex-wrap gap-x-16 gap-y-4 items-center justify-start lg:my-auto">
+    <div className="grid grid-cols-2 flex-wrap items-center justify-start gap-x-16 gap-y-4 md:flex lg:my-auto">
       {group.icons.map((icon) => (
         <div key={icon.name} className="flex flex-col items-center justify-center">
           <img
             src={icon.imgPath}
             alt={icon.name}
-            className="max-h-16 aspect-auto rounded-md"
+            className="aspect-auto max-h-16 rounded-md"
           />
-          <h3 className="text-white-50 font-semibold text-sm md:text-base text-center">
+          <h3 className="text-center text-sm font-semibold text-white-50 md:text-base">
             {icon.name}
           </h3>
         </div>
@@ -124,7 +115,7 @@ const TechStack = () => {
       ref={sectionRef}
       className="flex-center section-padding snap-item main-section"
     >
-      <div className="w-full h-full md:px-10 sm:px-4">
+      <div className="h-full w-full sm:px-4 md:px-10">
         <TitleHeader
           index="04"
           title={techStackHeader.title[language]}
@@ -141,7 +132,7 @@ const TechStack = () => {
             />
             <label
               htmlFor="toggle3d"
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex cursor-pointer items-center gap-2"
               onPointerEnter={preloadTechCanvas}
             >
               <span
@@ -161,10 +152,10 @@ const TechStack = () => {
               </span>
               <span className="type-label text-room-mid">
                 {is3d ? (
-                  <span className="text-room-accent flex items-center gap-1">
+                  <span className="flex items-center gap-1 text-room-accent">
                     3D
                     <Tip content={techStackText.tip3d[language]}>
-                      <FaInfoCircle className="w-4 h-4" />
+                      <FaInfoCircle className="h-4 w-4" />
                     </Tip>
                   </span>
                 ) : (
@@ -176,8 +167,7 @@ const TechStack = () => {
             {is3d && (
               <Button
                 onClick={handleReset}
-                className="px-4 py-2 bg-room-accent hover:brightness-110 text-room-on-accent rounded-xl font-semibold
-                        transition-colors duration-300 flex items-center gap-2 shadow-lg"
+                className="flex items-center gap-2 rounded-xl bg-room-accent px-4 py-2 font-semibold text-room-on-accent shadow-lg transition-colors duration-300 hover:brightness-110"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -195,13 +185,12 @@ const TechStack = () => {
               </Button>
             )}
           </div>
-
         </TitleHeader>
 
         <div className="mx-8 mt-8 grid grid-cols-1 items-start gap-8 md:mx-16 lg:mx-24 lg:grid-cols-2">
           {/* instruction text */}
           {is3d && (
-            <div className="md:hidden text-center text-white-50 text-sm lg:col-span-2 -mt-2 mb-2">
+            <div className="-mt-2 mb-2 text-center text-sm text-white-50 md:hidden lg:col-span-2">
               {techStackText.tapAndDrag[language]}
             </div>
           )}
@@ -214,31 +203,28 @@ const TechStack = () => {
                 index === 1
                   ? "lg:mt-16"
                   : index % 2 === 1
-                  ? "lg:mt-4"
-                  : index > 1
-                  ? "lg:-mt-16"
-                  : ""
+                    ? "lg:mt-4"
+                    : index > 1
+                      ? "lg:-mt-16"
+                      : ""
               }`}
             >
-              <GlowCard
-                card={group}
-                className="group w-full"
-              >
-                <h3 className="text-white-50 mb-4 font-semibold text-lg md:text-xl group-hover:text-room-accent transition-all duration-300">
+              <GlowCard card={group} className="group w-full">
+                <h3 className="mb-4 text-lg font-semibold text-white-50 transition-all duration-300 group-hover:text-room-accent md:text-xl">
                   {group.name[language]}
                 </h3>
                 {is3d ? (
                   <div className="h-[40vh] w-full">
                     <Suspense fallback={<TechCanvasFallback />}>
-                    <TechCanvas
-                      group={group}
-                      resetTrigger={resetTrigger}
-                      is3d={is3d}
-                    />
+                      <TechCanvas
+                        group={group}
+                        resetTrigger={resetTrigger}
+                        is3d={is3d}
+                      />
                     </Suspense>
                   </div>
                 ) : (
-                  <div className="h-full w-full flex">
+                  <div className="flex h-full w-full">
                     <TechList2d group={group} />
                   </div>
                 )}

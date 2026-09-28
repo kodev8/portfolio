@@ -43,16 +43,22 @@ describe("translated content", () => {
     expectTranslated(value, `aboutMe.${key}`);
   });
 
-  it.each(Object.entries(experienceTabs))("experienceTabs.%s is fully translated", (key, tab) => {
-    for (const field of ["title", "sub", "tabLabel"] as const) {
-      expectTranslated(tab[field], `experienceTabs.${key}.${field}`);
+  it.each(Object.entries(experienceTabs))(
+    "experienceTabs.%s is fully translated",
+    (key, tab) => {
+      for (const field of ["title", "sub", "tabLabel"] as const) {
+        expectTranslated(tab[field], `experienceTabs.${key}.${field}`);
+      }
     }
-  });
+  );
 
-  it.each(Object.entries(windowLabels))("windowLabels.%s has a translated header", (key, label) => {
-    expectTranslated(label.header, `windowLabels.${key}.header`);
-    expect(label.icon).toBeTruthy();
-  });
+  it.each(Object.entries(windowLabels))(
+    "windowLabels.%s has a translated header",
+    (key, label) => {
+      expectTranslated(label.header, `windowLabels.${key}.header`);
+      expect(label.icon).toBeTruthy();
+    }
+  );
 
   it.each([
     ["showCaseHeader", showCaseHeader],
@@ -116,7 +122,9 @@ describe("projects", () => {
     expect(featuredProjects.length + portfolioProjects.length).toBe(projects.length);
     const featuredIds = new Set(featuredProjects.map((p) => p.id));
     for (const project of portfolioProjects) {
-      expect(featuredIds.has(project.id), `project ${project.id} in both lists`).toBe(false);
+      expect(featuredIds.has(project.id), `project ${project.id} in both lists`).toBe(
+        false
+      );
     }
   });
 
@@ -144,7 +152,9 @@ describe("credits", () => {
 describe("experience cards", () => {
   const all: [string, ExperienceCard][] = [
     ...expWorkCards.map((c, i) => [`work[${i}]`, c] as [string, ExperienceCard]),
-    ...expEducationCards.map((c, i) => [`education[${i}]`, c] as [string, ExperienceCard]),
+    ...expEducationCards.map(
+      (c, i) => [`education[${i}]`, c] as [string, ExperienceCard]
+    ),
     ...expCertifications.map((c, i) => [`cert[${i}]`, c] as [string, ExperienceCard]),
   ];
 

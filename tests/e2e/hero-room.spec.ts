@@ -43,7 +43,9 @@ test.describe("hero room @3d", () => {
     const hasContext = await page
       .locator("canvas")
       .first()
-      .evaluate((el: HTMLCanvasElement) => !!(el.getContext("webgl2") || el.getContext("webgl")));
+      .evaluate(
+        (el: HTMLCanvasElement) => !!(el.getContext("webgl2") || el.getContext("webgl"))
+      );
 
     expect(hasContext).toBe(true);
   });

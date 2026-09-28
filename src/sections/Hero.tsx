@@ -12,9 +12,7 @@ import { FaCircleInfo } from "react-icons/fa6";
 
 // The 3D scene pulls in three, r3f, drei, rapier and postprocessing. It is
 // opt-in behind the room button, so it should not be in the initial bundle.
-const HeroExperience = lazy(
-  () => import("../components/scenes/HeroExperience")
-);
+const HeroExperience = lazy(() => import("../components/scenes/HeroExperience"));
 
 /**
  * Warm the room chunk ahead of the click.
@@ -101,7 +99,7 @@ const Hero = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="relative overflow-hidden main-section !h-[120vh]"
+      className="main-section relative !h-[120vh] overflow-hidden"
     >
       {/* <div id="hero-bg" className="absolute top-0 left-0 z-10">
         <img src="/images/bg.png" alt="background" />
@@ -112,14 +110,14 @@ const Hero = () => {
           read: navBarRef.current is null on first paint, which emitted
           top:"undefinedpx", and a ref never triggers the re-render that
           would fix it. That is what let the heading sit under the nav. */}
-      <div className="relative w-full h-screen grid-rows-[auto_1fr] grid grid-cols-5 pt-[calc(var(--nav-h)+1.5rem)]">
-        <span className="hidden xl:block col-span-1"></span>
+      <div className="relative grid h-screen w-full grid-cols-5 grid-rows-[auto_1fr] pt-[calc(var(--nav-h)+1.5rem)]">
+        <span className="col-span-1 hidden xl:block"></span>
         <header
           className={cn(
-            "hero-layout-header col-span-full xl:col-span-3 flex justify-center relative md:px-20 px-5 z-10 mx-auto"
+            "hero-layout-header relative z-10 col-span-full mx-auto flex justify-center px-5 md:px-20 xl:col-span-3"
           )}
         >
-          <div className="flex flex-col  ">
+          <div className="flex flex-col">
             <div className="hero-text">
               <h1>
                 {heroWords.engineering[language]}{" "}
@@ -128,12 +126,12 @@ const Hero = () => {
                     {words[language].map((word, index) => (
                       <span
                         key={index}
-                        className="flex items-center md:gap-3 gap-1 pb-2"
+                        className="flex items-center gap-1 pb-2 md:gap-3"
                       >
                         <img
                           src={word.imgPath}
                           alt={word.text}
-                          className="xl:size-12 md:size-10 size-7 md:p2 p-1 rounded-full bg-white-50"
+                          className="md:p2 size-7 rounded-full bg-white-50 p-1 md:size-10 xl:size-12"
                         />
                         <span className="text-white-50">{word.text}</span>
                       </span>
@@ -145,7 +143,7 @@ const Hero = () => {
             </div>
             <HighLightProvider>
               <div className="md:relative">
-                <p className="text-white-50 md:text-xl overflow-visible z-10 break-words whitespace-pre-wrap">
+                <p className="z-10 overflow-visible break-words whitespace-pre-wrap text-white-50 md:text-xl">
                   {heroWords.greeting[language]}{" "}
                   <HighLightText
                     text={heroWords.softwareEngineer[language]}
@@ -156,14 +154,10 @@ const Hero = () => {
                   {heroWords.focus[language]}{" "}
                   {/* {heroWords.opportunities[language]} */}
                   {/* <br /> */}
-                  <HighLightText
-                    text={heroWords.cloudandnetwork[language]}
-                    index={2}
-                  />
-
+                  <HighLightText text={heroWords.cloudandnetwork[language]} index={2} />
                   {isRoomOpen && (
                     <Tip content={heroWords.aboutMeIndicator[language]}>
-                      <FaCircleInfo className="text-white-50 inline-block mx-2 z-10" />
+                      <FaCircleInfo className="z-10 mx-2 inline-block text-white-50" />
                     </Tip>
                   )}
                 </p>
@@ -171,7 +165,7 @@ const Hero = () => {
             </HighLightProvider>
           </div>
         </header>
-        <span className="hidden xl:block col-span-1"></span>
+        <span className="col-span-1 hidden xl:block"></span>
 
         {/* right */}
 
@@ -190,9 +184,9 @@ const Hero = () => {
         ) : (
           <>
             <span className="hidden lg:block"></span>
-            <div className="col-span-full lg:col-span-3 flex flex-col items-center">
+            <div className="col-span-full flex flex-col items-center lg:col-span-3">
               <motion.div
-                className="mt-10 sm:mt-16 md:mt-20 flex justify-center px-4 sm:px-0"
+                className="mt-10 flex justify-center px-4 sm:mt-16 sm:px-0 md:mt-20"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -202,11 +196,7 @@ const Hero = () => {
                   onClick={() => setIsRoomOpen(true)}
                   onPointerEnter={preloadRoom}
                   onFocus={preloadRoom}
-                  className="group relative flex w-full max-w-md flex-col items-start gap-4 rounded-3xl border border-[var(--room-line)]
-                             bg-room-surface px-6 py-7 text-left sm:max-w-lg sm:px-8
-                             transition-[border-color,transform] duration-[var(--dur)] ease-[var(--ease-out)]
-                             hover:-translate-y-0.5 hover:border-room-accent
-                             focus-visible:border-room-accent focus-visible:outline-none"
+                  className="group relative flex w-full max-w-md flex-col items-start gap-4 rounded-3xl border border-[var(--room-line)] bg-room-surface px-6 py-7 text-left transition-[border-color,transform] duration-[var(--dur)] ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-room-accent focus-visible:border-room-accent focus-visible:outline-none sm:max-w-lg sm:px-8"
                 >
                   <span className="font-mono text-[11px] tracking-[0.08em] text-room-accent uppercase">
                     {heroWords.newTab[language]}
@@ -220,10 +210,7 @@ const Hero = () => {
                     {heroWords.clickToExplore[language]}
                   </span>
 
-                  <span
-                    className="mt-1 inline-flex h-11 items-center gap-2 rounded-xl bg-room-accent px-5 text-sm font-semibold text-room-on-accent
-                               transition-transform duration-[var(--dur-fast)] ease-[var(--ease-out)] group-hover:translate-x-0.5 sm:text-base"
-                  >
+                  <span className="mt-1 inline-flex h-11 items-center gap-2 rounded-xl bg-room-accent px-5 text-sm font-semibold text-room-on-accent transition-transform duration-[var(--dur-fast)] ease-[var(--ease-out)] group-hover:translate-x-0.5 sm:text-base">
                     <svg
                       width="15"
                       height="15"

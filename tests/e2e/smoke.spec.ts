@@ -47,7 +47,9 @@ test.describe("smoke", () => {
 
   test("shows the hero copy", async ({ page }) => {
     await gotoHome(page);
-    await expect(page.getByRole("heading", { name: /into Innovative Solutions/i })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /into Innovative Solutions/i })
+    ).toBeVisible();
   });
 
   test("uses every element id only once", async ({ page }) => {

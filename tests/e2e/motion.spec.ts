@@ -88,9 +88,7 @@ test.describe("motion preference", () => {
     await fresh.goto("/");
     await expect(fresh.locator("main")).toHaveClass(/opacity-100/, { timeout: 30_000 });
 
-    await fresh
-      .getByRole("button", { name: /turn animation back on/i })
-      .click();
+    await fresh.getByRole("button", { name: /turn animation back on/i }).click();
 
     await expect
       .poll(() => fresh.evaluate(() => document.documentElement.dataset.motion))

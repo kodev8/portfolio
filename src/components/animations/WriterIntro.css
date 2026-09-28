@@ -1,16 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap");
 
 .font-mono {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .cursor::after {
-  content: '|';
+  content: "|";
   margin-left: 2px;
   animation: blink 1s infinite;
 }
@@ -18,4 +23,4 @@
 .transform-gpu {
   transform: translateZ(0);
   backface-visibility: visible;
-} 
+}

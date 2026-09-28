@@ -50,7 +50,9 @@ afterEach(() => {
 describe("MotionProvider", () => {
   it("defaults to full motion", async () => {
     renderProbe();
-    expect(await screen.findByText("full", { selector: "[data-testid=motion]" })).toBeInTheDocument();
+    expect(
+      await screen.findByText("full", { selector: "[data-testid=motion]" })
+    ).toBeInTheDocument();
   });
 
   it("follows the OS when it asks to reduce", async () => {
@@ -59,7 +61,9 @@ describe("MotionProvider", () => {
 
     renderProbe();
 
-    expect(await screen.findByText("reduced", { selector: "[data-testid=motion]" })).toBeInTheDocument();
+    expect(
+      await screen.findByText("reduced", { selector: "[data-testid=motion]" })
+    ).toBeInTheDocument();
   });
 
   it("reports that an inherited preference is not explicit", async () => {
@@ -104,7 +108,9 @@ describe("MotionProvider", () => {
 
     renderProbe();
 
-    expect(await screen.findByText("reduced", { selector: "[data-testid=motion]" })).toBeInTheDocument();
+    expect(
+      await screen.findByText("reduced", { selector: "[data-testid=motion]" })
+    ).toBeInTheDocument();
   });
 
   it("lets an explicit full choice override an OS that asks to reduce", async () => {
@@ -114,7 +120,9 @@ describe("MotionProvider", () => {
 
     renderProbe();
 
-    expect(await screen.findByText("full", { selector: "[data-testid=motion]" })).toBeInTheDocument();
+    expect(
+      await screen.findByText("full", { selector: "[data-testid=motion]" })
+    ).toBeInTheDocument();
   });
 
   it("ignores a junk value in storage", async () => {
@@ -122,7 +130,9 @@ describe("MotionProvider", () => {
 
     renderProbe();
 
-    expect(await screen.findByText("full", { selector: "[data-testid=motion]" })).toBeInTheDocument();
+    expect(
+      await screen.findByText("full", { selector: "[data-testid=motion]" })
+    ).toBeInTheDocument();
   });
 
   it("falls back to full motion outside a provider", () => {

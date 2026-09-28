@@ -63,10 +63,7 @@ export const NavProvider = ({ children }: { children: ReactNode }) => {
 
         const { offsetTop, offsetHeight } = sectionRef.current;
 
-        if (
-          scrollPosition >= offsetTop &&
-          scrollPosition < offsetTop + offsetHeight
-        ) {
+        if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
           currentSection = id;
         }
       });

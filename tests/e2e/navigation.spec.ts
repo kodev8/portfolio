@@ -36,7 +36,9 @@ test.describe("navigation", () => {
 
   test("links the resume", async ({ page }) => {
     await gotoHome(page);
-    await expect(page.locator('a[href$="kalev-keil-resume.pdf"]').first()).toBeAttached();
+    await expect(
+      page.locator('a[href$="kalev-keil-resume.pdf"]').first()
+    ).toBeAttached();
   });
 
   test("scrolls back to the top of the page", async ({ page }) => {

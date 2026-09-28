@@ -1,9 +1,9 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import prettier from 'eslint-config-prettier'
+import js from "@eslint/js";
+import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import tseslint from "typescript-eslint";
+import prettier from "eslint-config-prettier";
 
 /**
  * Tailwind only generates classes it can see as complete literals in the
@@ -18,118 +18,115 @@ import prettier from 'eslint-config-prettier'
  */
 const tailwindRuntimeClasses = {
   rules: {
-    'no-runtime-class': {
+    "no-runtime-class": {
       meta: {
-        type: 'problem',
+        type: "problem",
         docs: {
           description:
-            'Disallow completing a Tailwind class name with an interpolation',
+            "Disallow completing a Tailwind class name with an interpolation",
         },
         schema: [
           {
-            type: 'object',
+            type: "object",
             properties: {
               // Prefixes that are selector hooks rather than Tailwind
               // utilities, e.g. `tab-${id}` used by a querySelector.
-              allow: { type: 'array', items: { type: 'string' } },
+              allow: { type: "array", items: { type: "string" } },
             },
             additionalProperties: false,
           },
         ],
         messages: {
           runtime:
-            'Tailwind cannot see this class and will purge it. Use an inline style, or map the value to whole literal class names.',
+            "Tailwind cannot see this class and will purge it. Use an inline style, or map the value to whole literal class names.",
         },
       },
       create(context) {
         // A quasi that ends mid-token: "h-[", "from-", "md:w-".
-        const PARTIAL = /[\w:)\]-]*[-[]$/
-        const allow = context.options[0]?.allow ?? []
+        const PARTIAL = /[\w:)\]-]*[-[]$/;
+        const allow = context.options[0]?.allow ?? [];
         // A literal inside a cn() inside a className matches both selectors.
-        const seen = new Set()
+        const seen = new Set();
 
         const check = (node) => {
-          if (seen.has(node)) return
-          seen.add(node)
+          if (seen.has(node)) return;
+          seen.add(node);
           node.quasis.forEach((quasi, index) => {
-            if (index === node.quasis.length - 1) return
-            const raw = quasi.value.raw
-            if (!PARTIAL.test(raw)) return
+            if (index === node.quasis.length - 1) return;
+            const raw = quasi.value.raw;
+            if (!PARTIAL.test(raw)) return;
             // The token this interpolation completes, e.g. "tab-".
-            const token = raw.slice(raw.lastIndexOf(' ') + 1)
-            if (allow.some((prefix) => token.startsWith(prefix))) return
+            const token = raw.slice(raw.lastIndexOf(" ") + 1);
+            if (allow.some((prefix) => token.startsWith(prefix))) return;
             context.report({
               node: node.expressions[index] ?? node,
-              messageId: 'runtime',
-            })
-          })
-        }
+              messageId: "runtime",
+            });
+          });
+        };
 
         return {
           'JSXAttribute[name.name="className"] TemplateLiteral': check,
-          'CallExpression[callee.name=/^(cn|cva|clsx|twMerge)$/] TemplateLiteral':
+          "CallExpression[callee.name=/^(cn|cva|clsx|twMerge)$/] TemplateLiteral":
             check,
-        }
+        };
       },
     },
   },
-}
+};
 
 export default tseslint.config(
   {
     ignores: [
-      'dist',
-      'coverage',
-      'playwright-report',
-      'test-results',
-      'blob-report',
-      '.playwright-mcp',
-      'public',
+      "dist",
+      "coverage",
+      "playwright-report",
+      "test-results",
+      "blob-report",
+      ".playwright-mcp",
+      "public",
     ],
   },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
     },
     plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
       tailwind: tailwindRuntimeClasses,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { varsIgnorePattern: '^[A-Z_]', argsIgnorePattern: '^_' },
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { varsIgnorePattern: "^[A-Z_]", argsIgnorePattern: "^_" },
       ],
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       // `tab-${id}` is a gsap/querySelector hook defined in index.css, not a
       // Tailwind utility, so it is safe from purging.
-      'tailwind/no-runtime-class': ['error', { allow: ['tab-'] }],
+      "tailwind/no-runtime-class": ["error", { allow: ["tab-"] }],
     },
   },
   {
     // Generated by gltfjsx; regenerating them is the way to change them.
-    files: ['src/components/models/*.tsx'],
+    files: ["src/components/models/*.tsx"],
     rules: {
-      'tailwind/no-runtime-class': 'off',
+      "tailwind/no-runtime-class": "off",
     },
   },
   {
     // Playwright fixtures call `use(...)`, which the react-hooks plugin reads
     // as React 19's `use` hook. None of this directory is React.
-    files: ['tests/**/*.ts'],
+    files: ["tests/**/*.ts"],
     rules: {
-      'react-hooks/rules-of-hooks': 'off',
-      'react-refresh/only-export-components': 'off',
+      "react-hooks/rules-of-hooks": "off",
+      "react-refresh/only-export-components": "off",
     },
   },
   // Last: turns off every rule that would fight Prettier.
   prettier
-)
+);

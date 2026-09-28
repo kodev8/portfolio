@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useRef,
-  useState,
-  useEffect,
-} from "react";
+import React, { createContext, useContext, useRef, useState, useEffect } from "react";
 
 interface HighLightContextValue {
   sequenceActive: boolean;

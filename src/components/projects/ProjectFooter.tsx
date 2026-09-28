@@ -16,11 +16,13 @@ function ProjectFooter({ project, variants, className = "" }: ProjectFooterProps
   const { language } = useLanguage();
   return (
     <motion.div className={cn("flex flex-col gap-2", className)} variants={variants}>
-          <motion.div className="flex gap-2 flex-wrap" variants={variants}
-              style={{
-                justifyContent: "inherit",
-              }}
-          >
+      <motion.div
+        className="flex flex-wrap gap-2"
+        variants={variants}
+        style={{
+          justifyContent: "inherit",
+        }}
+      >
         {project.stack.map((tech) => (
           <Badge variant="tech" key={tech}>
             {tech}

@@ -31,9 +31,7 @@ export const AnimationProvider = ({ children }: { children: ReactNode }) => {
   }, [animationComplete]);
 
   return (
-    <AnimationContext.Provider
-      value={{ animationComplete, setAnimationComplete }}
-    >
+    <AnimationContext.Provider value={{ animationComplete, setAnimationComplete }}>
       {children}
     </AnimationContext.Provider>
   );

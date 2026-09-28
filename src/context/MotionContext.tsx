@@ -92,9 +92,7 @@ export const MotionProvider = ({ children }: { children: ReactNode }) => {
     [motion, stored, setMotion, toggleMotion]
   );
 
-  return (
-    <MotionContext.Provider value={value}>{children}</MotionContext.Provider>
-  );
+  return <MotionContext.Provider value={value}>{children}</MotionContext.Provider>;
 };
 
 export const useMotion = () => useContext(MotionContext);

@@ -45,9 +45,7 @@ test.describe("skip intro", () => {
     await context.close();
   });
 
-  test("stops the sequence rather than running it over the page", async ({
-    page,
-  }) => {
+  test("stops the sequence rather than running it over the page", async ({ page }) => {
     await page.goto("/");
     await expect(skip(page)).toBeVisible();
     await page.waitForTimeout(600); // let a few letters type

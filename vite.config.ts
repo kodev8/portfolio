@@ -6,10 +6,7 @@ import { resolveBucketUrl } from "./src/constants/bucket";
 
 dotenv.config();
 
-const BUCKET_URL = resolveBucketUrl(
-  process.env.VITE_MODE,
-  process.env.VITE_BUCKET_URL
-);
+const BUCKET_URL = resolveBucketUrl(process.env.VITE_MODE, process.env.VITE_BUCKET_URL);
 
 /**
  * index.html is static, so it cannot read the bucket logic the app uses.

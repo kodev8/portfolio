@@ -43,11 +43,7 @@ const MotionToggle = ({ className }: { className?: string }) => {
         strokeLinejoin="round"
         aria-hidden="true"
       >
-        {isFull ? (
-          <path d="M3 12h4l3-7 4 14 3-7h4" />
-        ) : (
-          <path d="M3 12h18" />
-        )}
+        {isFull ? <path d="M3 12h4l3-7 4 14 3-7h4" /> : <path d="M3 12h18" />}
       </svg>
       <span
         className={cn(

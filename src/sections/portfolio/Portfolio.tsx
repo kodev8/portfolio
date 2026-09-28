@@ -95,10 +95,8 @@ interface ListItemProps {
 const ListItem = ({ item, dir, isInView }: ListItemProps) => {
   const { language } = useLanguage();
   const { isMobile } = useMedia();
-  const imgVariants =
-    dir === "ltr" ? imgFromLeftVariants : imgFromRightVariants;
-  const textVariants =
-    dir === "ltr" ? textFromRightVariants : textFromLeftVariants;
+  const imgVariants = dir === "ltr" ? imgFromLeftVariants : imgFromRightVariants;
+  const textVariants = dir === "ltr" ? textFromRightVariants : textFromLeftVariants;
 
   const shouldAnimate = isMobile ? "animate" : isInView ? "animate" : "initial";
 
@@ -106,10 +104,10 @@ const ListItem = ({ item, dir, isInView }: ListItemProps) => {
     <div
       data-name={item.title}
       className={cn(
-        "flex flex-col md:flex-row w-full md:max-w-6xl gap-y-2 gap-x-6 px-6",
+        "flex w-full flex-col gap-x-6 gap-y-2 px-6 md:max-w-6xl md:flex-row",
         {
           "items-center": isMobile,
-          "md:items-end md:mb-4": dir === "ltr",
+          "md:mb-4 md:items-end": dir === "ltr",
         }
       )}
     >
@@ -140,7 +138,7 @@ const ListItem = ({ item, dir, isInView }: ListItemProps) => {
       <motion.div
         variants={textVariants}
         animate={shouldAnimate}
-        className={cn("w-full md:w-2/5 flex flex-col gap-6 ", {
+        className={cn("flex w-full flex-col gap-6 md:w-2/5", {
           "order-2": isMobile || dir === "ltr",
           "order-1 items-end": !isMobile && dir === "rtl",
         })}
@@ -150,10 +148,7 @@ const ListItem = ({ item, dir, isInView }: ListItemProps) => {
         </motion.h3>
         {/* Hide description on mobile */}
         {!isMobile && (
-          <motion.p
-            className="type-body"
-            variants={textVariants}
-          >
+          <motion.p className="type-body" variants={textVariants}>
             {item.desc[language]}
           </motion.p>
         )}
@@ -161,7 +156,7 @@ const ListItem = ({ item, dir, isInView }: ListItemProps) => {
         <ProjectFooter
           project={item}
           variants={textVariants}
-          className={cn("flex gap-2 flex-wrap", {
+          className={cn("flex flex-wrap gap-2", {
             "items-end justify-end": !isMobile && dir === "rtl",
           })}
         />
@@ -184,7 +179,7 @@ const ListSection = forwardRef<HTMLDivElement, ListSectionProps>(
     });
     return (
       <div
-        className={`flex flex-col gap-16 relative md:min-w-screen md:h-screen flex-center md:mt-12 md:gap-4`}
+        className={`flex-center relative flex flex-col gap-16 md:mt-12 md:h-screen md:min-w-screen md:gap-4`}
         ref={ref}
       >
         {/* First item - Image on left, text on right */}
@@ -230,7 +225,7 @@ const Portfolio = () => {
   return (
     <section
       id="portfolio"
-      className="relative content-section md:snap-container w-screen main-section"
+      className="content-section md:snap-container main-section relative w-screen"
       // Height drives the horizontal scroll: useScroll maps this section's
       // travel onto the strip's x. It used to be set with a Tailwind class
       // built from data (`h-[${numPages * 100}vh]`), which Tailwind cannot
@@ -242,7 +237,7 @@ const Portfolio = () => {
     >
       <motion.div
         className={
-          "flex flex-col w-screen gap-16 md:gap-2 md:h-screen md:flex-row md:sticky md:top-0 md:w-max max-w-screen"
+          "flex w-screen max-w-screen flex-col gap-16 md:sticky md:top-0 md:h-screen md:w-max md:flex-row md:gap-2"
         }
         style={{
           x: isMobile ? 0 : x,
@@ -269,10 +264,7 @@ const Portfolio = () => {
       {/* used to control the scroll snap */}
       {!isMobile &&
         Array.from({ length: numPages - 1 }).map((_, index) => (
-          <section
-            key={index}
-            className={`h-screen w-screen top-0 snap-item`}
-          />
+          <section key={index} className={`snap-item top-0 h-screen w-screen`} />
         ))}
     </section>
   );

@@ -13,7 +13,9 @@ const Button = ({ className, id, href, text }: ButtonLinkProps) => {
     <a
       // onClick={onClick}
       href={href}
-      className={`cta-wrapper ${className}`} id={id}>
+      className={`cta-wrapper ${className}`}
+      id={id}
+    >
       <div className="cta-button group">
         <div className="bg-circle"></div>
         <p className="text">{text}</p>

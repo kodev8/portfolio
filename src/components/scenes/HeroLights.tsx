@@ -1,15 +1,12 @@
 import * as THREE from "three";
 import { useRef } from "react";
-import { useHelper } from "@react-three/drei"
-
+import { useHelper } from "@react-three/drei";
 
 const HeroLights = () => {
+  const light1 = useRef<THREE.DirectionalLight>(null!);
+  useHelper(light1, THREE.DirectionalLightHelper, 0.5, "white");
 
-
-  const light1 = useRef<THREE.DirectionalLight>(null!)
-  useHelper(light1, THREE.DirectionalLightHelper, 0.5, "white")
-
-  const light2 = useRef<THREE.PointLight>(null)
+  const light2 = useRef<THREE.PointLight>(null);
   // useHelper(light2, PointLightHelper, 0.5, "white")
 
   return (
@@ -39,7 +36,7 @@ const HeroLights = () => {
         color="#9d4edd"
       /> */}
 
-{/* <spotLight
+      {/* <spotLight
         position={[-8, 10, 1]}
         angle={0.1}
         penumbra={0.2}
@@ -56,7 +53,7 @@ const HeroLights = () => {
         color="white"
         ref={light1}
       /> */}
-{/*  */}
+      {/*  */}
       <primitive
         object={new THREE.RectAreaLight("#dbd5f0", 8, 3, 2)}
         position={[1, 3, 4]}

@@ -30,7 +30,9 @@ describe("LanguageProvider", () => {
   it("restores a stored language on mount", async () => {
     window.localStorage.setItem("language", "fr");
     renderProbe();
-    expect(await screen.findByText("fr", { selector: "[data-testid=lang]" })).toBeInTheDocument();
+    expect(
+      await screen.findByText("fr", { selector: "[data-testid=lang]" })
+    ).toBeInTheDocument();
   });
 
   it("persists the language when it changes", async () => {
@@ -51,7 +53,9 @@ describe("LanguageProvider", () => {
 
     renderProbe();
 
-    expect(await screen.findByText("fr", { selector: "[data-testid=lang]" })).toBeInTheDocument();
+    expect(
+      await screen.findByText("fr", { selector: "[data-testid=lang]" })
+    ).toBeInTheDocument();
   });
 
   it("ignores a junk value in storage instead of rendering it", () => {

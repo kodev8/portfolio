@@ -143,8 +143,12 @@ describe("ProjectCarousel", () => {
     it("offers no navigation for a single image", () => {
       setup({ images: ["/only.png"], controls: true });
 
-      expect(screen.queryByRole("button", { name: /next image/i })).not.toBeInTheDocument();
-      expect(screen.queryByRole("button", { name: /previous image/i })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: /next image/i })
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: /previous image/i })
+      ).not.toBeInTheDocument();
     });
 
     it("offsets the slide track by one viewport per index", async () => {
@@ -159,11 +163,15 @@ describe("ProjectCarousel", () => {
 
     it("reveals navigation on hover when controls are off", async () => {
       const { user } = setup();
-      expect(screen.queryByRole("button", { name: /next image/i })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: /next image/i })
+      ).not.toBeInTheDocument();
 
       await user.hover(stage());
 
-      expect(await screen.findByRole("button", { name: /next image/i })).toBeInTheDocument();
+      expect(
+        await screen.findByRole("button", { name: /next image/i })
+      ).toBeInTheDocument();
     });
   });
 
@@ -243,7 +251,9 @@ describe("ProjectCarousel", () => {
 
       await user.click(screen.getByRole("button", { name: /expand/i }));
 
-      expect(within(await screen.findByRole("dialog")).getByText("Statroom")).toBeInTheDocument();
+      expect(
+        within(await screen.findByRole("dialog")).getByText("Statroom")
+      ).toBeInTheDocument();
     });
 
     it("falls back to a generic dialog title", async () => {

@@ -34,15 +34,13 @@ const FloatingInfoPanel = ({
       const href = (e.target as HTMLElement).getAttribute("href")!;
 
       if (href.startsWith("#")) {
-
         // handle internal links
         if (onLinkClick) {
           onLinkClick(href);
         } else {
           document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
         }
-      }
-      else {
+      } else {
         window.open(href, "_blank", "noopener,noreferrer");
       }
     }
@@ -83,7 +81,6 @@ const FloatingInfoPanel = ({
           }
         }
 
-
         setDisplayText(htmlOutput);
         charIndex.current += 1;
 
@@ -113,10 +110,7 @@ const FloatingInfoPanel = ({
   if (!visible) return null;
 
   return (
-    <group
-      ref={groupRef}
-      position={[position[0], position[1] + 0.5, position[2]]}
-    >
+    <group ref={groupRef} position={[position[0], position[1] + 0.5, position[2]]}>
       <Html
         transform
         distanceFactor={isMobile ? 1.3 : 1}

@@ -127,7 +127,7 @@ const SceneContent = () => {
         <Html {...itemData.exitButton}>
           <button
             onClick={() => setIsRoomOpen(false)}
-            className="p-2 text-[20px] text-black font-bold rounded-md cursor-pointer"
+            className="cursor-pointer rounded-md p-2 text-[20px] font-bold text-black"
           >
             ⬅️
           </button>

@@ -119,8 +119,7 @@ const ExperienceSection = () => {
           const contentRect = contentRef.current.getBoundingClientRect();
 
           // Calculate the scroll position needed to place the content just below the header
-          const scrollPosition =
-            window.scrollY + contentRect.top - headerHeight - 40;
+          const scrollPosition = window.scrollY + contentRect.top - headerHeight - 40;
 
           window.scrollTo({
             top: scrollPosition,
@@ -135,9 +134,9 @@ const ExperienceSection = () => {
     <section
       id="experience"
       ref={sectionRef}
-      className="flex-center content-section section-padding main-section !mt-0 md:!mt-20 xl:px-0 xl:pb-26 w-screen"
+      className="flex-center content-section section-padding main-section !mt-0 w-screen md:!mt-20 xl:px-0 xl:pb-26"
     >
-      <div className=" mx-auto px-4">
+      <div className="mx-auto px-4">
         {/* Sticky title header */}
         <TitleHeader
           ref={titleContainerRef}
@@ -145,52 +144,45 @@ const ExperienceSection = () => {
           title={experienceTabs[activeTab].title[language]}
           sub={experienceTabs[activeTab].sub[language]}
         >
-          <div className="flex justify-center items-center mb-4">
-            <div className="bg-gray-800 p-1 text-xs rounded-full shadow-lg">
-              <div ref={tabsRef} className="flex relative p-1">
+          <div className="mb-4 flex items-center justify-center">
+            <div className="rounded-full bg-gray-800 p-1 text-xs shadow-lg">
+              <div ref={tabsRef} className="relative flex p-1">
                 <div
                   ref={highlightRef}
-                  className="absolute bg-[#000000] rounded-full z-1"
+                  className="absolute z-1 rounded-full bg-[#000000]"
                   style={{ height: "100%" }}
                 />
 
-                {(Object.keys(experienceTabs) as ExperienceTabKey[]).map(
-                  (tab) => (
-                    <button
-                      key={tab}
-                      className={cn(
-                        `tab-${tab} cursor-pointer py-2 px-6 rounded-full transition-colors duration-300 relative z-10`,
-                        {
-                          "text-white font-bold": activeTab === tab,
-                          "text-gray-300": activeTab !== tab,
-                        }
-                      )}
-                      onClick={() => handleTabClick(tab)}
-                    >
-                      {experienceTabs[tab].tabLabel[language]}
-                    </button>
-                  )
-                )}
+                {(Object.keys(experienceTabs) as ExperienceTabKey[]).map((tab) => (
+                  <button
+                    key={tab}
+                    className={cn(
+                      `tab-${tab} relative z-10 cursor-pointer rounded-full px-6 py-2 transition-colors duration-300`,
+                      {
+                        "font-bold text-white": activeTab === tab,
+                        "text-gray-300": activeTab !== tab,
+                      }
+                    )}
+                    onClick={() => handleTabClick(tab)}
+                  >
+                    {experienceTabs[tab].tabLabel[language]}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
         </TitleHeader>
 
         {/* Content sections with animation */}
-        <div
-          ref={contentRef}
-          className="experience-content overflow-hidden mt-4"
-        >
-          {activeTab === "work" && (
-              <Experience cards={expWorkCards} type="work" />
-          )}
+        <div ref={contentRef} className="experience-content mt-4 overflow-hidden">
+          {activeTab === "work" && <Experience cards={expWorkCards} type="work" />}
 
           {activeTab === "education" && (
-              <Experience cards={expEducationCards} type="education" />
+            <Experience cards={expEducationCards} type="education" />
           )}
 
           {activeTab === "certifications" && (
-              <Experience cards={expCertifications} type="certifications" />
+            <Experience cards={expCertifications} type="certifications" />
           )}
         </div>
       </div>

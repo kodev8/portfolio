@@ -30,7 +30,7 @@ function App() {
       <WriterIntro />
       <main
         className={cn("opacity-0", {
-          "opacity-100 top-0 left-0 w-full transition-opacity duration-300":
+          "top-0 left-0 w-full opacity-100 transition-opacity duration-300":
             animationComplete,
         })}
       >

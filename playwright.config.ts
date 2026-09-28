@@ -1,8 +1,4 @@
-import {
-  defineConfig,
-  devices,
-  type PlaywrightTestConfig,
-} from "@playwright/test";
+import { defineConfig, devices, type PlaywrightTestConfig } from "@playwright/test";
 
 const PORT = 4173;
 
@@ -10,11 +6,7 @@ const PORT = 4173;
 // context and r3f renders nothing at all. SwiftShader gives it a software one.
 export const webgl = {
   launchOptions: {
-    args: [
-      "--use-gl=angle",
-      "--use-angle=swiftshader",
-      "--enable-unsafe-swiftshader",
-    ],
+    args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
   },
 };
 
@@ -26,9 +18,7 @@ export const baseConfig: PlaywrightTestConfig = {
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: process.env.CI
-    ? [["github"], ["html", { open: "never" }]]
-    : [["list"]],
+  reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : [["list"]],
 };
 
 /**

@@ -27,7 +27,9 @@ const Probe = () => {
       <button onClick={() => setIsAnimating(true)}>animate</button>
       <button onClick={() => setIsRoomOpen(true)}>open room</button>
       <button
-        onClick={() => setSelectedItem({ name: "rubik", position: new Vector3(1, 2, 3) })}
+        onClick={() =>
+          setSelectedItem({ name: "rubik", position: new Vector3(1, 2, 3) })
+        }
       >
         select
       </button>

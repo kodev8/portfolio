@@ -59,8 +59,7 @@ const Clickable = ({
   const itemRef = useRef<THREE.Group>(null);
   const { camera, controls: rawControls } = useThree();
   const controls = rawControls as unknown as OrbitControls;
-  const { isInteracting, setIsInteracting, isAnimating, setIsAnimating } =
-    useHero();
+  const { isInteracting, setIsInteracting, isAnimating, setIsAnimating } = useHero();
   const { selectedItem, setSelectedItem } = useHero();
   const [showInfoPanel, setShowInfoPanel] = useState(false);
   const isScreen = name === "leftScreen" || name === "rightScreen";
@@ -82,7 +81,6 @@ const Clickable = ({
       position: itemPosition,
       details: aboutMe[name],
     });
-
 
     const localOffset = new THREE.Vector3(
       viewableOffset[0],
@@ -116,94 +114,94 @@ const Clickable = ({
     //   controls.enableZoom = false;
     // }
 
-  //   const tl = gsap.timeline({
-  //     defaults: { ease: "power2.out" },
-  //   });
+    //   const tl = gsap.timeline({
+    //     defaults: { ease: "power2.out" },
+    //   });
 
-  //   tl.to(
-  //     [
-  //       ".navbar",
-  //       ".hero-text",
-  //       "header p",
-  //       "#button",
-  //       "#hero-bg",
-  //       ".hero-layout-header",
-  //     ],
-  //     {
-  //       opacity: 0,
-  //       zIndex: -1,
-  //       duration: 0.3,
-  //       stagger: 0.05,
-  //     }
-  //   );
+    //   tl.to(
+    //     [
+    //       ".navbar",
+    //       ".hero-text",
+    //       "header p",
+    //       "#button",
+    //       "#hero-bg",
+    //       ".hero-layout-header",
+    //     ],
+    //     {
+    //       opacity: 0,
+    //       zIndex: -1,
+    //       duration: 0.3,
+    //       stagger: 0.05,
+    //     }
+    //   );
 
-  //   console.log("cameraTargetPosition", cameraTargetPosition);
+    //   console.log("cameraTargetPosition", cameraTargetPosition);
 
-  //   tl.to(
-  //     ".hero-3d-layout",
-  //     {
-  //       duration: 0.3,
-  //       onComplete: () => {
-  //         // Tween camera position
-  //         gsap.to(camera.position, {
-  //           x: cameraTargetPosition.x,
-  //           y: cameraTargetPosition.y,
-  //           z: cameraTargetPosition.z,
-  //           duration: isScreen ? 1.2 : 1,
-  //           ease: "sine.out",
-  //           onUpdate: () => {
-  //             if (!isScreen) {
-  //               camera.lookAt(itemPosition);
-  //             } else {
-  //               gsap.to(camera.rotation, {
-  //                 y: dummy.rotation.y,
-  //                 duration: 0.5,
-  //                 ease: "sine.out",
-  //               });
-  //             }
-  //           },
-  //         });
+    //   tl.to(
+    //     ".hero-3d-layout",
+    //     {
+    //       duration: 0.3,
+    //       onComplete: () => {
+    //         // Tween camera position
+    //         gsap.to(camera.position, {
+    //           x: cameraTargetPosition.x,
+    //           y: cameraTargetPosition.y,
+    //           z: cameraTargetPosition.z,
+    //           duration: isScreen ? 1.2 : 1,
+    //           ease: "sine.out",
+    //           onUpdate: () => {
+    //             if (!isScreen) {
+    //               camera.lookAt(itemPosition);
+    //             } else {
+    //               gsap.to(camera.rotation, {
+    //                 y: dummy.rotation.y,
+    //                 duration: 0.5,
+    //                 ease: "sine.out",
+    //               });
+    //             }
+    //           },
+    //         });
 
-  //         if (isScreen) {
-  //           gsap.to(camera.quaternion, {});
-  //         }
+    //         if (isScreen) {
+    //           gsap.to(camera.quaternion, {});
+    //         }
 
-  //         // Tween orbit target
-  //         gsap.to(currentTarget, {
-  //           x: itemPosition.x,
-  //           y: itemPosition.y,
-  //           z: itemPosition.z,
-  //           duration: isScreen ? 1.2 : 1,
-  //           ease: "sine.out",
-  //           onUpdate: () => {
-  //             controls.target.copy(currentTarget);
-  //             // if (!isScreen) {
-  //               controls.update();
-  //             // }
-  //           },
-  //           onComplete: () => {
-  //             if (isScreen) {
-  //               controls.minDistance = 0;
-  //               controls.maxDistance = 10;
-  //               controls.enablePan = false;
-  //               controls.enableZoom = true;
-  //             } else {
-  //               controls.minDistance = 3;
-  //               controls.maxDistance = 10;
-  //               controls.enablePan = false;
-  //               controls.enableZoom = false;
-  //             }
-  //             setTimeout(() => {
-  //               console.log("setting isAnimating to false");
-  //               setIsAnimating(false);
-  //               controls.enabled = true; // keep deisable if going to computer
-  //             }, 100);
-  //             onClick?.();
-  //           },
-  //         });
-  //       },
-  //     },
-  //     "-=0.1"
+    //         // Tween orbit target
+    //         gsap.to(currentTarget, {
+    //           x: itemPosition.x,
+    //           y: itemPosition.y,
+    //           z: itemPosition.z,
+    //           duration: isScreen ? 1.2 : 1,
+    //           ease: "sine.out",
+    //           onUpdate: () => {
+    //             controls.target.copy(currentTarget);
+    //             // if (!isScreen) {
+    //               controls.update();
+    //             // }
+    //           },
+    //           onComplete: () => {
+    //             if (isScreen) {
+    //               controls.minDistance = 0;
+    //               controls.maxDistance = 10;
+    //               controls.enablePan = false;
+    //               controls.enableZoom = true;
+    //             } else {
+    //               controls.minDistance = 3;
+    //               controls.maxDistance = 10;
+    //               controls.enablePan = false;
+    //               controls.enableZoom = false;
+    //             }
+    //             setTimeout(() => {
+    //               console.log("setting isAnimating to false");
+    //               setIsAnimating(false);
+    //               controls.enabled = true; // keep deisable if going to computer
+    //             }, 100);
+    //             onClick?.();
+    //           },
+    //         });
+    //       },
+    //     },
+    //     "-=0.1"
     //   );
 
     const tl = gsap.timeline({
@@ -289,7 +287,6 @@ const Clickable = ({
       },
       "-=0.1"
     );
-
   };
 
   const resetCamera = () => {
@@ -318,7 +315,8 @@ const Clickable = ({
     return () => window.removeEventListener("keydown", handleEscape);
   }, [isInteracting, isAnimating]);
 
-  const ringRef = useRef<THREE.Mesh<THREE.RingGeometry, THREE.MeshStandardMaterial>>(null);
+  const ringRef =
+    useRef<THREE.Mesh<THREE.RingGeometry, THREE.MeshStandardMaterial>>(null);
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     const pulse = 1 + Math.sin(t * 5) * 0.1;
@@ -380,18 +378,15 @@ const Clickable = ({
       {children}
 
       {/* Show info panel for non-screen items */}
-      {!isScreen &&
-        aboutMe[name] &&
-        showInfoPanel &&
-        selectedItem?.name === name && (
-          <FloatingInfoPanel
-            content={aboutMe[name][language]}
-            position={speechOffset}
-            visible={showInfoPanel}
-            onLinkClick={handleLinkClick}
-            speechDirection={speechDirection}
-          />
-        )}
+      {!isScreen && aboutMe[name] && showInfoPanel && selectedItem?.name === name && (
+        <FloatingInfoPanel
+          content={aboutMe[name][language]}
+          position={speechOffset}
+          visible={showInfoPanel}
+          onLinkClick={handleLinkClick}
+          speechDirection={speechDirection}
+        />
+      )}
     </group>
   );
 };

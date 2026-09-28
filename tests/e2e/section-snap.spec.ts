@@ -70,7 +70,9 @@ test.describe("section snap", () => {
     expect(await restAt(page, experience)).toBe(experience);
   });
 
-  test("does not leave the previous section showing at a boundary", async ({ page }) => {
+  test("does not leave the previous section showing at a boundary", async ({
+    page,
+  }) => {
     // Snapping with a navbar offset landed *inside* the previous section, so
     // Portfolio's sticky horizontal strip stayed visible from Skills.
     await settled(page);
@@ -97,7 +99,10 @@ test.describe("section snap", () => {
 
     const experience = await topOf(fresh, "#experience");
     const target = experience - 120;
-    await fresh.evaluate((y) => window.scrollTo({ top: y, behavior: "instant" }), target);
+    await fresh.evaluate(
+      (y) => window.scrollTo({ top: y, behavior: "instant" }),
+      target
+    );
     await fresh.waitForTimeout(1_500);
 
     expect(await fresh.evaluate(() => Math.round(window.scrollY))).toBe(target);
@@ -113,7 +118,10 @@ test.describe("section snap", () => {
 
     const experience = await topOf(fresh, "#experience");
     const target = experience - 120;
-    await fresh.evaluate((y) => window.scrollTo({ top: y, behavior: "instant" }), target);
+    await fresh.evaluate(
+      (y) => window.scrollTo({ top: y, behavior: "instant" }),
+      target
+    );
     await fresh.waitForTimeout(1_500);
 
     expect(await fresh.evaluate(() => Math.round(window.scrollY))).toBe(target);

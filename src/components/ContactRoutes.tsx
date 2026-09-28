@@ -51,7 +51,10 @@ const ContactRoutes = () => {
     {
       key: "linkedin",
       href: contactInfo.linkedin,
-      value: contactInfo.linkedin.replace(/^https?:\/\/(www\.)?linkedin\.com\/in\//, ""),
+      value: contactInfo.linkedin.replace(
+        /^https?:\/\/(www\.)?linkedin\.com\/in\//,
+        ""
+      ),
       external: true,
       icon: (
         <>
@@ -92,9 +95,7 @@ const ContactRoutes = () => {
             {...(route.external
               ? { target: "_blank", rel: "noopener noreferrer" }
               : {})}
-            className="group flex items-center gap-4 rounded-2xl border border-[var(--room-line)] bg-room-surface px-5 py-4
-                       transition-colors duration-[var(--dur-fast)] ease-[var(--ease-out)]
-                       hover:border-room-accent focus-visible:border-room-accent focus-visible:outline-none"
+            className="group flex items-center gap-4 rounded-2xl border border-[var(--room-line)] bg-room-surface px-5 py-4 transition-colors duration-[var(--dur-fast)] ease-[var(--ease-out)] hover:border-room-accent focus-visible:border-room-accent focus-visible:outline-none"
           >
             <RouteIcon>{route.icon}</RouteIcon>
             <span className="flex min-w-0 flex-col gap-0.5">

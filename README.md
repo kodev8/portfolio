@@ -41,14 +41,14 @@ instead of the CDN.
 
 ## Tests
 
-| Command | What it runs |
-| --- | --- |
-| `npm test` | Vitest unit + component suite |
-| `npm run test:watch` | the same, in watch mode |
-| `npm run test:coverage` | with a v8 coverage report |
-| `npm run test:e2e` | Playwright, offline against local assets |
-| `npm run test:e2e:ui` | Playwright in UI mode |
-| `npm run test:e2e:cdn` | Playwright against the real bucket |
+| Command                 | What it runs                             |
+| ----------------------- | ---------------------------------------- |
+| `npm test`              | Vitest unit + component suite            |
+| `npm run test:watch`    | the same, in watch mode                  |
+| `npm run test:coverage` | with a v8 coverage report                |
+| `npm run test:e2e`      | Playwright, offline against local assets |
+| `npm run test:e2e:ui`   | Playwright in UI mode                    |
+| `npm run test:e2e:cdn`  | Playwright against the real bucket       |
 
 `npm run typecheck` and `npm run lint` cover the rest.
 

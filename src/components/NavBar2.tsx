@@ -7,10 +7,7 @@ import {
   AnimatePresence,
   type MotionValue,
 } from "motion/react";
-import {
-  FaBars,
-  FaTimes,
-} from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 import type { IconType } from "react-icons";
 import { cn } from "../utils";
 import { useHero } from "../context/HeroContext";
@@ -68,14 +65,14 @@ const NavItem = ({ mouseX, title, Icon, href }: NavItemProps) => {
         style={{ width, height }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="aspect-square rounded-full bg-neutral-800 flex items-center justify-center relative"
+        className="relative flex aspect-square items-center justify-center rounded-full bg-neutral-800"
       >
         {isHovered && (
           <motion.div
             initial={{ opacity: 0, y: 10, x: "-50%" }}
             animate={{ opacity: 1, y: 0, x: "-50%" }}
             exit={{ opacity: 0, y: 2, x: "-50%" }}
-            className="px-2 py-0.5 whitespace-pre rounded-md border bg-neutral-800 border-neutral-900 text-white absolute left-1/2 -translate-x-1/2 -top-8 w-fit text-xs"
+            className="absolute -top-8 left-1/2 w-fit -translate-x-1/2 rounded-md border border-neutral-900 bg-neutral-800 px-2 py-0.5 text-xs whitespace-pre text-white"
           >
             {title}
           </motion.div>
@@ -84,7 +81,11 @@ const NavItem = ({ mouseX, title, Icon, href }: NavItemProps) => {
           style={{ width: iconWidth, height: iconHeight }}
           className="flex items-center justify-center"
         >
-          {Icon ? <Icon className="h-full w-full text-neutral-300" /> : <span className="h-full w-full text-neutral-300">hmm</span>}
+          {Icon ? (
+            <Icon className="h-full w-full text-neutral-300" />
+          ) : (
+            <span className="h-full w-full text-neutral-300">hmm</span>
+          )}
         </motion.div>
       </motion.div>
     </a>
@@ -105,22 +106,28 @@ const NavBar2 = () => {
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
         className={cn(
-          "fixed bottom-8  z-[48] left-1/2 transform -translate-x-1/2 hidden md:flex xl:hidden h-16 gap-4 items-end rounded-2xl  bg-neutral-900 px-4 pb-3",
+          "fixed bottom-8 left-1/2 z-[48] hidden h-16 -translate-x-1/2 transform items-end gap-4 rounded-2xl bg-neutral-900 px-4 pb-3 md:flex xl:hidden",
           {
-            "opacity-0 pointer-events-none": isInteracting,
+            "pointer-events-none opacity-0": isInteracting,
           }
         )}
       >
         {navLinks.map((item) => (
-          <NavItem key={item.title[language]} mouseX={mouseX} Icon={item.Icon} href={item.href} title={item.title[language]} />
+          <NavItem
+            key={item.title[language]}
+            mouseX={mouseX}
+            Icon={item.Icon}
+            href={item.href}
+            title={item.title[language]}
+          />
         ))}
       </motion.div>
 
       {/* mobile nav*/}
-      <div className="fixed bottom-12 right-8 md:hidden z-[48]">
+      <div className="fixed right-8 bottom-12 z-[48] md:hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="h-10 w-10 rounded-full bg-neutral-800 flex items-center justify-center"
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-800"
         >
           {isOpen ? (
             <FaTimes className="h-5 w-5 text-neutral-400" />
@@ -135,7 +142,7 @@ const NavBar2 = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="absolute bottom-full mb-2 inset-x-0 flex flex-col gap-2"
+              className="absolute inset-x-0 bottom-full mb-2 flex flex-col gap-2"
             >
               {navLinks.map((item, index) => (
                 <motion.div
@@ -151,7 +158,7 @@ const NavBar2 = () => {
                 >
                   <a
                     href={item.href}
-                    className="h-10 w-10 rounded-full bg-neutral-900 flex items-center justify-center"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-900"
                   >
                     <div className="h-4 w-4">
                       <item.Icon className="h-full w-full text-neutral-300" />

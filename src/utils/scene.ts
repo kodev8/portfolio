@@ -81,14 +81,7 @@ export const resetScene = (
 
   // Then fade UI elements back in
   tl.to(
-    [
-      ".navbar",
-      ".hero-text",
-      "header p",
-      "#button",
-      "#hero-bg",
-      ".hero-layout-header",
-    ],
+    [".navbar", ".hero-text", "header p", "#button", "#hero-bg", ".hero-layout-header"],
     {
       opacity: 1,
       duration: 0.3,
@@ -122,7 +115,18 @@ export const resolveZoom = ({
     maxDistance = 14;
     minDistance = 10;
   }
-  console.log("Func isInteracting", isInteracting, "isMobile", isMobile, "isScreen", isScreen, "maxDistance", maxDistance, "minDistance", minDistance);
+  console.log(
+    "Func isInteracting",
+    isInteracting,
+    "isMobile",
+    isMobile,
+    "isScreen",
+    isScreen,
+    "maxDistance",
+    maxDistance,
+    "minDistance",
+    minDistance
+  );
 
   return { maxDistance, minDistance };
 };

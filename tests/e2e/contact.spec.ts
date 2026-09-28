@@ -18,12 +18,18 @@ test.describe("contact form", () => {
   test("marks every field required", async ({ page }) => {
     await openContact(page);
 
-    for (const selector of ['input[name="name"]', 'input[name="email"]', 'textarea[name="message"]']) {
+    for (const selector of [
+      'input[name="name"]',
+      'input[name="email"]',
+      'textarea[name="message"]',
+    ]) {
       await expect(page.locator(selector)).toHaveAttribute("required", "");
     }
   });
 
-  test("uses a real email input so the browser validates the format", async ({ page }) => {
+  test("uses a real email input so the browser validates the format", async ({
+    page,
+  }) => {
     await openContact(page);
     await expect(page.locator('input[name="email"]')).toHaveAttribute("type", "email");
   });

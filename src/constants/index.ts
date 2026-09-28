@@ -44,6 +44,7 @@ const assetsPaths = {
     bg: `${BUCKET_URL}/images/bg.png`,
     star: `${BUCKET_URL}/images/star.png`,
     arrowDown: `${BUCKET_URL}/images/arrow-down.svg`,
+    roomPreview: `${BUCKET_URL}/images/room-preview.webp`,
     heroWords: {
       ideas: `${BUCKET_URL}/images/ideas.svg`,
       concepts: `${BUCKET_URL}/images/concepts.svg`,
@@ -495,6 +496,10 @@ const heroWords: Record<string, Translated> = {
   newTab: {
     en: "new",
     fr: "nouveau",
+  },
+  roomPreviewAlt: {
+    en: "A 3D model of my room: desk with a lit monitor, bookshelf, guitar and football boots.",
+    fr: "Un modèle 3D de ma chambre : bureau avec un écran allumé, étagère, guitare et crampons de football.",
   },
 };
 

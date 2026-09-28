@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, lazy, Suspense } from "react";
-import { words, heroWords } from "../constants";
+import { words, heroWords, assetsPaths } from "../constants";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useNav } from "../context/NavContext";
@@ -99,7 +99,13 @@ const Hero = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="main-section relative !h-[120vh] overflow-hidden"
+      className={cn(
+        "main-section relative overflow-hidden",
+        // The room needs a fixed canvas box. The preview card does not, and
+        // pinning the closed hero to 120vh clipped the card's last lines on a
+        // phone, where browser chrome eats into every vh unit.
+        isRoomOpen ? "!h-[120vh]" : "!h-auto pb-20 md:!h-[120vh] md:pb-0"
+      )}
     >
       {/* <div id="hero-bg" className="absolute top-0 left-0 z-10">
         <img src="/images/bg.png" alt="background" />
@@ -110,7 +116,12 @@ const Hero = () => {
           read: navBarRef.current is null on first paint, which emitted
           top:"undefinedpx", and a ref never triggers the re-render that
           would fix it. That is what let the heading sit under the nav. */}
-      <div className="relative grid h-screen w-full grid-cols-5 grid-rows-[auto_1fr] pt-[calc(var(--nav-h)+1.5rem)]">
+      <div
+        className={cn(
+          "relative grid w-full grid-cols-5 grid-rows-[auto_1fr] pt-[calc(var(--nav-h)+1.5rem)]",
+          isRoomOpen ? "h-screen" : "h-auto md:h-screen"
+        )}
+      >
         <span className="col-span-1 hidden xl:block"></span>
         <header
           className={cn(
@@ -186,7 +197,7 @@ const Hero = () => {
             <span className="hidden lg:block"></span>
             <div className="col-span-full flex flex-col items-center lg:col-span-3">
               <motion.div
-                className="mt-10 flex justify-center px-4 sm:mt-16 sm:px-0 md:mt-20"
+                className="mt-8 flex w-full justify-center px-4 sm:mt-10 sm:px-0 md:mt-12"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -196,35 +207,69 @@ const Hero = () => {
                   onClick={() => setIsRoomOpen(true)}
                   onPointerEnter={preloadRoom}
                   onFocus={preloadRoom}
-                  className="group relative flex w-full max-w-md flex-col items-start gap-4 rounded-3xl border border-[var(--room-line)] bg-room-surface px-6 py-7 text-left transition-[border-color,transform] duration-[var(--dur)] ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-room-accent focus-visible:border-room-accent focus-visible:outline-none sm:max-w-lg sm:px-8"
+                  className="group relative flex w-full max-w-md flex-col overflow-hidden rounded-3xl border border-[var(--room-line)] bg-room-surface text-left transition-[border-color,transform] duration-[var(--dur)] ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-room-accent focus-visible:border-room-accent focus-visible:outline-none sm:max-w-lg lg:max-w-2xl lg:flex-row lg:items-stretch"
                 >
-                  <span className="font-mono text-[11px] tracking-[0.08em] text-room-accent uppercase">
-                    {heroWords.newTab[language]}
-                  </span>
-
-                  <span className="text-xl leading-snug font-bold text-room-hi md:text-2xl">
-                    {heroWords.wantToKnowMore[language]}
-                  </span>
-
-                  <span className="max-w-sm text-sm leading-relaxed text-room-mid sm:text-base">
-                    {heroWords.clickToExplore[language]}
-                  </span>
-
-                  <span className="mt-1 inline-flex h-11 items-center gap-2 rounded-xl bg-room-accent px-5 text-sm font-semibold text-room-on-accent transition-transform duration-[var(--dur-fast)] ease-[var(--ease-out)] group-hover:translate-x-0.5 sm:text-base">
-                    <svg
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                  {/* A still of the room earns the click far better than a
+                      paragraph describing it, and it costs 27kB rather than
+                      the ~1MB the scene itself does. */}
+                  <span className="relative block h-[180px] w-full shrink-0 overflow-hidden sm:h-[240px] md:h-[280px] lg:h-auto lg:w-[44%]">
+                    <img
+                      src={assetsPaths.images.roomPreview}
+                      alt={heroWords.roomPreviewAlt[language]}
+                      width={1200}
+                      height={705}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full scale-[1.01] object-cover object-center transition-transform duration-[var(--dur-slow)] ease-[var(--ease-out)] group-hover:scale-[1.06]"
+                    />
+                    {/* Fades the photo into the card fill so the join reads as
+                        one surface instead of a pasted-in thumbnail. */}
+                    <span
                       aria-hidden="true"
-                    >
-                      <path d="m9 6 8 6-8 6z" />
-                    </svg>
-                    {heroWords.enterMyRoom[language]}
+                      className="absolute inset-0 lg:hidden"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to top, var(--color-room-surface) 0%, rgb(19 17 38 / 0.55) 40%, rgb(19 17 38 / 0) 78%)",
+                      }}
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 hidden lg:block"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to left, var(--color-room-surface) 0%, rgb(19 17 38 / 0.45) 35%, rgb(19 17 38 / 0) 75%)",
+                      }}
+                    />
+                    <span className="absolute top-4 left-4 rounded-full bg-room-accent px-2.5 py-1 font-mono text-[10px] tracking-[0.08em] text-room-on-accent uppercase sm:text-[11px]">
+                      {heroWords.newTab[language]}
+                    </span>
+                  </span>
+
+                  <span className="flex flex-col items-start gap-3 px-5 pt-5 pb-6 sm:gap-4 sm:px-7 sm:pt-6 sm:pb-7 lg:justify-center lg:py-8 lg:pl-0">
+                    <span className="text-xl leading-snug font-bold text-room-hi md:text-2xl">
+                      {heroWords.wantToKnowMore[language]}
+                    </span>
+
+                    <span className="max-w-sm text-sm leading-relaxed text-room-mid sm:text-base">
+                      {heroWords.clickToExplore[language]}
+                    </span>
+
+                    <span className="mt-1 inline-flex h-11 items-center gap-2 rounded-xl bg-room-accent px-5 text-sm font-semibold text-room-on-accent transition-transform duration-[var(--dur-fast)] ease-[var(--ease-out)] group-hover:translate-x-0.5 sm:text-base">
+                      <svg
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="m9 6 8 6-8 6z" />
+                      </svg>
+                      {heroWords.enterMyRoom[language]}
+                    </span>
                   </span>
                 </button>
               </motion.div>

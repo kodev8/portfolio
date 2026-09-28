@@ -212,7 +212,9 @@ describe("navigation", () => {
     for (const link of navLinks) {
       expect(link.Icon, `nav ${link.href} icon`).toBeTypeOf("function");
       expectTranslated(link.title, `nav ${link.href}`);
-      expect(link.href).toMatch(/^(#|mailto:|https?:\/\/)/);
+      // A bucket-backed href is absolute in production mode and root-relative
+      // in development, so accept both rather than pinning VITE_MODE.
+      expect(link.href).toMatch(/^(#|\/|mailto:|https?:\/\/)/);
     }
   });
 

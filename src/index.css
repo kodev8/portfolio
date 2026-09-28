@@ -629,6 +629,22 @@ header p,
   will-change: opacity, transform;
 }
 
+/*
+ * Every drei <Html> writes z-index/position onto the shared canvas element in
+ * its layout effect. Instances with occlude="blending" set it; instances
+ * without occlude CLEAR it. So mounting any non-occluding <Html> (the speech
+ * bubble, the exit button) wipes what DesktopScreen needs, the canvas falls to
+ * z-index auto, and the desktop HTML starts painting over the 3D scene.
+ *
+ * Pinning it here means drei's reset falls back to the right value instead of
+ * nothing. Must stay above the desktop Html's own z-index, which drei derives
+ * as zIndexRange[0] / 2 - 1 = 4 from its zIndexRange of [10, 0].
+ */
+.hero-canvas canvas {
+  position: absolute;
+  z-index: 5;
+}
+
 /* Update these styles for better HTML content in 3D space */
 .three-html-content {
   width: 100% !important;

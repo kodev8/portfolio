@@ -1,18 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { MediaProvider, useMedia } from "./MediaContext";
+import { VIEWPORTS, setViewportWidth } from "../test/viewport";
 
-const matches = vi.hoisted(() => ({ value: new Set<string>() }));
-
-vi.mock("react-responsive", () => ({
-  useMediaQuery: ({ query }: { query: string }) => matches.value.has(query),
-}));
-
-const MOBILE = "(max-width: 768px)";
-const TABLET = "(max-width: 1024px)";
-const LAPTOP = "(max-width: 1280px)";
-const DESKTOP = "(max-width: 1440px)";
-
+/**
+ * Drives the real `useMediaQuery` against the test matchMedia rather than
+ * mocking react-responsive, so the breakpoints themselves are under test.
+ */
 const Probe = () => {
   const { isMobile, isTablet, isLaptop, isDesktop } = useMedia();
   return (
@@ -22,8 +16,8 @@ const Probe = () => {
   );
 };
 
-const renderAt = (...queries: string[]) => {
-  matches.value = new Set(queries);
+const renderAt = (width: number) => {
+  setViewportWidth(width);
   return render(
     <MediaProvider>
       <Probe />
@@ -31,34 +25,55 @@ const renderAt = (...queries: string[]) => {
   );
 };
 
-beforeEach(() => {
-  matches.value = new Set();
-});
+const flags = () => screen.getByTestId("flags").textContent;
 
 describe("MediaProvider", () => {
   it("reports nothing on a viewport wider than every breakpoint", () => {
-    renderAt();
-    expect(screen.getByTestId("flags")).toHaveTextContent("0000");
+    renderAt(VIEWPORTS.wide);
+    expect(flags()).toBe("0000");
   });
 
   it("lights up every breakpoint on a phone", () => {
-    // Breakpoints are nested max-widths, so a phone matches all four.
-    renderAt(MOBILE, TABLET, LAPTOP, DESKTOP);
-    expect(screen.getByTestId("flags")).toHaveTextContent("1111");
+    // The breakpoints are nested max-widths, so a phone matches all four.
+    renderAt(VIEWPORTS.mobile);
+    expect(flags()).toBe("1111");
   });
 
   it("reports tablet without mobile", () => {
-    renderAt(TABLET, LAPTOP, DESKTOP);
-    expect(screen.getByTestId("flags")).toHaveTextContent("0111");
+    renderAt(VIEWPORTS.tablet);
+    expect(flags()).toBe("0111");
+  });
+
+  it("reports laptop and desktop only", () => {
+    renderAt(VIEWPORTS.laptop);
+    expect(flags()).toBe("0011");
   });
 
   it("reports only desktop just under the widest breakpoint", () => {
-    renderAt(DESKTOP);
-    expect(screen.getByTestId("flags")).toHaveTextContent("0001");
+    renderAt(VIEWPORTS.desktop);
+    expect(flags()).toBe("0001");
+  });
+
+  it("treats 768px as mobile and 769px as not", () => {
+    renderAt(768);
+    expect(flags()?.[0]).toBe("1");
+
+    setViewportWidth(769);
+    expect(flags()?.[0]).toBe("0");
+  });
+
+  it("follows a resize without a remount", () => {
+    renderAt(VIEWPORTS.wide);
+    expect(flags()).toBe("0000");
+
+    setViewportWidth(VIEWPORTS.mobile);
+
+    expect(flags()).toBe("1111");
   });
 
   it("falls back to all-false outside a provider", () => {
+    setViewportWidth(VIEWPORTS.mobile);
     render(<Probe />);
-    expect(screen.getByTestId("flags")).toHaveTextContent("0000");
+    expect(flags()).toBe("0000");
   });
 });

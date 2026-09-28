@@ -1,6 +1,11 @@
 import "@testing-library/jest-dom/vitest";
 import { cleanup } from "@testing-library/react";
 import { afterEach, beforeEach, vi } from "vitest";
+import {
+  installIntersectionObserver,
+  resetIntersectionObservers,
+} from "./intersection";
+import { installMatchMedia, resetViewport } from "./viewport";
 
 // EmailJS is mocked for every test so no suite can post to the real service.
 vi.mock("@emailjs/browser", () => ({
@@ -8,35 +13,21 @@ vi.mock("@emailjs/browser", () => ({
   sendForm: vi.fn().mockResolvedValue({ status: 200, text: "OK" }),
 }));
 
-// jsdom ships none of these, and react-responsive / motion / radix all reach
-// for them during render.
-class MockObserver {
+// jsdom has no ResizeObserver and radix reaches for it during render. Nothing
+// asserts on resize, so a no-op is enough here.
+class NoopResizeObserver {
   observe() {}
   unobserve() {}
   disconnect() {}
-  takeRecords() {
-    return [];
-  }
 }
 
-vi.stubGlobal("ResizeObserver", MockObserver);
-vi.stubGlobal("IntersectionObserver", MockObserver);
+vi.stubGlobal("ResizeObserver", NoopResizeObserver);
 
-if (!window.matchMedia) {
-  vi.stubGlobal(
-    "matchMedia",
-    vi.fn((query: string) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    }))
-  );
-}
+// IntersectionObserver and matchMedia get real implementations instead: a
+// no-op IO leaves every scroll-reveal permanently out of view, and a
+// hardcoded `matches: false` renders every component's desktop branch.
+installIntersectionObserver();
+installMatchMedia();
 
 window.scrollTo = vi.fn();
 Element.prototype.scrollIntoView = vi.fn();
@@ -93,9 +84,12 @@ for (const target of [window, globalThis]) {
 beforeEach(() => {
   localStorageMock.clear();
   sessionStorageMock.clear();
+  resetViewport();
+  installMatchMedia();
 });
 
 afterEach(() => {
   cleanup();
+  resetIntersectionObservers();
   vi.clearAllMocks();
 });

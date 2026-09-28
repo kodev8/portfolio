@@ -34,7 +34,7 @@ test.describe("navigation", () => {
     await expect(github).toHaveAttribute("rel", /noopener/);
   });
 
-  test("links the resume at the cdn", async ({ page }) => {
+  test("links the resume", async ({ page }) => {
     await gotoHome(page);
     await expect(page.locator('a[href$="kalev-keil-resume.pdf"]').first()).toBeAttached();
   });

@@ -18,9 +18,13 @@ test.describe("cdn wiring @cdn", () => {
       if (res.url().includes(CDN_HOST)) fromCdn.push(`${res.status()} ${res.url()}`);
       if (res.status() >= 400) failed.push(`${res.status()} ${res.url()}`);
     });
-    page.on("requestfailed", (req) =>
-      failed.push(`${req.failure()?.errorText} ${req.url()}`)
-    );
+    page.on("requestfailed", (req) => {
+      const error = req.failure()?.errorText ?? "";
+      // Chromium aborts range requests for <video> it decides not to buffer.
+      // That is normal, and says nothing about whether the bucket served it.
+      if (error.includes("ERR_ABORTED")) return;
+      failed.push(`${error} ${req.url()}`);
+    });
 
     await gotoHome(page);
     await page.getByRole("button", { name: /Enter My Room/i }).click();

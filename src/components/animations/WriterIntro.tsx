@@ -103,12 +103,13 @@ export default function WriterIntro() {
 
       await animateBrackets();
 
-      if (logoRef?.current) {
+      // Flying the logo into the navbar is a flourish. Revealing the site is
+      // not, so it happens whether or not the refs are there to animate to.
+      if (logoRef?.current && containerRef.current) {
         const scaleFactor = 0.5;
 
         const rect = logoRef.current.getBoundingClientRect();
-        const containerRect = containerRef.current!.getBoundingClientRect();
-
+        const containerRect = containerRef.current.getBoundingClientRect();
 
         await containerControls.start({
           scale: scaleFactor,
@@ -118,9 +119,10 @@ export default function WriterIntro() {
           y: 0,
           transition: { duration: 0.8, ease: "easeInOut" },
         });
-        setIsAnimating(false);
-        setAnimationComplete(true);
       }
+
+      setIsAnimating(false);
+      setAnimationComplete(true);
     };
 
     animationSequence();

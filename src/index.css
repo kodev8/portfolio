@@ -459,6 +459,27 @@
   scroll-behavior: auto !important;
 }
 
+/*
+ * The loading ring is exempt from the reduced-motion freeze. It reports
+ * progress rather than decorating, and a stopped spinner reads as a hung
+ * page — the opposite of the reassurance it exists to give.
+ */
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-spin {
+  animation: loader-spin 900ms linear infinite;
+  transform-origin: center;
+}
+
+:root[data-motion="reduced"] .loader-spin {
+  animation-duration: 900ms !important;
+  animation-iteration-count: infinite !important;
+}
+
 * {
   box-sizing: border-box;
 }

@@ -21,7 +21,7 @@ import { toast } from "sonner";
 import { useLanguage } from "../../context/LanguageContext";
 import { canvasWarning } from "../../constants";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import CanvasLoader from "./CanvasLoader";
+import RoomProgress from "./RoomProgress";
 import { itemData } from "../../constants/scenePositions";
 import DesktopScreen from "./DesktopScreen";
 import { Html } from "@react-three/drei";
@@ -170,18 +170,23 @@ const HeroExperience = () => {
   };
 
   return (
-    <Canvas
-      onClick={handleCanvasClick}
-      camera={{ position: ORIGINAL_CAMERA_POSITION, fov: 45 }}
-      className="hero-canvas"
-      style={{
-        backgroundColor: "#000000",
-      }}
-    >
-      <Suspense fallback={<CanvasLoader />}>
-        <SceneContent />
-      </Suspense>
-    </Canvas>
+    // The progress cover is a DOM sibling of the canvas, not a child of the
+    // scene graph, so it needs a positioned box to sit in.
+    <div className="relative h-full w-full">
+      <Canvas
+        onClick={handleCanvasClick}
+        camera={{ position: ORIGINAL_CAMERA_POSITION, fov: 45 }}
+        className="hero-canvas"
+        style={{
+          backgroundColor: "#000000",
+        }}
+      >
+        <Suspense fallback={null}>
+          <SceneContent />
+        </Suspense>
+      </Canvas>
+      <RoomProgress />
+    </div>
   );
 };
 

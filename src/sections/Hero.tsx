@@ -6,6 +6,7 @@ import { useNav } from "../context/NavContext";
 import { cn } from "../utils";
 import { HighLightProvider, HighLightText } from "../components/HighlightText";
 import BackArrow from "../components/ui/BackArrow";
+import RoomSpinner from "../components/ui/RoomSpinner";
 import { useLanguage } from "../context/LanguageContext";
 import { Tip } from "../components/ui/tooltip";
 import { FaCircleInfo } from "react-icons/fa6";
@@ -28,20 +29,17 @@ const preloadRoom = () => {
 };
 
 /**
- * Plain DOM placeholder shown while that chunk downloads.
+ * Placeholder shown while that chunk downloads. It renders the same ring the
+ * scene itself shows while its models load, so the wait looks like one
+ * continuous operation rather than two.
  *
- * CanvasLoader cannot be used here: it calls drei's useProgress and renders
- * <Html>, both of which throw "Hooks can only be used within the Canvas
- * component" outside a <Canvas>. As a Suspense fallback it took the whole
- * hero down and the room rendered nothing at all.
+ * It must stay clear of drei: useProgress and <Html> both throw "Hooks can
+ * only be used within the Canvas component" out here, and as a Suspense
+ * fallback that took the whole hero down.
  */
-const RoomLoading = () => (
+const RoomLoading = ({ label }: { label: string }) => (
   <div className="flex h-full w-full items-center justify-center">
-    <span
-      role="status"
-      aria-label="Loading the room"
-      className="size-10 animate-spin rounded-full border-2 border-[var(--room-line)] border-t-room-accent"
-    />
+    <RoomSpinner label={label} />
   </div>
 );
 
@@ -187,7 +185,9 @@ const Hero = () => {
                 "hero-3d-layout col-span-full -translate-y-[45%] md:-translate-y-[25%] xl:-translate-y-[33%]"
               )}
             >
-              <Suspense fallback={<RoomLoading />}>
+              <Suspense
+                fallback={<RoomLoading label={heroWords.roomLoading[language]} />}
+              >
                 <HeroExperience />
               </Suspense>
             </div>

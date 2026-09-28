@@ -497,6 +497,10 @@ const heroWords: Record<string, Translated> = {
     en: "new",
     fr: "nouveau",
   },
+  roomLoading: {
+    en: "Loading the room",
+    fr: "Chargement de la pièce",
+  },
   roomPreviewAlt: {
     en: "A 3D model of my room: desk with a lit monitor, bookshelf, guitar and football boots.",
     fr: "Un modèle 3D de ma chambre : bureau avec un écran allumé, étagère, guitare et crampons de football.",

@@ -1130,7 +1130,6 @@ const projects: Project[] = [
     videoPath: assetsPaths.videos.projects.statroom,
     githubUrl: "https://github.com/kodev8/statroom",
     readmeUrl: "https://raw.githubusercontent.com/kodev8/statroom/main/README.md",
-    bgColor: "bg-slate-700",
   },
   {
     id: 2,
@@ -1144,7 +1143,6 @@ const projects: Project[] = [
     readmeUrl: "https://raw.githubusercontent.com/kodev8/options-tool/main/README.md",
     githubUrl: "https://github.com/kodev8/options-tool",
     liveUrl: "https://options-tool.streamlit.app/",
-    bgColor: "bg-slate-700",
     carousel: assetsPaths.images.projects.options,
   },
   {
@@ -1160,7 +1158,6 @@ const projects: Project[] = [
     videoPath: assetsPaths.videos.projects.uber,
     githubUrl: "https://github.com/kodev8/uber-klone",
     liveUrl: "https://uber-klone.onrender.com",
-    bgColor: "bg-slate-700",
     carousel: assetsPaths.images.projects.uber,
   },
   {

@@ -18,7 +18,6 @@ export interface Project {
   githubUrl?: string;
   readmeUrl?: string;
   liveUrl?: string;
-  bgColor?: string;
 }
 
 export interface ExperienceCard {

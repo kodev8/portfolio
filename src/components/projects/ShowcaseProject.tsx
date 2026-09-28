@@ -17,9 +17,7 @@ const ShowcaseProject = forwardRef<HTMLDivElement, ShowcaseProjectProps>(
 
     return (
       <motion.div className="project" ref={ref}>
-        <div
-          className={`relative aspect-video overflow-hidden rounded-2xl ${project.bgColor}`}
-        >
+        <div className="relative aspect-video overflow-hidden rounded-2xl bg-room-surface">
           <ProjectCarousel
             images={project.carousel || [project.thumbnail!]}
             videoUrl={project.videoPath}

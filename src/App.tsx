@@ -13,9 +13,13 @@ import { HeroProvider } from "./context/HeroContext";
 import WriterIntro from "./components/animations/WriterIntro";
 import { Toaster } from "./components/ui/sonner.tsx";
 import { useMedia } from "./context/MediaContext";
+import { useSectionSnap } from "./utils/useSectionSnap";
 function App() {
   const { animationComplete } = useAnimation();
   const { isMobile } = useMedia();
+
+  // Nudge onto a section start when scrolling settles near one.
+  useSectionSnap(animationComplete);
 
   // useEffect(() => {
   //   setAnimationComplete(true);

@@ -59,7 +59,9 @@ export default defineConfig({
   webServer: {
     command: `node scripts/check-assets.mjs && VITE_MODE=development npm run build && npx vite preview --port ${PORT} --strictPort`,
     url: `http://localhost:${PORT}`,
-    reuseExistingServer: !process.env.CI,
+    // Always rebuild. Reusing a server left running by hand meant the suite
+    // could pass against a stale bundle.
+    reuseExistingServer: false,
     timeout: 180_000,
   },
 });

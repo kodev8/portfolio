@@ -24,6 +24,8 @@ const MIN_NUDGE = 12;
  * fights the user — which is what made this feel bouncy.
  */
 const IDLE_MS = 220;
+/** Quiet time after an anchor's smooth scroll before the assist resumes. */
+const ANCHOR_SETTLE_MS = 400;
 const GLIDE_MS = 420;
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
@@ -123,6 +125,13 @@ export const useSectionSnap = (enabled = true) => {
 
     const onScroll = () => {
       if (gliding) return; // our own scrolling, not the user's
+      if (performance.now() < suppressUntil) {
+        // Keep the suppression alive for as long as the anchor's smooth
+        // scroll is still moving. A fixed window is not enough: Contact sits
+        // ~8800px down, and that journey outlasts any constant we pick.
+        suppressUntil = performance.now() + ANCHOR_SETTLE_MS;
+        return;
+      }
       arm();
     };
 
@@ -135,7 +144,7 @@ export const useSectionSnap = (enabled = true) => {
 
     const onAnchorNavigation = () => {
       cancelGlide();
-      suppressUntil = performance.now() + 1400;
+      suppressUntil = performance.now() + ANCHOR_SETTLE_MS;
     };
 
     const onDocumentClick = (event: MouseEvent) => {

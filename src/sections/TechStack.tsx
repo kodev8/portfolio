@@ -4,19 +4,28 @@ import {
   useState,
   useCallback,
   memo,
-  useMemo,
+  lazy,
   Suspense,
-  type ReactNode,
 } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useThree, Canvas } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
-import { Physics, RigidBody, CuboidCollider } from "@react-three/rapier";
 import { useNav } from "../context/NavContext";
 import TitleHeader from "../components/TitleHeader";
-import TechIcon from "../components/TechIcon";
 import GlowCard from "../components/GlowCard";
+
+/** Loaded only when a visitor switches the section into 3D. */
+const TechCanvas = lazy(() => import("../components/scenes/TechCanvas"));
+
+/** Warm the chunk on intent so flipping to 3D is not a download. */
+const preloadTechCanvas = () => {
+  void import("../components/scenes/TechCanvas");
+};
+
+const TechCanvasFallback = () => (
+  <div className="flex-center h-full w-full">
+    <Spinner className="h-10 w-10 text-room-accent" />
+  </div>
+);
 import { techStackGroups, techStackHeader, techStackText } from "../constants";
 import { useLanguage } from "../context/LanguageContext";
 import { Tip } from "../components/ui/tooltip";
@@ -24,176 +33,8 @@ import { FaInfoCircle } from "react-icons/fa";
 import { Button } from "../components/ui/button";
 import { cn } from "../utils";
 import { Spinner } from "../components/ui/spinner";
-import type { TechIconDef, TechStackGroup } from "../types";
+import type { TechStackGroup } from "../types";
 
-interface ViewportData {
-  viewport: { width: number; height: number };
-  size: { width: number; height: number };
-  is3d: boolean;
-}
-
-// some icons carry an ad-hoc yOffset at runtime that TechIconDef doesn't declare
-type TechIconWithOffset = TechIconDef & { yOffset?: number };
-
-const Boundaries = memo(() => {
-  const { viewport } = useThree();
-  const margin = 0.3;
-  const width = viewport.width - margin * 2;
-  const height = viewport.height - margin * 2;
-  const thickness = 0.2;
-
-  return (
-    <>
-      {/* top */}
-      <RigidBody type="fixed" position={[0, height / 2 + thickness / 2, 0]}>
-        <CuboidCollider args={[width / 2 + thickness, thickness / 2, 1]} />
-      </RigidBody>
-
-      {/* bottom */}
-      <RigidBody type="fixed" position={[0, -height / 2 - thickness / 2, 0]}>
-        <CuboidCollider args={[width / 2 + thickness, thickness / 2, 1]} />
-      </RigidBody>
-
-      {/* left */}
-      <RigidBody type="fixed" position={[-width / 2 - thickness / 2, 0, 0]}>
-        <CuboidCollider args={[thickness / 2, height / 2 + thickness, 1]} />
-      </RigidBody>
-
-      {/* right */}
-      <RigidBody type="fixed" position={[width / 2 + thickness / 2, 0, 0]}>
-        <CuboidCollider args={[thickness / 2, height / 2 + thickness, 1]} />
-      </RigidBody>
-    </>
-  );
-});
-
-const BoundsBox = memo(() => {
-  const { viewport } = useThree();
-  const margin = 0.3;
-  const width = viewport.width - margin * 2;
-  const height = viewport.height - margin * 2;
-
-  return (
-    <mesh position={[0, 0, 0]}>
-      <planeGeometry args={[width, height]} />
-      <meshBasicMaterial color="white" wireframe opacity={0.5} transparent />
-    </mesh>
-  );
-});
-
-const TechCanvasFallback = () => {
-  return (
-    <div className="flex-center w-full h-full">
-      <Spinner className="w-10 h-10 text-purple-500" />
-    </div>
-  );
-};
-
-interface TechCanvasProps {
-  group: TechStackGroup;
-  resetTrigger: boolean;
-  is3d: boolean;
-}
-
-const TechCanvas = memo(({ group, resetTrigger, is3d }: TechCanvasProps) => {
-  return (
-    <Suspense fallback={<TechCanvasFallback />}>
-      <Canvas
-        camera={{ position: [0, 0, 10], fov: 50 }}
-        style={{ width: '100%', height: '100%' }}
-      >
-        <ViewportProvider is3d={is3d}>
-          {(sizedData) => (
-            <>
-              <ambientLight intensity={2} />
-              <Environment preset="city" />
-              <Physics
-                gravity={[0, 0, 0]}
-                interpolate={false}
-                timeStep={1 / 60}
-                // maxStabilizationIterations is gone from rapier v2's PhysicsProps
-                // (0 references in its bundle); spread keeps the prop at runtime as before
-                {...({ maxStabilizationIterations: 5 } as Record<string, number>)}
-              >
-                <Boundaries />
-                <IconGrid
-                  icons={group.icons}
-                  resetTrigger={resetTrigger}
-                  sizedData={sizedData}
-                />
-              </Physics>
-              {/* <BoundsBox /> */}
-            </>
-          )}
-        </ViewportProvider>
-      </Canvas>
-    </Suspense>
-  );
-});
-
-interface IconGridProps {
-  icons: TechIconWithOffset[];
-  resetTrigger: boolean;
-  sizedData: ViewportData;
-}
-
-const IconGrid = memo(({ icons, resetTrigger, sizedData }: IconGridProps) => {
-  const { viewport } = sizedData;
-
-  // greedy algorithm to get the best fit for the icons
-  const getBestFit = (icons: TechIconWithOffset[]) => {
-    let bestFit = { columns: 1, rows: 1 } as {
-      columns: number;
-      rows: number;
-      itemWidth: number;
-      itemHeight: number;
-    };
-    let bestScore = Infinity;
-
-    for (let columns = 2; columns <= 5; columns++) {
-      const rows = Math.ceil(icons.length / columns);
-      const itemWidth = viewport.width / columns;
-      const itemHeight = viewport.height / rows;
-      const aspectRatio = itemWidth / itemHeight;
-      const idealAspectRatio = 1;
-      const score = Math.abs(aspectRatio - idealAspectRatio);
-      if (score < bestScore) {
-        bestFit = { columns, rows, itemWidth, itemHeight };
-        bestScore = score;
-      }
-    }
-    return bestFit;
-  };
-
-  const { columns, rows, itemWidth, itemHeight } = getBestFit(icons);
-  const spacingX = itemWidth;
-  const spacingY = itemHeight;
-
-  const offsetX = ((columns - 1) * spacingX) / 2;
-  const offsetY = ((rows - 1) * spacingY) / 2;
-  return (
-    <group>
-      {icons.map((icon, index) => {
-        const col = index % columns;
-        const row = Math.floor(index / columns);
-
-        const x = col * spacingX - offsetX + (icon.xOffset || 0);
-        const y = -row * spacingY + offsetY + (icon.yOffset || 0);
-
-        return (
-          <TechIcon
-            key={index}
-            model={icon}
-            position={[x, y, 0]}
-            resetTrigger={resetTrigger}
-            initialPosition={[x, y, 0]}
-            sizedData={sizedData}
-          />
-        );
-      })}
-    </group>
-  );
-});
 
 const TechList2d = memo(({ group }: { group: TechStackGroup }) => {
   return (
@@ -214,31 +55,6 @@ const TechList2d = memo(({ group }: { group: TechStackGroup }) => {
   );
 });
 
-interface ViewportProviderProps {
-  is3d: boolean;
-  children: (data: ViewportData) => ReactNode;
-}
-
-// created this to stop rerender when scrolling
-// since getting the viewport size was causing rerenders
-const ViewportProvider = ({ is3d, children }: ViewportProviderProps) => {
-  const { viewport, size } = useThree();
-  const viewPortData = useMemo(() => {
-    // console.log("in vp is3d", is3d, "viewport.width", viewport.width, "viewport.height", viewport.height, "size.width", size.width, "size.height", size.height);
-    return {
-      viewport: {
-        width: viewport.width,
-        height: viewport.height,
-      },
-      size: {
-        width: size.width,
-        height: size.height,
-      },
-      is3d: is3d,
-    };
-  }, [viewport.width, viewport.height, size.width, size.height, is3d]);
-  return children(viewPortData);
-};
 const TechStack = () => {
   const { registerSection } = useNav();
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -310,14 +126,12 @@ const TechStack = () => {
     >
       <div className="w-full h-full md:px-10 sm:px-4">
         <TitleHeader
+          index="04"
           title={techStackHeader.title[language]}
           sub={techStackHeader.sub[language]}
           tipContent={is3d ? techStackHeader.tip![language] : null}
-        />
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8 mx-8 md:mx-16 lg:mx-24">
-          {/* reset */}
-          <div className="flex flex-col-center lg:mt-32 lg:col-span-2 gap-2">
+        >
+          <div className="mb-4 flex flex-col items-center justify-center gap-3">
             <input
               type="checkbox"
               id="toggle3d"
@@ -328,23 +142,33 @@ const TechStack = () => {
             <label
               htmlFor="toggle3d"
               className="flex items-center gap-2 cursor-pointer"
+              onPointerEnter={preloadTechCanvas}
             >
               <span
                 className={cn(
-                  "w-6 h-6 border-2 border-purple-600 rounded-full",
-                  is3d ? "bg-purple-600" : "bg-white-50"
+                  "relative block h-[22px] w-[38px] rounded-full transition-colors",
+                  "duration-[var(--dur-fast)] ease-[var(--ease-out)]",
+                  is3d ? "bg-room-accent" : "bg-[var(--room-line-strong)]"
                 )}
-              ></span>
-              <span className="text-white-50 font-semibold text-sm md:text-xl group-hover:text-purple-500 transition-all duration-300">
+              >
+                <span
+                  className={cn(
+                    "absolute top-[3px] block size-4 rounded-full transition-all",
+                    "duration-[var(--dur-fast)] ease-[var(--ease-out)]",
+                    is3d ? "right-[3px] bg-room-on-accent" : "left-[3px] bg-room-mid"
+                  )}
+                />
+              </span>
+              <span className="type-label text-room-mid">
                 {is3d ? (
-                  <span className="text-purple-500 flex items-center gap-1">
+                  <span className="text-room-accent flex items-center gap-1">
                     3D
                     <Tip content={techStackText.tip3d[language]}>
                       <FaInfoCircle className="w-4 h-4" />
                     </Tip>
                   </span>
                 ) : (
-                  <span className="!text-white-50">2D</span>
+                  <span className="text-room-mid">2D</span>
                 )}
               </span>
             </label>
@@ -352,7 +176,7 @@ const TechStack = () => {
             {is3d && (
               <Button
                 onClick={handleReset}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md
+                className="px-4 py-2 bg-room-accent hover:brightness-110 text-room-on-accent rounded-xl font-semibold
                         transition-colors duration-300 flex items-center gap-2 shadow-lg"
               >
                 <svg
@@ -372,6 +196,9 @@ const TechStack = () => {
             )}
           </div>
 
+        </TitleHeader>
+
+        <div className="mx-8 mt-8 grid grid-cols-1 items-start gap-8 md:mx-16 lg:mx-24 lg:grid-cols-2">
           {/* instruction text */}
           {is3d && (
             <div className="md:hidden text-center text-white-50 text-sm lg:col-span-2 -mt-2 mb-2">
@@ -397,16 +224,18 @@ const TechStack = () => {
                 card={group}
                 className="group w-full"
               >
-                <h3 className="text-white-50 mb-4 font-semibold text-lg md:text-xl group-hover:text-purple-500 transition-all duration-300">
+                <h3 className="text-white-50 mb-4 font-semibold text-lg md:text-xl group-hover:text-room-accent transition-all duration-300">
                   {group.name[language]}
                 </h3>
                 {is3d ? (
                   <div className="h-[40vh] w-full">
+                    <Suspense fallback={<TechCanvasFallback />}>
                     <TechCanvas
                       group={group}
                       resetTrigger={resetTrigger}
                       is3d={is3d}
                     />
+                    </Suspense>
                   </div>
                 ) : (
                   <div className="h-full w-full flex">

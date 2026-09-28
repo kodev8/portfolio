@@ -1,6 +1,5 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, lazy, Suspense } from "react";
 import { words, heroWords } from "../constants";
-import HeroExperience from "../components/scenes/HeroExperience";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useNav } from "../context/NavContext";
@@ -10,7 +9,45 @@ import BackArrow from "../components/ui/BackArrow";
 import { useLanguage } from "../context/LanguageContext";
 import { Tip } from "../components/ui/tooltip";
 import { FaCircleInfo } from "react-icons/fa6";
-import { motion } from "framer-motion";
+
+// The 3D scene pulls in three, r3f, drei, rapier and postprocessing. It is
+// opt-in behind the room button, so it should not be in the initial bundle.
+const HeroExperience = lazy(
+  () => import("../components/scenes/HeroExperience")
+);
+
+/**
+ * Warm the room chunk ahead of the click.
+ *
+ * Splitting it keeps ~1MB gzip out of the first paint for every visitor, but
+ * on its own it just moves the wait to the moment someone opens the room.
+ * Prefetching on idle, and again on hover, means the chunk is normally in the
+ * module cache before it is needed — fast first paint and an instant room.
+ * Repeat calls are free: the module registry dedupes them.
+ */
+const preloadRoom = () => {
+  void import("../components/scenes/HeroExperience");
+};
+
+/**
+ * Plain DOM placeholder shown while that chunk downloads.
+ *
+ * CanvasLoader cannot be used here: it calls drei's useProgress and renders
+ * <Html>, both of which throw "Hooks can only be used within the Canvas
+ * component" outside a <Canvas>. As a Suspense fallback it took the whole
+ * hero down and the room rendered nothing at all.
+ */
+const RoomLoading = () => (
+  <div className="flex h-full w-full items-center justify-center">
+    <span
+      role="status"
+      aria-label="Loading the room"
+      className="size-10 animate-spin rounded-full border-2 border-[var(--room-line)] border-t-room-accent"
+    />
+  </div>
+);
+
+import { motion } from "motion/react";
 import { useHero } from "../context/HeroContext";
 
 const Hero = () => {
@@ -32,12 +69,24 @@ const Hero = () => {
   });
 
   const sectionRef = useRef<HTMLElement | null>(null);
-  const { registerSection, navBarRef } = useNav();
+  const { registerSection } = useNav();
   const { language } = useLanguage();
   const { isRoomOpen, setIsRoomOpen } = useHero();
   useEffect(() => {
     registerSection("about", sectionRef);
   }, [registerSection]);
+
+  // Fetch the 3D chunk while the browser is idle, so opening the room does
+  // not start a download.
+  useEffect(() => {
+    const idle = window.requestIdleCallback;
+    if (typeof idle === "function") {
+      const handle = idle(preloadRoom, { timeout: 4000 });
+      return () => window.cancelIdleCallback?.(handle);
+    }
+    const timer = window.setTimeout(preloadRoom, 2500);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   // both keydown and back arrow press handled the same way
   const handleBackClick = () => {
@@ -59,12 +108,11 @@ const Hero = () => {
       </div> */}
 
       {/* <div className="hero-layout"> */}
-      <div
-        className="relative w-full h-screen grid-rows-[auto_1fr]  grid grid-cols-5 "
-        style={{
-          top: `${navBarRef.current?.offsetHeight}px`,
-        }}
-      >
+      {/* Offset below the fixed navbar with a token, not a render-time ref
+          read: navBarRef.current is null on first paint, which emitted
+          top:"undefinedpx", and a ref never triggers the re-render that
+          would fix it. That is what let the heading sit under the nav. */}
+      <div className="relative w-full h-screen grid-rows-[auto_1fr] grid grid-cols-5 pt-[calc(var(--nav-h)+1.5rem)]">
         <span className="hidden xl:block col-span-1"></span>
         <header
           className={cn(
@@ -134,7 +182,9 @@ const Hero = () => {
                 "hero-3d-layout col-span-full -translate-y-[45%] md:-translate-y-[25%] xl:-translate-y-[33%]"
               )}
             >
-              <HeroExperience />
+              <Suspense fallback={<RoomLoading />}>
+                <HeroExperience />
+              </Suspense>
             </div>
           </figure>
         ) : (
@@ -150,20 +200,45 @@ const Hero = () => {
               >
                 <button
                   onClick={() => setIsRoomOpen(true)}
-                  className="group relative flex flex-col items-center w-full max-w-md sm:max-w-lg px-6 sm:px-8 py-8 sm:py-10 bg-zinc-900 border border-zinc-700 rounded-3xl shadow-lg hover:shadow-xl hover:border-sky-500 transition-all duration-300 transform hover:-translate-y-1"
+                  onPointerEnter={preloadRoom}
+                  onFocus={preloadRoom}
+                  className="group relative flex w-full max-w-md flex-col items-start gap-4 rounded-3xl border border-[var(--room-line)]
+                             bg-room-surface px-6 py-7 text-left sm:max-w-lg sm:px-8
+                             transition-[border-color,transform] duration-[var(--dur)] ease-[var(--ease-out)]
+                             hover:-translate-y-0.5 hover:border-room-accent
+                             focus-visible:border-room-accent focus-visible:outline-none"
                 >
-                  <div className="text-xl md:text-2xl font-bold text-white group-hover:scale-105 transition-transform text-center leading-snug">
+                  <span className="font-mono text-[11px] tracking-[0.08em] text-room-accent uppercase">
+                    {heroWords.newTab[language]}
+                  </span>
+
+                  <span className="text-xl leading-snug font-bold text-room-hi md:text-2xl">
                     {heroWords.wantToKnowMore[language]}
-                  </div>
-                  <p className="text-sm sm:text-base text-zinc-400 mt-3 sm:mt-4 group-hover:text-zinc-300 transition-colors text-center max-w-sm">
+                  </span>
+
+                  <span className="max-w-sm text-sm leading-relaxed text-room-mid sm:text-base">
                     {heroWords.clickToExplore[language]}
-                  </p>
-                  <span className="mt-6 px-4 py-2 sm:px-5 sm:py-2.5 bg-white text-black rounded-full font-medium group-hover:bg-sky-500 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                  </span>
+
+                  <span
+                    className="mt-1 inline-flex h-11 items-center gap-2 rounded-xl bg-room-accent px-5 text-sm font-semibold text-room-on-accent
+                               transition-transform duration-[var(--dur-fast)] ease-[var(--ease-out)] group-hover:translate-x-0.5 sm:text-base"
+                  >
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="m9 6 8 6-8 6z" />
+                    </svg>
                     {heroWords.enterMyRoom[language]}
                   </span>
-                  <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 bg-sky-600 text-[10px] sm:text-xs text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow">
-                    {heroWords.newTab[language]}
-                  </div>
                 </button>
               </motion.div>
             </div>

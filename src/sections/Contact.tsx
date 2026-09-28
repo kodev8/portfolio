@@ -16,7 +16,6 @@ const Contact = () => {
   const { registerSection } = useNav();
   const { language } = useLanguage();
 
-
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -59,8 +58,12 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="flex-center section-padding main-section">
-      <div className="w-full h-full md:px-10 sm:px-4">
+    <section
+      id="contact"
+      ref={sectionRef}
+      className="flex-center section-padding main-section"
+    >
+      <div className="h-full w-full sm:px-4 md:px-10">
         <TitleHeader
           index="05"
           title={contactHeader.title[language]}
@@ -72,7 +75,7 @@ const Contact = () => {
               <form
                 ref={formRef}
                 onSubmit={handleSubmit}
-                className="w-full flex flex-col gap-7"
+                className="flex w-full flex-col gap-7"
               >
                 <div>
                   <label htmlFor="name">{contactForm.name.label[language]}</label>
@@ -115,10 +118,13 @@ const Contact = () => {
 
                 <Button
                   type="submit"
+                  variant="room"
                   disabled={loading}
-                  className="h-12 w-fit self-start rounded-xl bg-room-accent px-6 text-base font-semibold text-room-on-accent
-                             transition-[filter,transform] duration-[var(--dur-fast)] ease-[var(--ease-out)]
-                             hover:brightness-110 disabled:opacity-60"
+                  // Without a variant this falls back to `default`, whose
+                  // hover:bg-primary/90 is a different twMerge group from
+                  // bg-room-accent and so survives it — the button went
+                  // near-black on hover.
+                  className="h-12 w-fit self-start px-6 text-base transition-[filter,transform] duration-[var(--dur-fast)] ease-[var(--ease-out)] disabled:opacity-60"
                 >
                   {loading ? (
                     <Spinner className="text-room-on-accent" />
@@ -129,7 +135,7 @@ const Contact = () => {
               </form>
             </div>
           </div>
-          <div className="xl:col-span-6 flex items-center">
+          <div className="flex items-center xl:col-span-6">
             <ContactRoutes />
           </div>
         </div>

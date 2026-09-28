@@ -1,4 +1,5 @@
 import React from "react";
+import { assetsPaths } from "../../constants";
 
 interface ButtonLinkProps {
   className?: string;
@@ -17,7 +18,7 @@ const Button = ({ className, id, href, text }: ButtonLinkProps) => {
         <div className="bg-circle"></div>
         <p className="text">{text}</p>
         <div className="arrow-wrapper">
-          <img src="/images/arrow-down.svg" alt="arrow"/>
+          <img src={assetsPaths.images.arrowDown} alt="arrow" />
         </div>
       </div>
     </a>

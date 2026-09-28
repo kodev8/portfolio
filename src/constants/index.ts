@@ -24,12 +24,12 @@ import type {
   VideoClip,
   WindowLabel,
 } from "../types";
+import { resolveBucketUrl } from "./bucket";
 
-const MODE = import.meta.env.VITE_MODE;
-let BUCKET_URL = "";
-if (MODE === "production") {
-  BUCKET_URL = import.meta.env.VITE_BUCKET_URL ?? "";
-}
+const BUCKET_URL = resolveBucketUrl(
+  import.meta.env.VITE_MODE,
+  import.meta.env.VITE_BUCKET_URL
+);
 
 const assetsPaths = {
   files: {
@@ -40,6 +40,10 @@ const assetsPaths = {
     mona_sans_extralight_italic: `${BUCKET_URL}/fonts/Mona_Sans_ExtraLight_Italic.json`,
   },
   images: {
+    logo: `${BUCKET_URL}/images/kk-logo.svg`,
+    bg: `${BUCKET_URL}/images/bg.png`,
+    star: `${BUCKET_URL}/images/star.png`,
+    arrowDown: `${BUCKET_URL}/images/arrow-down.svg`,
     heroWords: {
       ideas: `${BUCKET_URL}/images/ideas.svg`,
       concepts: `${BUCKET_URL}/images/concepts.svg`,

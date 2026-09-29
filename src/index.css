@@ -714,6 +714,21 @@ body {
     @apply top-12 md:top-24;
   }
 
+  /*
+   * For sections whose TitleHeader is their first child. The section snap
+   * lands on the section's top edge, but the header sticks at
+   * calc(var(--nav-h) - 1rem), so it slid ~104px down over whatever came
+   * after it (the project filters, the tech grid). Padding the section by the
+   * same amount means the header already sits at its stuck offset when the
+   * snap lands, and the content starts below it. 769px matches the isMobile
+   * query, under which the header sticks at 0 and no snap runs.
+   */
+  @media (min-width: 769px) {
+    .clear-sticky-header {
+      padding-top: calc(var(--nav-h) - 1rem);
+    }
+  }
+
   .hero-badge {
     @apply w-fit rounded-full bg-black-200 px-4 py-2 text-sm text-nowrap md:text-base;
   }

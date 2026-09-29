@@ -69,7 +69,7 @@ const Projects = () => {
   const remaining = matches.length - visible.length;
 
   return (
-    <section id="projects" ref={sectionRef} className="content-section main-section">
+    <section id="projects" ref={sectionRef} className="content-section clear-sticky-header main-section">
       <div className="flex w-full flex-col">
         <TitleHeader
           index="03"

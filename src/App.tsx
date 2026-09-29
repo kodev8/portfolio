@@ -2,11 +2,10 @@ import React from "react";
 import { useAnimation } from "./context/AnimationContext";
 import NavBar from "./components/NavBar";
 import Hero from "./sections/Hero";
-import Showcase from "./sections/Showcase";
+import Projects from "./sections/Projects";
 import ExperienceSection from "./sections/ExperienceSection";
 import TechStack from "./sections/TechStack";
 import Contact from "./sections/Contact";
-import Portfolio from "./sections/portfolio/Portfolio";
 import NavBar2 from "./components/NavBar2";
 import { cn } from "./utils";
 import { HeroProvider } from "./context/HeroContext";
@@ -44,8 +43,7 @@ function App() {
         {animationComplete && (
           <>
             <ExperienceSection />
-            <Showcase />
-            <Portfolio />
+            <Projects />
             <TechStack />
           </>
         )}

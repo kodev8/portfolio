@@ -10,6 +10,7 @@ const project = (overrides: Partial<Project> = {}): Project => ({
   title: "Statroom",
   desc: { en: "stats", fr: "stats" },
   stack: ["React", "TypeScript"],
+  category: "personal",
   ...overrides,
 });
 

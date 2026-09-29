@@ -7,7 +7,14 @@ export interface SceneItemProps {
   itemRotation?: Vec3;
   scale?: number | Vec3;
   clickableOffset?: Vec3;
+  /** Direction (world space) the camera views the item from; length is ignored. */
   viewableOffset?: Vec3;
+  /** Extra breathing room around the item when zoomed in; 1 is a tight fit. */
+  viewPadding?: number;
+  /** "top" keeps a high-up item at the top of a close-up (see frameBox). */
+  viewAlign?: "center" | "top";
+  /** Width/height of a flat item (the monitor), framed face-on edge to edge. */
+  frameSize?: [number, number];
   ringScale?: number;
   color?: string;
   speechOffset?: Vec3;
@@ -129,9 +136,10 @@ export const itemData: Record<string, SceneItemData> = {
       rotation: [0, Math.PI / 2, 0],
       position: [-3.04, 4.1, 2.5],
       clickableOffset: [0, 0.01, 0],
-      viewableOffset: [0.5, 0.65, 0.5],
+      viewableOffset: [0.5, 0.08, 0.5],
+      viewAlign: "top",
       color: "#d6d300",
-      speechOffset: [0, 0.8, 0],
+      speechOffset: [0, 1, 0],
       name: "pikachu",
     },
     itemProps: {
@@ -175,7 +183,7 @@ export const itemData: Record<string, SceneItemData> = {
   dumbbellGroup: {
     position: [2, 0.2, -1],
     clickableOffset: [0.2, -0.07, 0.4],
-    viewableOffset: [-1, 1.5, 1.5],
+    viewableOffset: [0, 1.5, 1.5],
     color: "#7410ad",
     speechOffset: [0.1, 1, 1],
     name: "gym",
@@ -224,7 +232,7 @@ export const itemData: Record<string, SceneItemData> = {
     position: [-2.85, 2.43, -0.875],
     rotation: [0, Math.PI / 2, 0],
     itemRotation: [0, Math.PI / 2, 0],
-    viewableOffset: [1, 0, 1.5],
+    frameSize: [2, 1.2],
     withRing: false,
     name: "leftScreen",
   },

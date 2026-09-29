@@ -1179,9 +1179,8 @@ body.is-interacting #button {
 body.is-interacting .hero-3d-layout {
   position: fixed;
   inset: 0;
-  /* width: 100%; */
-  /* height: 100%; */
-  /* transform: translateX(-2%); */
+  /* Drop the in-page -translate-y-* offset (Tailwind v4 uses `translate`). */
+  translate: none;
   z-index: 50;
   will-change: transform;
 }

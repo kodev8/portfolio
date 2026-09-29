@@ -26,13 +26,16 @@ const renderClickable = (props: ClickableProps = {}) =>
     </LanguageProvider>
   );
 
-/** The <group> Clickable renders, i.e. the wrapper around the model. */
-const wrapper = (renderer: Awaited<ReturnType<typeof renderClickable>>) =>
-  renderer.scene.findByType("Group").instance as Group;
-
 const payload = (renderer: Awaited<ReturnType<typeof renderClickable>>) =>
   renderer.scene.findAllByType("Mesh").find((m) => m.instance.name === "payload")!
     .instance as Mesh;
+
+/**
+ * The outer <group> Clickable renders. The model sits one level deeper, in a
+ * content group that keeps the ring and bubble out of its focus bounds.
+ */
+const wrapper = (renderer: Awaited<ReturnType<typeof renderClickable>>) =>
+  payload(renderer).parent!.parent as Group;
 
 describe("Clickable", () => {
   it("renders its child model", async () => {

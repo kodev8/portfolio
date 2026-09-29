@@ -6,13 +6,15 @@ interface BackArrowProps {
   onClick: MouseEventHandler<HTMLDivElement>;
 }
 
+// z-[51]: must clear the fullscreen room (.hero-3d-layout at z 50 while
+// interacting), or phones, which have no Escape key, can't leave a close-up.
 const BackArrow = ({ onClick }: BackArrowProps) => {
   const { isInteracting } = useHero();
 
   return (
     <div
       className={cn(
-        "fixed bottom-8 left-10 z-[49] transform cursor-pointer rounded-full bg-black-200 p-2 transition-all duration-300 hover:scale-110 md:p-4",
+        "fixed bottom-8 left-10 z-[51] transform cursor-pointer rounded-full bg-black-200 p-2 transition-all duration-300 hover:scale-110 md:p-4",
         {
           "translate-y-0 opacity-100": isInteracting,
           "pointer-events-none translate-y-10 opacity-0": !isInteracting,

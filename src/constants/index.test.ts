@@ -9,11 +9,10 @@ import {
   expCertifications,
   expEducationCards,
   expWorkCards,
-  featuredProjects,
+  orderedProjects,
   heroWords,
   navBarImages,
   navLinks,
-  portfolioProjects,
   projects,
   showCaseHeader,
   techStackGroups,
@@ -118,12 +117,20 @@ describe("projects", () => {
     }
   });
 
-  it("splits featured and portfolio without overlap or gaps", () => {
-    expect(featuredProjects.length + portfolioProjects.length).toBe(projects.length);
-    const featuredIds = new Set(featuredProjects.map((p) => p.id));
-    for (const project of portfolioProjects) {
-      expect(featuredIds.has(project.id), `project ${project.id} in both lists`).toBe(
-        false
+  it("puts every project in a bucket", () => {
+    for (const project of projects) {
+      expect(["personal", "professional"], `project ${project.id} category`).toContain(
+        project.category
+      );
+    }
+  });
+
+  it("orders featured projects first without dropping any", () => {
+    expect(orderedProjects).toHaveLength(projects.length);
+    const featuredCount = projects.filter((p) => p.featured).length;
+    for (const [index, project] of orderedProjects.entries()) {
+      expect(Boolean(project.featured), `position ${index}`).toBe(
+        index < featuredCount
       );
     }
   });

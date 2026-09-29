@@ -18,7 +18,15 @@ export interface Project {
   githubUrl?: string;
   readmeUrl?: string;
   liveUrl?: string;
+  /** Which bucket the project filters into. */
+  category: ProjectCategory;
+  /** Pulls the project to the front of the grid and flags it. */
+  featured?: boolean;
+  /** Still being built: flagged so an unfinished demo is not a surprise. */
+  inProgress?: boolean;
 }
+
+export type ProjectCategory = "personal" | "professional";
 
 export interface ExperienceCard {
   logoPath: string;

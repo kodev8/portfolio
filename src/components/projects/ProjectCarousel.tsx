@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, type CSSProperties } from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -12,11 +13,48 @@ import { HiArrowsExpand } from "react-icons/hi";
 import { Button } from "../ui/button";
 import { useMedia } from "../../context/MediaContext";
 
+/** How long a slide holds before autoplay advances it. */
+const AUTOPLAY_MS = 5000;
+/** Dwell on a hovered video slide before it starts playing. */
+const VIDEO_HOVER_DELAY_MS = 1500;
+
+/**
+ * The travel time, read from the same token the CSS transition uses.
+ *
+ * The controls lock out while a slide is moving, so that lockout has to match
+ * the transition exactly — and it cannot be a literal, because reduced motion
+ * collapses --dur-slow to 0.01ms. Reading it means the toggle shortens the
+ * lockout too, instead of freezing the arrows for 600ms on a slide that has
+ * already arrived.
+ */
+const FALLBACK_SLIDE_MS = 600;
+
+export const slideDurationMs = () => {
+  if (typeof window === "undefined") return FALLBACK_SLIDE_MS;
+  const raw = getComputedStyle(document.documentElement)
+    .getPropertyValue("--dur-slow")
+    .trim();
+  // Absent, not zero: jsdom loads no stylesheet, and falling through to 0
+  // there would release the lockout before the slide had moved at all.
+  if (!raw) return FALLBACK_SLIDE_MS;
+  const value = parseFloat(raw);
+  if (Number.isNaN(value)) return FALLBACK_SLIDE_MS;
+  return raw.endsWith("ms") ? value : value * 1000;
+};
+
 interface CarouselNavProps {
   prevImage: () => void;
   nextImage: () => void;
   isTransitioning: boolean;
 }
+
+/** Shared by both arrows: a tile on the room ground rather than a black pill. */
+const NAV_BUTTON = cn(
+  "absolute top-1/2 z-20 size-10 -translate-y-1/2 rounded-xl",
+  "border border-[var(--room-line)] bg-room-ground/80 backdrop-blur-sm",
+  "transition-colors duration-[var(--dur-fast)] ease-[var(--ease-out)]",
+  "hover:border-room-accent hover:bg-room-ground focus-visible:border-room-accent focus-visible:outline-none"
+);
 
 const CarouselNav = ({ prevImage, nextImage, isTransitioning }: CarouselNavProps) => {
   return (
@@ -25,21 +63,21 @@ const CarouselNav = ({ prevImage, nextImage, isTransitioning }: CarouselNavProps
         variant="ghost"
         size="icon"
         onClick={prevImage}
-        className="absolute top-1/2 left-2 z-20 -translate-y-1/2 transform rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black hover:text-white"
+        className={cn(NAV_BUTTON, "left-3")}
         aria-label="Previous image"
         disabled={isTransitioning}
       >
-        <RxCaretLeft className="size-6" />
+        <RxCaretLeft className="size-6 text-room-hi" />
       </Button>
       <Button
         variant="ghost"
         size="icon"
         onClick={nextImage}
-        className="absolute top-1/2 right-2 z-20 -translate-y-1/2 transform rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black hover:text-white"
+        className={cn(NAV_BUTTON, "right-3")}
         aria-label="Next image"
         disabled={isTransitioning}
       >
-        <RxCaretRight className="size-6" />
+        <RxCaretRight className="size-6 text-room-hi" />
       </Button>
     </>
   );
@@ -106,7 +144,7 @@ const ProjectCarousel = ({
 
     setTimeout(() => {
       setIsTransitioning(false);
-    }, 500);
+    }, slideDurationMs());
   };
 
   // Function to go to previous image
@@ -126,7 +164,7 @@ const ProjectCarousel = ({
 
     setTimeout(() => {
       setIsTransitioning(false);
-    }, 500);
+    }, slideDurationMs());
   };
   const pauseVideo = () => {
     if (videoRef.current) {
@@ -179,7 +217,7 @@ const ProjectCarousel = ({
 
       intervalRef.current = setInterval(() => {
         nextImage();
-      }, 5000);
+      }, AUTOPLAY_MS);
     }
 
     return () => {
@@ -206,7 +244,7 @@ const ProjectCarousel = ({
         videoRef.current!.play().catch((err) => {
           console.error("Video play failed:", err);
         });
-      }, 1500);
+      }, VIDEO_HOVER_DELAY_MS);
 
       setHoverTimer(timer);
     }
@@ -246,7 +284,7 @@ const ProjectCarousel = ({
     setCurrentIndex(index);
     setTimeout(() => {
       setIsTransitioning(false);
-    }, 500);
+    }, slideDurationMs());
   };
 
   // Handle dialog open/close
@@ -305,55 +343,67 @@ const ProjectCarousel = ({
         onMouseLeave={!isModalView ? handleMouseLeave : undefined}
       >
         {/* Slide container */}
+        {/* A fixed viewport for the track to slide inside. The clip has to
+            live here, not on the track: the track is the thing that moves,
+            so clipping it would carry its own window off-screen with it. */}
         <div
-          className="flex h-[90%] w-full transition-transform duration-500 ease-in-out sm:h-[95%]"
-          style={{
-            transform: `translateX(-${currentIndex * 100}%)`,
-          }}
-        >
-          {/* video slide */}
-          {videoUrl && (
-            <div className="flex h-full w-full min-w-full flex-shrink-0 flex-grow-0 items-center justify-center bg-black">
-              <video
-                ref={isModalView ? modalVideoRef : videoRef}
-                className={cn(`max-h-full max-w-full`, {
-                  "h-[50vh]": isShowcase && !isModalView,
-                })}
-                src={videoUrl}
-                controls={isModalView}
-                muted={true}
-                autoPlay={false}
-                playsInline
-                poster={images[0]}
-                onClick={(e) => handleVideoClick(e, isModalView)}
-                onEnded={handleVideoEnded}
-              />
-            </div>
+          className={cn(
+            "w-full",
+            isModalView
+              ? "min-h-0 flex-1 overflow-hidden rounded-xl bg-[#0F0D1E]"
+              : "h-[90%] sm:h-[95%]"
           )}
+        >
+          <div
+            className="flex h-full w-full transition-transform duration-[var(--dur-slow)] ease-[var(--ease-out)]"
+            style={{
+              transform: `translateX(-${currentIndex * 100}%)`,
+            }}
+          >
+            {/* video slide */}
+            {videoUrl && (
+              <div className="flex h-full w-full min-w-full flex-shrink-0 flex-grow-0 items-center justify-center bg-black">
+                <video
+                  ref={isModalView ? modalVideoRef : videoRef}
+                  className={cn(`max-h-full max-w-full`, {
+                    "h-[50vh]": isShowcase && !isModalView,
+                  })}
+                  src={videoUrl}
+                  controls={isModalView}
+                  muted={true}
+                  autoPlay={false}
+                  playsInline
+                  poster={images[0]}
+                  onClick={(e) => handleVideoClick(e, isModalView)}
+                  onEnded={handleVideoEnded}
+                />
+              </div>
+            )}
 
-          {/* image slides */}
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className="flex h-full w-full min-w-full flex-shrink-0 flex-grow-0 items-center justify-center bg-black"
-            >
-              <img
-                src={image}
-                alt={`Slide ${videoUrl ? index + 2 : index + 1}`}
-                className={cn(`max-w-full object-contain`, {
-                  "h-[50vh]": isShowcase && !isModalView,
-                })}
-                // style={{ maxHeight: "100%", maxWidth: "100%" }}
-              />
-            </div>
-          ))}
+            {/* image slides */}
+            {images.map((image, index) => (
+              <div
+                key={index}
+                className="flex h-full w-full min-w-full flex-shrink-0 flex-grow-0 items-center justify-center bg-black"
+              >
+                <img
+                  src={image}
+                  alt={`Slide ${videoUrl ? index + 2 : index + 1}`}
+                  className={cn(`max-w-full object-contain`, {
+                    "h-[50vh]": isShowcase && !isModalView,
+                  })}
+                  // style={{ maxHeight: "100%", maxWidth: "100%" }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* counter */}
         {(images.length > 1 || videoUrl) && (
           <div
             className={cn(
-              "absolute right-2 z-20 rounded bg-black/50 px-2 py-1 text-xs text-white hover:bg-black hover:text-white",
+              "absolute right-2 z-20 rounded-lg border border-[var(--room-line)] bg-room-ground/80 px-2 py-1 font-mono text-[11px] text-room-mid tabular-nums backdrop-blur-sm",
               {
                 "bottom-2": !isModalView || !isMobile,
                 "bottom-4": isModalView && isMobile,
@@ -362,6 +412,25 @@ const ProjectCarousel = ({
           >
             {currentIndex + 1}/{totalItems}
           </div>
+        )}
+
+        {/* Open the current slide full size. A screenshot of a dashboard is
+            unreadable at 659px wide, which is the whole point of showing it. */}
+        {isModalView && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setDialogOpen(true)}
+            aria-label="View this image full size"
+            className={cn(
+              "absolute top-3 right-3 z-20 size-10 rounded-xl",
+              "border border-[var(--room-line)] bg-room-ground/80 backdrop-blur-sm",
+              "transition-colors duration-[var(--dur-fast)] ease-[var(--ease-out)]",
+              "hover:border-room-accent hover:bg-room-ground focus-visible:border-room-accent focus-visible:outline-none"
+            )}
+          >
+            <HiArrowsExpand className="size-4 text-room-hi" />
+          </Button>
         )}
 
         {/* nav for modal */}
@@ -373,24 +442,61 @@ const ProjectCarousel = ({
           />
         )}
 
-        {/* nav dots */}
+        {/* Thumbnail strip: the mockup's indicator. It says which slide you
+            are on and how many there are, and doubles as the way to jump —
+            which a row of dots cannot do once there are a dozen of them. */}
         {isModalView && (images.length > 1 || videoUrl) && (
-          <div className="z-20 mx-auto flex translate-y-4 space-x-2 sm:translate-y-3">
-            {Array.from({ length: totalItems }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`h-2 w-2 rounded-full ${
-                  currentIndex === index ? "bg-white" : "bg-gray-500"
-                } transition-colors duration-300`}
-                aria-label={`Go to ${
-                  index === 0 && videoUrl
-                    ? "video"
-                    : `image ${videoUrl ? index : index + 1}`
-                }`}
-                disabled={isTransitioning}
-              />
-            ))}
+          <div className="mt-3 flex gap-2.5 overflow-x-auto pb-1">
+            {(videoUrl ? [null, ...images] : images).map((slide, index) => {
+              const active = currentIndex === index;
+              return (
+                <button
+                  key={slide ?? "video"}
+                  type="button"
+                  onClick={() => goToSlide(index)}
+                  disabled={isTransitioning}
+                  aria-label={`Go to ${slide === null ? "video" : `image ${videoUrl ? index : index + 1}`}`}
+                  aria-current={active}
+                  // Block body: a React 19 ref callback may only return a
+                  // cleanup function, and the expression form returned false.
+                  ref={(node) => {
+                    if (active)
+                      node?.scrollIntoView({ block: "nearest", inline: "center" });
+                  }}
+                  className={cn(
+                    "relative h-[60px] w-[104px] flex-none cursor-pointer overflow-hidden rounded-[10px]",
+                    "transition-[border-color,opacity] duration-[var(--dur-fast)] ease-[var(--ease-out)]",
+                    "focus-visible:outline-none",
+                    active
+                      ? "border-2 border-room-accent opacity-100"
+                      : "border border-[var(--room-line)] opacity-60 hover:opacity-100 focus-visible:opacity-100"
+                  )}
+                >
+                  {slide === null ? (
+                    <span className="flex h-full w-full items-center justify-center bg-[#0F0D1E]">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="text-room-hi"
+                        aria-hidden="true"
+                      >
+                        <path d="m9 6 9 6-9 6z" />
+                      </svg>
+                    </span>
+                  ) : (
+                    <img
+                      src={slide}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover"
+                    />
+                  )}
+                </button>
+              );
+            })}
           </div>
         )}
 
@@ -450,9 +556,57 @@ const ProjectCarousel = ({
     );
   }
 
-  // If this is already a modal view, just render the carousel
+  // Already inside a dialog: render the carousel plus its own full-size view.
   if (modal) {
-    return renderCarouselContent(true);
+    const slideImage = videoUrl ? images[currentIndex - 1] : images[currentIndex];
+    return (
+      <>
+        {renderCarouselContent(true)}
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogContent
+            showCloseButton={false}
+            // Above the project dialog, which already sits above the intro logo.
+            overlayClassName="z-[130] bg-[rgb(6_5_12/0.92)]"
+            className="z-[140] w-[96vw] max-w-[96vw] place-items-center border-none bg-transparent p-0 shadow-none sm:max-w-[96vw]"
+          >
+            <DialogTitle className="sr-only">
+              {projectTitle ? `${projectTitle} — full size` : "Full size image"}
+            </DialogTitle>
+            {slideImage ? (
+              <img
+                src={slideImage}
+                alt=""
+                className="mx-auto max-h-[92vh] w-auto rounded-xl object-contain"
+              />
+            ) : (
+              <video
+                src={videoUrl}
+                controls
+                playsInline
+                className="mx-auto max-h-[92vh] w-auto rounded-xl"
+              />
+            )}
+            <DialogClose
+              aria-label="Close full size image"
+              className="absolute top-3 right-3 flex size-11 cursor-pointer items-center justify-center rounded-xl border border-[var(--room-line-strong)] bg-room-ground/80 text-room-hi backdrop-blur-sm transition-colors duration-[var(--dur-fast)] hover:border-room-accent focus-visible:border-room-accent focus-visible:outline-none"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            </DialogClose>
+          </DialogContent>
+        </Dialog>
+      </>
+    );
   }
 
   return (

@@ -1,7 +1,7 @@
 import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import ProjectCarousel from "./ProjectCarousel";
+import ProjectCarousel, { slideDurationMs } from "./ProjectCarousel";
 
 const IMAGES = ["/a.png", "/b.png", "/c.png"];
 
@@ -104,7 +104,7 @@ describe("ProjectCarousel", () => {
       for (let i = 0; i < 3; i++) {
         await user.click(next());
         await act(async () => {
-          vi.advanceTimersByTime(500);
+          vi.advanceTimersByTime(slideDurationMs());
         });
       }
 
@@ -133,7 +133,7 @@ describe("ProjectCarousel", () => {
 
       await user.click(next());
       await act(async () => {
-        vi.advanceTimersByTime(500);
+        vi.advanceTimersByTime(slideDurationMs());
       });
       await user.click(next());
 

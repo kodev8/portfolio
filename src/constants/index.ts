@@ -81,6 +81,27 @@ const assetsPaths = {
       tsz_logo: `${BUCKET_URL}/images/logos/tsz.svg`,
     },
     projects: {
+      magneticmoments: [
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-1.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-2.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-3.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-4.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-5.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-6.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-7.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-8.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-9.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-10.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-11.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-12.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-13.webp`,
+        `${BUCKET_URL}/images/projects/magneticmoments/magneticmoments-14.webp`,
+      ],
+      longxiao: [
+        `${BUCKET_URL}/images/projects/longxiao/longxiao-1.webp`,
+        `${BUCKET_URL}/images/projects/longxiao/longxiao-2.webp`,
+        `${BUCKET_URL}/images/projects/longxiao/longxiao-3.webp`,
+      ],
       amazon: [
         `${BUCKET_URL}/images/projects/amazon/amazon-1.png`,
         `${BUCKET_URL}/images/projects/amazon/amazon-2.png`,
@@ -1105,14 +1126,54 @@ const showCaseHeader: SectionHeader = {
     fr: "Projets",
   },
   sub: {
-    en: "⭐ Featured",
-    fr: "⭐ En vedette",
+    en: "Things I've built",
+    fr: "Ce que j'ai construit",
   },
 };
 const projects: Project[] = [
+  // Client work. Neither repository is public, so neither carries a githubUrl
+  // or a readmeUrl — the live site is the only thing to link.
+  {
+    id: 12,
+    title: "Hello Magnetic Co.",
+    category: "professional",
+    featured: true,
+    desc: {
+      en: "An e-commerce magnet ordering platform built for Hello Magnetic Co., a memory-making company in Trinidad & Tobago. Customers design a sheet of photo magnets from their phone, either through the online store or by scanning a QR code at a pop-up event booth, while vendors manage orders on a realtime dashboard with print-ready PDF generation, order emails and web push notifications. Built on Next.js and Supabase.",
+      fr: "Une plateforme de commande de magnets construite pour Hello Magnetic Co., une entreprise de souvenirs à Trinidad & Tobago. Les clients composent une planche de magnets photo depuis leur téléphone, via la boutique en ligne ou en scannant un QR code sur le stand d'un événement pop-up, tandis que les vendeurs gèrent les commandes sur un tableau de bord en temps réel avec génération de PDF prêts à imprimer, emails de commande et notifications push. Construite avec Next.js et Supabase.",
+    },
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "React",
+      "Tailwind CSS",
+      "Supabase",
+      "PostgreSQL",
+      "TanStack Query",
+      "Zustand",
+    ],
+    thumbnail: assetsPaths.images.projects.magneticmoments[0],
+    carousel: assetsPaths.images.projects.magneticmoments,
+    liveUrl: "https://hellomagnetic.co",
+  },
+  {
+    id: 13,
+    title: "Long Xiao Portfolio",
+    category: "professional",
+    desc: {
+      en: "An academic portfolio for a Political Science PhD candidate at the University of Florida. Publications, working papers and a downloadable CV are organised into their own routes, with a layout that holds up from a phone to a lecture-hall projector.",
+      fr: "Un portfolio universitaire pour un doctorant en science politique à l'Université de Floride. Publications, documents de travail et CV téléchargeable sont répartis en sections dédiées, avec une mise en page qui tient du téléphone au vidéoprojecteur.",
+    },
+    stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "shadcn/ui", "React Router"],
+    thumbnail: assetsPaths.images.projects.longxiao[0],
+    carousel: assetsPaths.images.projects.longxiao,
+    liveUrl: "https://longxiao-lx.com",
+  },
   {
     id: 1,
     title: "Statroom",
+    category: "personal",
+    featured: true,
     desc: {
       en: "A data analysis platform built with a modern tech stack. Statroom leverages LangGraph for AI-powered data analysis, with a React frontend and FastAPI backend. The application uses both Neo4j and MongoDB for different data storage needs.",
       fr: "Une plateforme d'analyse de données construite avec un stack moderne. Statroom utilise LangGraph pour l'analyse de données avec intelligence artificielle, avec un frontend React et un backend FastAPI. L'application utilise à la fois Neo4j et MongoDB pour différentes besoins de stockage de données.",
@@ -1138,6 +1199,7 @@ const projects: Project[] = [
   {
     id: 2,
     title: "Options Tool",
+    category: "personal",
     desc: {
       en: "A financial analysis tool for options trading built with Python and Streamlit. This tool leverages Yahoo Finance API to fetch real-time market data and uses Plotly for interactive data visualization, helping traders make informed decisions.",
       fr: "Une outil d'analyse financière pour le trading d'options construit avec Python et Streamlit. Cet outil utilise l'API Yahoo Finance pour récupérer des données de marché en temps réel et utilise Plotly pour la visualisation interactive des données, aidant les traders à prendre des décisions éclairées.",
@@ -1152,6 +1214,7 @@ const projects: Project[] = [
   {
     id: 4,
     title: "Uber Klone",
+    category: "personal",
     desc: {
       en: "A clone of the Uber ride-sharing platform built with Flask. This project implements key Uber features with a clean, responsive interface and SQL database integration.",
       fr: "Un clone de la plateforme de partage de trajets Uber construit avec Flask. Ce projet implémente les fonctionnalités clés d'Uber avec une interface propre et réactive et une intégration de base de données SQL.",
@@ -1167,6 +1230,7 @@ const projects: Project[] = [
   {
     id: 6,
     title: "Pokebattle",
+    category: "personal",
     desc: {
       en: "A Pokémon battle simulator built with Pygame. This game recreates the classic Pokémon battle experience with data from the PokeAPI, featuring turn-based combat and authentic Pokémon mechanics.",
       fr: "Un simulateur de combat Pokémon construit avec Pygame. Ce jeu redonne l'expérience de combat Pokémon classique avec des données de l'API PokeAPI, avec un combat basé sur les tours et des mécaniques Pokémon authentiques.",
@@ -1182,6 +1246,7 @@ const projects: Project[] = [
   {
     id: 7,
     title: "EPIDashboard",
+    category: "personal",
     desc: {
       en: "A comprehensive dashboard application built with PHP and MySQL. This project features dynamic data visualization, user authentication, and responsive design for educational institution management.",
       fr: "Une application de tableau de bord complète construite avec PHP et MySQL. Ce projet présente la visualisation dynamique des données, l'authentification des utilisateurs et le design réactif pour la gestion des institutions éducatives.",
@@ -1197,6 +1262,7 @@ const projects: Project[] = [
   {
     id: 3,
     title: "Amazon Klone",
+    category: "personal",
     desc: {
       en: "A functional clone of Amazon's e-commerce platform built with Flask and HTMX. This project replicates core Amazon features with a responsive design and MongoDB integration for data storage.",
       fr: "Un clone fonctionnel de la plateforme e-commerce d'Amazon construite avec Flask et HTMX. Ce projet reproduit les fonctionnalités clés d'Amazon avec un design réactif et une intégration de MongoDB pour le stockage des données.",
@@ -1211,6 +1277,7 @@ const projects: Project[] = [
   {
     id: 5,
     title: "TicTacToe with HTMX",
+    category: "personal",
     desc: {
       en: "A modern implementation of the classic TicTacToe game using HTMX and Flask. This project demonstrates how to build interactive web applications with minimal JavaScript by leveraging HTMX for dynamic content updates.",
       fr: "Une implémentation moderne du célèbre jeu TicTacToe utilisant HTMX et Flask. Ce projet montre comment construire des applications web interactives avec peu de JavaScript en exploitant HTMX pour les mises à jour de contenu dynamiques.",
@@ -1225,6 +1292,7 @@ const projects: Project[] = [
   {
     id: 8,
     title: "Netflix iOS Clone",
+    category: "personal",
     desc: {
       en: "A clone of the Netflix mobile app built with Swift and SwiftUI. This project replicates the Netflix user interface and integrates with TMDb API for movie and TV show data.",
       fr: "Un clone de l'application mobile Netflix construite avec Swift et SwiftUI. Ce projet reproduit l'interface utilisateur Netflix et intègre l'API TMDb pour les données de films et de séries TV.",
@@ -1246,6 +1314,7 @@ const projects: Project[] = [
   {
     id: 10,
     title: "X/Twitter Clone",
+    category: "personal",
     desc: {
       en: "A class group project replicating Twitter's core functionality. Implemented as a full-stack application with Flask backend and responsive frontend design.",
       fr: "Un projet de groupe de classe qui reproduit les fonctionnalités clés de Twitter. Implémenté comme une application full-stack avec un backend Flask et un design frontend réactif.",
@@ -1269,8 +1338,50 @@ const projects: Project[] = [
   // }
 ];
 
-const featuredProjects = projects.slice(0, 3);
-const portfolioProjects = projects.slice(3);
+/** Featured first, then source order. Filtering never reshuffles beyond this. */
+const orderedProjects: Project[] = [...projects].sort(
+  (a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured))
+);
+
+const projectFilterText = {
+  all: { en: "All", fr: "Tout" },
+  personal: { en: "Personal", fr: "Personnels" },
+  professional: { en: "Professional", fr: "Professionnels" },
+  searchLabel: { en: "Filter", fr: "Filtrer" },
+  searchPlaceholder: {
+    en: "Name or tech — react, swift, flask…",
+    fr: "Nom ou techno — react, swift, flask…",
+  },
+  clear: { en: "Clear search", fr: "Effacer la recherche" },
+  showMore: { en: "Show more", fr: "Afficher plus" },
+  showing: { en: "Showing", fr: "Affichage de" },
+  of: { en: "of", fr: "sur" },
+  noMatch: {
+    en: "Nothing matches that. Try a technology, or clear the filter.",
+    fr: "Aucun résultat. Essayez une technologie, ou effacez le filtre.",
+  },
+  featured: { en: "Featured", fr: "En vedette" },
+  inProgress: { en: "In progress", fr: "En cours" },
+  openProject: { en: "Open", fr: "Ouvrir" },
+};
+
+const projectDialogText = {
+  readme: { en: "Readme", fr: "Readme" },
+  readmeLoading: { en: "Loading the readme…", fr: "Chargement du readme…" },
+  readmeFailed: {
+    en: "The readme could not be loaded.",
+    fr: "Le readme n'a pas pu être chargé.",
+  },
+  readmeNone: { en: "No readme for this one.", fr: "Pas de readme pour ce projet." },
+  close: { en: "Close project", fr: "Fermer le projet" },
+  previous: { en: "Previous project", fr: "Projet précédent" },
+  next: { en: "Next project", fr: "Projet suivant" },
+  keyboardHint: {
+    en: "Arrow keys move through projects · Esc closes",
+    fr: "Les flèches changent de projet · Échap ferme",
+  },
+  position: { en: "of", fr: "sur" },
+};
 
 // ---------------------------------- SKILLS ----------------------------------
 const techStackHeader: SectionHeader = {
@@ -1676,8 +1787,9 @@ export {
   topNavLinks,
   navLinks,
   navBarImages,
-  portfolioProjects,
-  featuredProjects,
+  orderedProjects,
+  projectFilterText,
+  projectDialogText,
   aboutMe,
   projects,
   contactInfo,

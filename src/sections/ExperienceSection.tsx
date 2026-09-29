@@ -134,7 +134,7 @@ const ExperienceSection = () => {
     <section
       id="experience"
       ref={sectionRef}
-      className="flex-center content-section section-padding main-section !mt-0 w-screen md:!mt-20 xl:px-0 xl:pb-26"
+      className="flex-center content-section section-padding clear-sticky-header main-section !mt-0 w-screen md:!mt-20 xl:px-0 xl:pb-26"
     >
       <div className="mx-auto px-4">
         {/* Sticky title header */}

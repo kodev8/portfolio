@@ -113,7 +113,7 @@ const TechStack = () => {
     <section
       id="skills"
       ref={sectionRef}
-      className="flex-center section-padding snap-item main-section"
+      className="flex-center section-padding snap-item clear-sticky-header main-section"
     >
       <div className="h-full w-full sm:px-4 md:px-10">
         <TitleHeader

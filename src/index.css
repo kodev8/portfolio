@@ -1168,6 +1168,7 @@ body {
 
 /* Add these styles to your CSS */
 body.is-interacting .navbar,
+body.is-interacting .logo-container,
 body.is-interacting .hero-text,
 body.is-interacting header p,
 body.is-interacting #button {
@@ -1179,9 +1180,8 @@ body.is-interacting #button {
 body.is-interacting .hero-3d-layout {
   position: fixed;
   inset: 0;
-  /* width: 100%; */
-  /* height: 100%; */
-  /* transform: translateX(-2%); */
+  /* Drop the in-page -translate-y-* offset (Tailwind v4 uses `translate`). */
+  translate: none;
   z-index: 50;
   will-change: transform;
 }
@@ -1195,22 +1195,6 @@ header p,
     opacity 0.3s ease-out,
     transform 0.3s ease-out;
   will-change: opacity, transform;
-}
-
-/*
- * Every drei <Html> writes z-index/position onto the shared canvas element in
- * its layout effect. Instances with occlude="blending" set it; instances
- * without occlude CLEAR it. So mounting any non-occluding <Html> (the speech
- * bubble, the exit button) wipes what DesktopScreen needs, the canvas falls to
- * z-index auto, and the desktop HTML starts painting over the 3D scene.
- *
- * Pinning it here means drei's reset falls back to the right value instead of
- * nothing. Must stay above the desktop Html's own z-index, which drei derives
- * as zIndexRange[0] / 2 - 1 = 4 from its zIndexRange of [10, 0].
- */
-.hero-canvas canvas {
-  position: absolute;
-  z-index: 5;
 }
 
 /* Update these styles for better HTML content in 3D space */
@@ -1455,5 +1439,71 @@ header p,
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* ----- monitor desktop (src/components/desktop) ----- */
+
+@keyframes desk-window-open {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes desk-menu-open {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes desk-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes desk-progress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.desk-window-open {
+  animation: desk-window-open 0.16s ease-out;
+}
+
+.desk-menu-open {
+  animation: desk-menu-open 0.14s ease-out;
+}
+
+.desk-fade-in {
+  animation: desk-fade-in 0.35s ease-out;
+}
+
+.desk-progress {
+  animation: desk-progress 1.3s ease-in-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desk-window-open,
+  .desk-menu-open,
+  .desk-fade-in {
+    animation: none;
   }
 }

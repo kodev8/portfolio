@@ -136,7 +136,10 @@ const ExperienceSection = () => {
       ref={sectionRef}
       className="flex-center content-section section-padding clear-sticky-header main-section !mt-0 w-screen md:!mt-20 xl:px-0 xl:pb-26"
     >
-      <div className="mx-auto px-4">
+      {/* No side padding: the content inside is 100vw (.main-section), so
+          padding only widened this box past the viewport and let phones
+          scroll sideways. */}
+      <div className="mx-auto w-full">
         {/* Sticky title header */}
         <TitleHeader
           ref={titleContainerRef}

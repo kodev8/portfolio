@@ -26,13 +26,12 @@ import { itemData } from "../../constants/scenePositions";
 import DesktopScreen from "./DesktopScreen";
 import { Html } from "@react-three/drei";
 import { assetsPaths } from "../../constants";
-// import { resolveZoom } from "../../utils/scene";
-// import { useMemo } from "react";
 // import { useHelper } from "@react-three/drei";
 // import * as THREE from "three";
 
 const MOBILE_SCALE = 0.7;
-export const ORIGINAL_CAMERA_POSITION: [number, number, number] = [0, 0, 15];
+// Matches the idle maxDistance, so returning home doesn't end in a clamp snap.
+export const ORIGINAL_CAMERA_POSITION: [number, number, number] = [0, 0, 14];
 
 const SceneContent = () => {
   const { isMobile } = useMedia();
@@ -48,8 +47,6 @@ const SceneContent = () => {
       dumbbellLightRef.current.target = dumbbellRef.current;
     }
   }, [dumbbellRef.current, dumbbellLightRef.current]);
-
-  // const { maxDistance, minDistance } = useMemo(() => resolveZoom({ isInteracting, isMobile }), [isInteracting, isMobile]);
 
   return (
     <>
@@ -145,7 +142,10 @@ const SceneContent = () => {
           name="leftScreen"
           {...itemData.leftScreen}
         >
-          <DesktopScreen width={2} height={1.2} />
+          <DesktopScreen
+            width={itemData.leftScreen.frameSize![0]}
+            height={itemData.leftScreen.frameSize![1]}
+          />
         </Clickable>
 
         <Clickable roomRef={roomRef} {...itemData.dumbbellGroup}>

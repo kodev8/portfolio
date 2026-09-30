@@ -5,6 +5,7 @@ import {
   contactForm,
   contactHeader,
   credits,
+  desktopOsText,
   experienceTabs,
   expCertifications,
   expEducationCards,
@@ -48,6 +49,13 @@ describe("translated content", () => {
       for (const field of ["title", "sub", "tabLabel"] as const) {
         expectTranslated(tab[field], `experienceTabs.${key}.${field}`);
       }
+    }
+  );
+
+  it.each(Object.entries(desktopOsText))(
+    "desktopOsText.%s has both locales",
+    (key, value) => {
+      expectTranslated(value, `desktopOsText.${key}`);
     }
   );
 

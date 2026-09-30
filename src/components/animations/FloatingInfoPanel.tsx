@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Html } from "@react-three/drei";
+import { Billboard, Html } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import type { Group } from "three";
 import { useMedia } from "../../context/MediaContext";
 import { cn } from "../../utils";
+import { panelDistanceFactor } from "../../utils/scene";
 
 interface FloatingInfoPanelProps {
   content?: string;
@@ -111,24 +112,30 @@ const FloatingInfoPanel = ({
 
   return (
     <group ref={groupRef} position={[position[0], position[1] + 0.5, position[2]]}>
-      <Html
-        transform
-        distanceFactor={isMobile ? 1.3 : 1}
-        position={[0, 0, 0]}
-        rotation={[0, 0, 0]}
-        style={{
-          width: "300px",
-          height: "auto",
-          pointerEvents: "auto",
-        }}
-      >
-        <div className={cn("speech-bubble", speechDirection)} onClick={handleLinkClick}>
-          <span className="typewriter-text">
-            <span dangerouslySetInnerHTML={{ __html: displayText }} />
-            {isTyping && <span className="typing-cursor">|</span>}
-          </span>
-        </div>
-      </Html>
+      {/* Always face the camera, whatever angle the item is viewed from. */}
+      <Billboard>
+        <Html
+          transform
+          distanceFactor={panelDistanceFactor(isMobile)}
+          position={[0, 0, 0]}
+          rotation={[0, 0, 0]}
+          style={{
+            width: "300px",
+            height: "auto",
+            pointerEvents: "auto",
+          }}
+        >
+          <div
+            className={cn("speech-bubble", speechDirection)}
+            onClick={handleLinkClick}
+          >
+            <span className="typewriter-text">
+              <span dangerouslySetInnerHTML={{ __html: displayText }} />
+              {isTyping && <span className="typing-cursor">|</span>}
+            </span>
+          </div>
+        </Html>
+      </Billboard>
     </group>
   );
 };

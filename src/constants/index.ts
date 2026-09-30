@@ -671,6 +671,30 @@ const desktopProjectsText: Record<string, Translated> = {
   },
 };
 
+// Strings for the monitor's pretend operating systems.
+const desktopOsText: Record<string, Translated> = {
+  chooseTitle: { en: "Pick a desktop", fr: "Choisissez un bureau" },
+  chooseHint: {
+    en: "Same apps, two looks. You can switch any time.",
+    fr: "Mêmes applis, deux styles. Changez quand vous voulez.",
+  },
+  booting: { en: "Starting up…", fr: "Démarrage…" },
+  switchToWindows: { en: "Switch to Windows", fr: "Passer à Windows" },
+  switchToMac: { en: "Switch to macOS", fr: "Passer à macOS" },
+  pinned: { en: "Pinned", fr: "Épinglé" },
+  search: { en: "Search apps", fr: "Rechercher" },
+  noResults: { en: "No apps found", fr: "Aucune appli" },
+  close: { en: "Close", fr: "Fermer" },
+  minimize: { en: "Minimize", fr: "Réduire" },
+  maximize: { en: "Maximize", fr: "Agrandir" },
+  restore: { en: "Restore", fr: "Restaurer" },
+  start: { en: "Start", fr: "Démarrer" },
+  file: { en: "File", fr: "Fichier" },
+  window: { en: "Window", fr: "Fenêtre" },
+  help: { en: "Help", fr: "Aide" },
+  finder: { en: "Finder", fr: "Finder" },
+};
+
 const viewLiveText: Translated = {
   en: "View Live",
   fr: "Voir en action",
@@ -1796,6 +1820,7 @@ export {
   credits,
   videos,
   desktopProjectsText,
+  desktopOsText,
   viewLiveText,
   viewGitHubText,
   previousText,

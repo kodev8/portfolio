@@ -135,7 +135,9 @@ const Clickable = ({
     // r3f delivers one click per intersected mesh, and they all bubble here.
     // Without this, a model made of 4 meshes starts 4 competing focus tweens.
     e.stopPropagation();
-    if (isAnimating) return;
+    // Already there. Also what keeps clicks on the monitor's desktop overlay,
+    // which bubble into the scene, from replaying the zoom under it.
+    if (isAnimating || (isInteracting && selectedItem?.name === name)) return;
     setIsInteracting(true);
     setIsAnimating(true);
     controls.enabled = false;
@@ -201,17 +203,18 @@ const Clickable = ({
           camera.lookAt(controls.target);
         },
         onComplete: () => {
-          // Limits are relative to the fitted distance, so nothing snaps.
-          // Only the screen may zoom, so its UI can be read up close.
-          controls.minDistance = frame.distance * (isScreen ? 0.35 : 1);
-          controls.maxDistance = frame.distance * (isScreen ? 1.5 : 1);
-          controls.enableZoom = isScreen;
+          // Pin the distance to the fit, so orbiting can't drift out of frame.
+          controls.minDistance = frame.distance;
+          controls.maxDistance = frame.distance;
+          controls.enableZoom = false;
           controls.enablePan = false;
           controls.update();
 
           setTimeout(() => {
             setIsAnimating(false);
-            controls.enabled = true;
+            // The monitor keeps orbit off: its desktop needs every drag and
+            // scroll, and the back arrow / Escape still leave.
+            controls.enabled = !isScreen;
           }, 100);
 
           onClick?.();

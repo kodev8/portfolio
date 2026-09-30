@@ -115,8 +115,11 @@ export const resetScene = (
     {
       opacity: 1,
       duration: 0.3,
-      zIndex: 48,
       stagger: 0.05,
+      // Drop the inline z-index the zoom-in set, back to each element's own
+      // (navbar 48, hero z-10). Forcing 48 on all of them put the hero text
+      // level with the fixed navbar, and later in the DOM, so on top of it.
+      clearProps: "zIndex",
     },
     "-=0.1"
   );
